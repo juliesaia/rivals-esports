@@ -1,0 +1,23 @@
+{
+    "private": true,
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "prisma generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare",
+        "migrate": "prisma migrate dev",
+        "studio": "prisma studio"
+    },
+    "devDependencies": {
+        "@nuxtjs/eslint-config-typescript": "^12.0.0",
+        "@unocss/nuxt": "^0.47.5",
+        "eslint": "^8.29.0",
+        "nuxt": "3.0.0",
+        "prisma": "^4.7.1",
+        "typescript": "^4.9.4"
+    },
+    "dependencies": {
+        "@prisma/client": "^4.7.1"
+    }
+}

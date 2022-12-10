@@ -1,0 +1,13 @@
+-- CreateTable
+CREATE TABLE "Player" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Standing" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "season" INTEGER NOT NULL,
+    "playerId" INTEGER NOT NULL,
+    CONSTRAINT "Standing_playerId_fkey" FOREIGN KEY ("playerId") REFERENCES "Player" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);

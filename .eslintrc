@@ -1,0 +1,17 @@
+{
+    "root": true,
+    "extends": ["@nuxtjs/eslint-config-typescript"],
+    "rules": {
+        "prefer-const": "error",
+        "indent": "off",
+        "quotes": ["error", "double"],
+        "semi": "off",
+        "camelcase": "off",
+        "space-before-function-paren": "off",
+        "comma-dangle": "off",
+        "no-unreachable": "warn",
+        "vue/no-multiple-template-root": "off",
+        "vue/html-indent": "off",
+        "vue/singleline-html-element-content-newline": "off"
+    }
+}

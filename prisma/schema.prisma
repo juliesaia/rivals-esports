@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+model Player {
+  id Int @id @default(autoincrement())
+  name String 
+  smashggid String @unique
+  pronouns String?
+  socials Social[]
+  rankings Ranking[]
+  tournaments Tournament[]
+  wins Set[] @relation("wins")
+  losses Set[] @relation("losses")
+  standings Standing[]
+}
+
+model Ranking {
+  id Int @id @default(autoincrement())
+  season Int
+  rank Int
+  player Player @relation(fields: [playerid], references: [id])
+  playerid Int
+}
+
+model Tournament {
+  id Int @id @default(autoincrement())
+  season Int
+  entrants Player[]
+  sets Set[]
+  standings Standing[]
+  slug String @unique
+}
+
+model Standing {
+  id Int @id @default(autoincrement())
+  placement Int
+  seed Int
+  player Player @relation(fields: [playerid], references: [id])
+  playerid Int
+  tournament Tournament @relation(fields: [tournamentid], references: [id])
+  tournamentid Int
+}
+
+model Set {
+  id Int @id @default(autoincrement())
+  winner Player @relation("wins", fields: [winnerid], references: [id])
+  winnerid Int
+  loser Player @relation("losses", fields: [loserid], references: [id])
+  loserid Int
+  tournament Tournament @relation(fields: [tournamentid], references: [id])
+  tournamentid Int
+}
+
+model Social {
+  id Int @id @default(autoincrement())
+  player Player @relation(fields: [playerid], references: [id])
+  type String
+  externalUsername String
+  playerid Int
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
