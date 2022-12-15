@@ -1,6 +1,6 @@
 <template>
     <div class="$">{{ $route.params.player }}</div>
-    <div>{{ data }}</div>
+    <vue-json-pretty :data="data" />
     <!-- <div class="$">
         Season 7 Standing: #{{
             data?.rankings.find((el) => el.season === 7).rank
@@ -13,9 +13,11 @@
 </template>
 
 <script setup>
+import VueJsonPretty from "vue-json-pretty";
+
 const route = useRoute();
 
 const { data } = $(await useFetch(`/api/player?name=${route.params.player}`));
 
-console.log(data);
+// console.log(data);
 </script>

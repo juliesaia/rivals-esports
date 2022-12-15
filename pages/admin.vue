@@ -7,7 +7,7 @@
 let debug = $ref({});
 
 async function refresh() {
-    const { data } = $(await useFetch(`/api/refresh`));
+    const { data } = $(await useFetch("/api/refresh"));
 
     debug = data;
 }

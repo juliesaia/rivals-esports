@@ -4,6 +4,7 @@
         "build": "nuxt build",
         "dev": "nuxt dev",
         "generate": "prisma generate",
+        "reset": "prisma migrate reset",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
         "migrate": "prisma migrate dev",
@@ -11,6 +12,7 @@
     },
     "devDependencies": {
         "@nuxtjs/eslint-config-typescript": "^12.0.0",
+        "@types/node": "^18.11.12",
         "@unocss/nuxt": "^0.47.5",
         "eslint": "^8.29.0",
         "nuxt": "3.0.0",
@@ -18,6 +20,7 @@
         "typescript": "^4.9.4"
     },
     "dependencies": {
-        "@prisma/client": "^4.7.1"
+        "@prisma/client": "^4.7.1",
+        "vue-json-pretty": "^2.2.3"
     }
 }

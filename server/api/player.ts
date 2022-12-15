@@ -1,5 +1,25 @@
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { rounds_from_victory } from "../utils";
+
+// TODO: when prisma adds relation support for computed values change uf to computed and remove from db
+const prisma = new PrismaClient().$extends({
+    result: {
+        standing: {
+            spr: {
+                needs: { seed: true, placement: true },
+                compute(standing) {
+                    return (
+                        rounds_from_victory(standing.seed) -
+                        rounds_from_victory(standing.placement)
+                    );
+                },
+            },
+        },
+        // set: {
+        // uf: we dont have the technology
+        // },
+    },
+});
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
@@ -8,7 +28,30 @@ export default defineEventHandler(async (event) => {
         return undefined;
     }
 
-    const standing = await prisma.player.findFirst({
+    console.time();
+
+    // const tournaments = await prisma.player.findFirstOrThrow({
+    //     where: {
+    //         name: {
+    //             equals: query.name.toString(),
+    //         },
+    //     },
+    //     select: {
+    //         tournaments: {
+    //             select: {
+    //                 id: true,
+    //             },
+    //         },
+    //     },
+    // });
+
+    // const tournament_ids: number[] = [];
+
+    // for (const tournament of tournaments.tournaments) {
+    //     tournament_ids.push(tournament.id);
+    // }
+
+    const result = await prisma.player.findFirst({
         where: {
             name: {
                 equals: query.name.toString(),
@@ -17,13 +60,97 @@ export default defineEventHandler(async (event) => {
         include: {
             rankings: true,
             socials: true,
-            wins: {
+            tournaments: {
                 include: {
-                    loser: true,
+                    standings: {
+                        where: {
+                            player: {
+                                name: {
+                                    equals: query.name.toString(),
+                                },
+                            },
+                        },
+                        select: {
+                            seed: true,
+                            spr: true,
+                        },
+                    },
+                    sets: {
+                        select: {
+                            winner: true,
+                            loser: true,
+                            uf: true,
+                        },
+                        orderBy: {
+                            completedAt: "desc",
+                        },
+                        where: {
+                            OR: [
+                                {
+                                    winner: {
+                                        is: {
+                                            name: query.name.toString(),
+                                        },
+                                    },
+                                },
+                                {
+                                    loser: {
+                                        is: {
+                                            name: query.name.toString(),
+                                        },
+                                    },
+                                },
+                            ],
+                        },
+                    },
                 },
             },
-            losses: true,
+
+            // wins: {
+            //     include: {
+            //         loser: true,
+            //     },
+            // },
+            // losses: true,
         },
     });
-    return standing;
+
+    // let queries: any[] = [];
+
+    // for (const tournament of result?.tournaments ?? []) {
+    //     for (const set of tournament.sets) {
+    //         const won = set.winner.name === query.name.toString();
+
+    //         queries.push(
+    //             prisma.standing.findFirst({
+    //                 where: {
+    //                     player: {
+    //                         smashggid: won
+    //                             ? set.loser.smashggid
+    //                             : set.winner.smashggid,
+    //                     },
+    //                     tournament: {
+    //                         slug: tournament.slug,
+    //                     },
+    //                 },
+    //                 select: {
+    //                     seed: true,
+    //                 },
+    //             })
+    //         );
+    //         // console.log(
+    //         //     `UF: ${
+    //         //         won
+    //         //             ? tournament.standings[0].seed - other_seed.seed
+    //         //             : other_seed.seed - tournament.standings[0].seed
+    //         //     }`
+    //         // );
+    //     }
+    // }
+
+    // await prisma.$transaction(queries);
+
+    console.timeEnd();
+
+    return result;
 });

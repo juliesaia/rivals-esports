@@ -5,5 +5,6 @@ export default defineNuxtConfig({
             reactivityTransform: true,
         },
     },
+    css: ["vue-json-pretty/lib/styles.css"],
     modules: ["@unocss/nuxt"],
 });

@@ -1,0 +1,12 @@
+roadmap
+
+player stats
+tournament stats
+    - basically just copy pgstats
+tournament calendar with upcoming local and online events
+wiki:
+    - tech snippets from academy
+    - character descriptions
+    - player bios?
+    - event descriptions
+    - basically just copy liquipedia

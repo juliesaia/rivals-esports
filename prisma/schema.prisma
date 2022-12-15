@@ -49,6 +49,8 @@ model Set {
   loserid Int
   tournament Tournament @relation(fields: [tournamentid], references: [id])
   tournamentid Int
+  completedAt Int
+  uf Int
 }
 
 model Social {
@@ -61,6 +63,7 @@ model Social {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
 }
 
 datasource db {
