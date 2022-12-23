@@ -217,6 +217,9 @@ export default defineEventHandler(async (event) => {
                         },
                     },
                 },
+                orderBy: {
+                    id: "desc",
+                },
             },
         },
     });

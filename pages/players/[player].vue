@@ -49,7 +49,7 @@
         </div>
         <Tournament :data="data.player.tournaments" />
 
-        <div class="w-120 text-center">
+        <div class="w-160 text-center">
             <h1 class="mt-8 mb-4">Head to Head</h1>
             <!-- <v-autocomplete /> -->
             <form
