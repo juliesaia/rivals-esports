@@ -38,8 +38,8 @@ model Tournament {
 
 model Standing {
   id Int @id @default(autoincrement())
-  placement Int
-  seed Int
+  placement Int?
+  seed Int?
   player Player @relation(fields: [playerid], references: [id])
   playerid Int
   tournament Tournament @relation(fields: [tournamentid], references: [id])
@@ -61,6 +61,8 @@ model Set {
   uf Int
   winnerGameCount Int
   loserGameCount Int
+  phase String?
+  fullRoundText String?
 }
 
 model Game {
@@ -73,15 +75,15 @@ model Game {
   set Set @relation(fields: [setid], references: [id])
   setid Int
   gameNumber Int
-  winnerChar String
-  loserChar String
+  winnerChar String?
+  loserChar String?
 }
 
 model Social {
   id Int @id @default(autoincrement())
   player Player @relation(fields: [playerid], references: [id])
   type String
-  externalUsername String
+  externalUsername String?
   playerid Int
 }
 
@@ -93,4 +95,6 @@ generator client {
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
+  // provider = "mysql"
+  // url      = env("DATABASE_URL")
 }

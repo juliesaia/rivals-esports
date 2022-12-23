@@ -2,7 +2,7 @@
     <main class="flex flex-col items-center">
         <div class="text-2xl mt-8 mb-4 flex">
             <h2>
-                {{ $route.params.player }}
+                {{ data.player.name }}
             </h2>
             <div v-for="social in data.player.socials" :key="social.id">
                 <a
@@ -16,6 +16,13 @@
                     v-if="social.type === 'DISCORD'"
                     v-tooltip="social.externalUsername"
                     class="mx-2 i-bx-bxl-discord"
+                />
+                <a
+                    v-if="social.type === 'TWITCH'"
+                    v-tooltip="`twitch.tv/${social.externalUsername}`"
+                    class="mx-2 i-bx-bxl-twitch"
+                    :href="`https://twitch.tv/${social.externalUsername}`"
+                    target="__blank"
                 />
             </div>
         </div>
@@ -31,18 +38,20 @@
             }}%
         </h3>
         <div
-            v-for="character in data.player.characters"
+            v-for="character in data.player.characters.filter(
+                (el) => el[0] !== 'null'
+            )"
             :key="character.name"
             class="flex items-center"
         >
             <img :src="`/characters/${character[0]}.png`" />
-            <div>: {{ character[1] }}</div>
+            <h3>: {{ character[1] }}</h3>
         </div>
         <Tournament :data="data.player.tournaments" />
 
         <div class="w-120 text-center">
             <h1 class="mt-8 mb-4">Head to Head</h1>
-
+            <!-- <v-autocomplete /> -->
             <form
                 class="flex flex-col items-center"
                 @submit.prevent="submitHeadToHead"
@@ -80,6 +89,10 @@ const { data: playerData } = $(
 
 data.player = playerData;
 
+const { data: allPlayers } = $(await useFetch("/api/players"));
+
+data.allPlayers = allPlayers;
+
 async function submitHeadToHead() {
     const { data: h2hData } = $(
         await useFetch(
@@ -88,5 +101,15 @@ async function submitHeadToHead() {
     );
 
     data.h2h = h2hData;
+}
+
+function search(input) {
+    if (input.length < 1) {
+        return [];
+    }
+
+    return Object.values(data.allPlayers).filter((name) => {
+        return name.toLowerCase().startsWith(input.toLowerCase());
+    });
 }
 </script>

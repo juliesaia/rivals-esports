@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { rounds_from_victory, character_dict } from "../utils";
+import { rounds_from_victory, character_dict, sleep } from "../utils";
 const prisma = new PrismaClient();
 
 async function get_startgg(
@@ -17,13 +17,31 @@ async function get_startgg(
 
     while (true) {
         console.log(`Page ${page}...`);
-        const { data } = await $fetch<any>("https://api.start.gg/gql/alpha", {
-            body: { query, variables: { ...variables, page } },
-            headers: {
-                Authorization: "Bearer " + process.env.SMASHGGAPI,
-            },
-            method: "POST",
-        });
+        const { data, errors } = await $fetch<any>(
+            "https://api.start.gg/gql/alpha",
+            {
+                body: { query, variables: { ...variables, page } },
+                headers: {
+                    Authorization: "Bearer " + process.env.SMASHGGAPI,
+                },
+                method: "POST",
+            }
+        );
+
+        if (errors) {
+            console.log(errors);
+
+            if (errors[0].includes("limit")) {
+                console.log("Rate limit exceeded, waiting 1min");
+                await sleep(60 * 1000);
+                console.log("Done waiting!");
+            }
+
+            if (errors[0].includes("complexity")) {
+                // eslint-disable-next-line no-throw-literal
+                throw "Complexity too high";
+            }
+        }
 
         let temp = data;
 
@@ -45,6 +63,7 @@ async function get_startgg(
             console.log("Page done!");
         } catch (error) {
             console.error(data);
+            console.error(errors);
             // eslint-disable-next-line no-throw-literal
             throw "Broke";
         }
@@ -64,15 +83,23 @@ export default defineEventHandler(async (_event) => {
     await prisma.tournament.deleteMany({});
 
     const s7_majors = {
-        // "tournament/gote-4thekids-7/event/rivals-of-aether-singles",
-        // "tournament/na-rcs-season-7-june-online-major/event/rivals-of-aether-singles",
-        // "tournament/double-down-2022/event/rivals-of-aether-singles",
-        // "tournament/indie-showcase-ssc-2022/event/rivals-singles",
+        "tournament/gote-4thekids-7/event/rivals-of-aether-singles":
+            "GoTE 4TheKids 7",
+        "tournament/na-rcs-season-7-june-online-major/event/rivals-of-aether-singles":
+            "RCS June Online Major",
+        "tournament/double-down-2022/event/rivals-of-aether-singles":
+            "Double Down 2022",
+        "tournament/indie-showcase-ssc-2022/event/rivals-singles":
+            "Super Smash Con 2022",
         "tournament/riptide-2022/event/rivals-of-aether-singles":
             "Riptide 2022",
         "tournament/the-big-house-10/event/rivals-of-aether-singles":
             "The Big House 10",
+        "tournament/heat-wave-5/event/rivals-of-aether-singles": "Heat Wave 5",
+        "tournament/na-rcs-season-7-december-online-major/event/rivals-of-aether-singles":
+            "RCS December Online Major",
     };
+    let scuffedid = 0;
 
     for (const url in s7_majors) {
         console.log(`Getting data from ${url}`);
@@ -84,7 +111,7 @@ export default defineEventHandler(async (_event) => {
                     event(
                         slug: "${url}"
                     ) {
-                        entrants(query: { page: $page, perPage: 40 }) {
+                        entrants(query: { page: $page, perPage: 30 }) {
                             pageInfo {
                                 totalPages
                             }
@@ -92,8 +119,7 @@ export default defineEventHandler(async (_event) => {
                                 seeds {
                                     seedNum
                                 }
-                                standing {
-                                    placement
+                                participants {
                                     player {
                                         gamerTag
                                         user {
@@ -106,9 +132,12 @@ export default defineEventHandler(async (_event) => {
                                         }
                                     }
                                 }
+                                standing {
+                                    placement
+                                }
                             }
                         }
-                        sets(page: $page, perPage: 40, sortType: STANDARD) {
+                        sets(page: $page, perPage: 30, sortType: STANDARD) {
                             pageInfo {
                                 totalPages
                             }
@@ -127,6 +156,12 @@ export default defineEventHandler(async (_event) => {
                                 winnerId
                                 completedAt
                                 displayScore
+                                fullRoundText
+                                phaseGroup {
+                                    phase {
+                                        name
+                                    }
+                                }
                                 games {
                                     orderNum
                                     winnerId
@@ -166,13 +201,20 @@ export default defineEventHandler(async (_event) => {
         const seed_dict = {};
 
         for (const entrant of entrants) {
-            const player = entrant.standing.player;
+            const player = entrant.participants[0].player;
             const user = player.user;
-            const seed = entrant.seeds[0].seedNum;
+            let seed;
+
+            if (entrant.seeds) {
+                seed = entrant.seeds[0].seedNum;
+            }
 
             seed_dict[user.discriminator] = seed;
 
-            const placement = entrant.standing.placement;
+            let placement;
+            if (entrant.standing) {
+                placement = entrant.standing.placement;
+            }
             queries.push(
                 prisma.player.upsert({
                     where: {
@@ -213,8 +255,8 @@ export default defineEventHandler(async (_event) => {
                         },
                         standings: {
                             create: {
-                                placement: entrant.standing.placement,
-                                seed: entrant.seeds[0].seedNum,
+                                placement,
+                                seed,
                                 tournament: {
                                     connect: {
                                         slug: url,
@@ -303,7 +345,10 @@ export default defineEventHandler(async (_event) => {
                         completedAt,
                         winnerGameCount,
                         loserGameCount,
-                        smashggid: set.id,
+                        // smashggid: set.id,
+                        smashggid: scuffedid,
+                        fullRoundText: set.fullRoundText,
+                        phase: set?.phaseGroup?.phase?.name,
                         uf:
                             rounds_from_victory(
                                 seed_dict[
@@ -321,19 +366,28 @@ export default defineEventHandler(async (_event) => {
 
             if (set.games) {
                 for (const game of set.games) {
-                    const selection1 = game.selections[0];
-                    const selection2 = game.selections[1];
-                    const [winnerChar, loserChar] =
-                        selection1.entrant.id === game.winnerId
-                            ? [
-                                  selection1.selectionValue,
-                                  selection2.selectionValue,
-                              ]
-                            : [
-                                  selection2.selectionValue,
-                                  selection1.selectionValue,
-                              ];
+                    let winnerChar;
+                    let loserChar;
+                    if (game.selections) {
+                        const selection1 = game.selections[0];
+                        const selection2 = game.selections[1];
 
+                        if (selection1) {
+                            if (selection1.entrant.id === game.winnerId) {
+                                winnerChar = selection1.selectionValue;
+                            } else {
+                                loserChar = selection1.selectionValue;
+                            }
+                        }
+
+                        if (selection2) {
+                            if (selection2.entrant.id === game.winnerId) {
+                                winnerChar = selection2.selectionValue;
+                            } else {
+                                loserChar = selection2.selectionValue;
+                            }
+                        }
+                    }
                     const [winnerDiscriminator, loserDiscriminator] =
                         game.winnerId === set.winnerId
                             ? [
@@ -353,7 +407,7 @@ export default defineEventHandler(async (_event) => {
                                 gameNumber: game.orderNum,
                                 set: {
                                     connect: {
-                                        smashggid: set.id,
+                                        smashggid: scuffedid,
                                     },
                                 },
                                 winner: {
@@ -381,6 +435,7 @@ export default defineEventHandler(async (_event) => {
                     );
                 }
             }
+            scuffedid++;
         }
 
         await prisma.$transaction(queries);
@@ -456,4 +511,5 @@ export default defineEventHandler(async (_event) => {
 
     console.log("Everything done!");
     console.timeEnd();
+    return { message: "done" };
 });

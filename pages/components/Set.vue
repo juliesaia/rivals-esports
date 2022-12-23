@@ -47,29 +47,47 @@
             <div class="flex mx-4">
                 <div v-for="game in set.games" :key="game.id">
                     <img
-                        :src="`/characters/${
-                            game.winner.name === set.winner.name
-                                ? game.winnerChar
-                                : game.loserChar
-                        }.png`"
+                        v-if="getChar(game, set, 'winner')"
+                        :src="`/characters/${getChar(game, set, 'winner')}.png`"
                         :class="{
                             'opacity-50': set.winner.name === game.loser.name,
                         }"
                     />
+                    <div
+                        v-else-if="set.winner.name === game.winner.name"
+                        class="i-bx-bxs-circle text-green-500 block"
+                    />
+                    <div
+                        v-else-if="set.winner.name === game.loser.name"
+                        class="i-bx-bxs-circle text-red-500 block"
+                    />
                     <img
-                        :src="`/characters/${
-                            game.winner.name === set.loser.name
-                                ? game.winnerChar
-                                : game.loserChar
-                        }.png`"
+                        v-if="getChar(game, set, 'loser')"
+                        :src="`/characters/${getChar(game, set, 'loser')}.png`"
                         :class="{
                             'opacity-50': set.loser.name === game.loser.name,
                         }"
                     />
+                    <div
+                        v-else-if="set.loser.name === game.winner.name"
+                        class="i-bx-bxs-circle text-green-500 block"
+                    />
+                    <div
+                        v-else-if="set.loser.name === game.loser.name"
+                        class="i-bx-bxs-circle text-red-500 block"
+                    />
                 </div>
             </div>
             <div class="flex-grow" />
-            <div>UF: {{ set.uf }}</div>
+            <div class="flex flex-col text-center mr-4">
+                <div>
+                    {{ set.phase }}
+                </div>
+                <div>
+                    {{ set.fullRoundText }}
+                </div>
+            </div>
+            <div class="text-end">UF: {{ set.uf }}</div>
         </div>
     </div>
 </template>
@@ -78,4 +96,16 @@
 const { data: sets } = defineProps<{
     data: Array<any>;
 }>();
+
+function getChar(game, set, player) {
+    if (player === "winner") {
+        return game.winner.name === set.winner.name
+            ? game.winnerChar
+            : game.loserChar;
+    } else {
+        return game.winner.name === set.loser.name
+            ? game.winnerChar
+            : game.loserChar;
+    }
+}
 </script>

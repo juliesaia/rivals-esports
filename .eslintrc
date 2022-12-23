@@ -30,6 +30,7 @@
             }
         ],
         "vue/html-closing-bracket-newline": "off",
-        "vue/no-setup-props-destructure": "off"
+        "vue/no-setup-props-destructure": "off",
+        "arrow-parens": "off"
     }
 }

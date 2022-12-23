@@ -18,13 +18,13 @@
         "@unocss/nuxt": "^0.47.6",
         "eslint": "^8.30.0",
         "nuxt": "3.0.0",
-        "prisma": "^4.7.1",
+        "prisma": "^4.8.0",
         "typescript": "^4.9.4",
         "unocss": "^0.47.6"
     },
     "dependencies": {
         "@anu-vue/nuxt": "^0.11.0",
-        "@prisma/client": "^4.7.1",
+        "@prisma/client": "^4.8.0",
         "anu-vue": "^0.11.0",
         "floating-vue": "2.0.0-beta.20",
         "vue-json-pretty": "^2.2.3"

@@ -9,8 +9,8 @@ const prisma = new PrismaClient().$extends({
                 needs: { seed: true, placement: true },
                 compute(standing) {
                     return (
-                        rounds_from_victory(standing.seed) -
-                        rounds_from_victory(standing.placement)
+                        rounds_from_victory(standing.seed ?? 0) -
+                        rounds_from_victory(standing.placement ?? 0)
                     );
                 },
             },
@@ -75,6 +75,8 @@ export default defineEventHandler(async (event) => {
                         winnerGameCount: true,
                         loserGameCount: true,
                         id: true,
+                        fullRoundText: true,
+                        phase: true,
                     },
                     where: {
                         players: {
@@ -161,6 +163,7 @@ export default defineEventHandler(async (event) => {
                         select: {
                             seed: true,
                             spr: true,
+                            placement: true,
                         },
                     },
                     sets: {
@@ -199,6 +202,8 @@ export default defineEventHandler(async (event) => {
                             winnerGameCount: true,
                             loserGameCount: true,
                             id: true,
+                            fullRoundText: true,
+                            phase: true,
                         },
                         orderBy: {
                             completedAt: "desc",
@@ -226,7 +231,7 @@ export default defineEventHandler(async (event) => {
         for (const set of tournament.sets) {
             for (const game of set.games) {
                 const character =
-                    game.winner.name === query.name
+                    game.winner.name === result.name
                         ? game.winnerChar
                         : game.loserChar;
 

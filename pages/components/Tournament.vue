@@ -4,7 +4,7 @@
         <div
             v-for="tournament in tournaments"
             :key="tournament.id"
-            class="m-3 mb-0 shadow-lg rounded-lg border border-gray-200"
+            class="m-3 mb-0 shadow-lg rounded-lg border border-gray-900"
         >
             <AccordionItem>
                 <!-- This slot will handle the title/header of the accordion and is the part you click on -->
@@ -17,11 +17,21 @@
                             width="40"
                             class="mr-2"
                         />
-                        <div>
-                            {{ tournament.name }}
+                        <div class="flex flex-col">
+                            <div>
+                                {{ tournament.name }}
+                            </div>
+                            <div>
+                                {{
+                                    int_to_ord(
+                                        tournament.standings[0].placement
+                                    )
+                                }}
+                                place
+                            </div>
                         </div>
                         <div class="flex-grow" />
-                        <div class="flex flex-col">
+                        <div class="flex flex-col text-end">
                             <div>Seed: {{ tournament.standings[0].seed }}</div>
                             <div>SPR: {{ tournament.standings[0].spr }}</div>
                         </div>
@@ -40,6 +50,7 @@
 import Accordion from "../components/Accordion.vue";
 import AccordionItem from "../components/AccordionItem.vue";
 import Set from "./Set.vue";
+import { int_to_ord } from "~~/server/utils";
 
 // const username = location.pathname.split("/").at(-1);
 

@@ -2,7 +2,7 @@
 PRAGMA foreign_keys=OFF;
 CREATE TABLE "new_Player" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL,
+    "name" TEXT NOT NULL COLLATE NOCASE,
     "smashggid" TEXT NOT NULL,
     "pronouns" TEXT
 );
