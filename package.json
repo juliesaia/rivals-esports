@@ -11,16 +11,22 @@
         "studio": "prisma studio"
     },
     "devDependencies": {
+        "@anu-vue/preset-theme-default": "^0.11.0",
+        "@iconify-json/bx": "^1.1.5",
         "@nuxtjs/eslint-config-typescript": "^12.0.0",
-        "@types/node": "^18.11.12",
-        "@unocss/nuxt": "^0.47.5",
-        "eslint": "^8.29.0",
+        "@types/node": "^18.11.17",
+        "@unocss/nuxt": "^0.47.6",
+        "eslint": "^8.30.0",
         "nuxt": "3.0.0",
         "prisma": "^4.7.1",
-        "typescript": "^4.9.4"
+        "typescript": "^4.9.4",
+        "unocss": "^0.47.6"
     },
     "dependencies": {
+        "@anu-vue/nuxt": "^0.11.0",
         "@prisma/client": "^4.7.1",
+        "anu-vue": "^0.11.0",
+        "floating-vue": "2.0.0-beta.20",
         "vue-json-pretty": "^2.2.3"
     }
 }

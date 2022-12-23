@@ -9,8 +9,12 @@ model Player {
   socials Social[]
   rankings Ranking[]
   tournaments Tournament[]
+  sets Set[]
   wins Set[] @relation("wins")
   losses Set[] @relation("losses")
+  games Game[]
+  gameWins Game[] @relation("gameWins")
+  gameLosses Game[] @relation("gameLosses")
   standings Standing[]
 }
 
@@ -29,6 +33,7 @@ model Tournament {
   sets Set[]
   standings Standing[]
   slug String @unique
+  name String @unique
 }
 
 model Standing {
@@ -43,6 +48,9 @@ model Standing {
 
 model Set {
   id Int @id @default(autoincrement())
+  smashggid Int @unique
+  players Player[]
+  games Game[]
   winner Player @relation("wins", fields: [winnerid], references: [id])
   winnerid Int
   loser Player @relation("losses", fields: [loserid], references: [id])
@@ -51,6 +59,22 @@ model Set {
   tournamentid Int
   completedAt Int
   uf Int
+  winnerGameCount Int
+  loserGameCount Int
+}
+
+model Game {
+  id Int @id @default(autoincrement())
+  players Player[]
+  winner Player @relation("gameWins", fields: [winnerid], references: [id])
+  winnerid Int
+  loser Player @relation("gameLosses", fields: [loserid], references: [id])
+  loserid Int
+  set Set @relation(fields: [setid], references: [id])
+  setid Int
+  gameNumber Int
+  winnerChar String
+  loserChar String
 }
 
 model Social {
@@ -63,7 +87,7 @@ model Social {
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["clientExtensions"]
+  previewFeatures = ["clientExtensions", "filteredRelationCount"]
 }
 
 datasource db {

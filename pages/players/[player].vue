@@ -1,23 +1,92 @@
 <template>
-    <div class="$">{{ $route.params.player }}</div>
-    <vue-json-pretty :data="data" />
-    <!-- <div class="$">
-        Season 7 Standing: #{{
-            data?.rankings.find((el) => el.season === 7).rank
-        }}
-    </div>
-    <div class="$">Pronouns: {{ data?.pronouns }}</div>
-    <div class="$">Socials: {{ data?.socials }}</div>
-    <div>The Big House 10</div>
-    <div class="$">Wins: {{ data?.wins.map((el) => el.loser.name) }}</div> -->
+    <main class="flex flex-col items-center">
+        <div class="text-2xl mt-8 mb-4 flex">
+            <h2>
+                {{ $route.params.player }}
+            </h2>
+            <div v-for="social in data.player.socials" :key="social.id">
+                <a
+                    v-if="social.type === 'TWITTER'"
+                    v-tooltip="`@${social.externalUsername}`"
+                    class="mx-2 i-bx-bxl-twitter"
+                    :href="`https://twitter.com/${social.externalUsername}`"
+                    target="__blank"
+                />
+                <div
+                    v-if="social.type === 'DISCORD'"
+                    v-tooltip="social.externalUsername"
+                    class="mx-2 i-bx-bxl-discord"
+                />
+            </div>
+        </div>
+        <h3>Wins: {{ data.player._count.wins }}</h3>
+        <h3>Losses: {{ data.player._count.losses }}</h3>
+        <h3 class="mb-4">
+            Winrate:
+            {{
+                (
+                    data.player._count.wins /
+                    (data.player._count.wins + data.player._count.losses)
+                ).toFixed(2) * 100
+            }}%
+        </h3>
+        <div
+            v-for="character in data.player.characters"
+            :key="character.name"
+            class="flex items-center"
+        >
+            <img :src="`/characters/${character[0]}.png`" />
+            <div>: {{ character[1] }}</div>
+        </div>
+        <Tournament :data="data.player.tournaments" />
+
+        <div class="w-120 text-center">
+            <h1 class="mt-8 mb-4">Head to Head</h1>
+
+            <form
+                class="flex flex-col items-center"
+                @submit.prevent="submitHeadToHead"
+            >
+                <div class="w-40 mb-4">
+                    <AInput v-model="h2hinput" type="text" />
+                </div>
+                <ABtn class="mb-4" type="submit">Submit</ABtn>
+            </form>
+            <h2 v-if="data.h2h._count" class="mb-2">
+                Lifetime: {{ data.h2h._count.wins }} -
+                {{ data.h2h._count.losses }}
+            </h2>
+            <Set :data="data.h2h.sets" />
+        </div>
+    </main>
+    <div class="h-40" />
+    <!-- <vue-json-pretty :data="data" /> -->
 </template>
 
 <script setup>
-import VueJsonPretty from "vue-json-pretty";
+// import VueJsonPretty from "vue-json-pretty";
+import Tournament from "../components/Tournament.vue";
+import Set from "../components/Set.vue";
 
 const route = useRoute();
 
-const { data } = $(await useFetch(`/api/player?name=${route.params.player}`));
+const h2hinput = $ref("");
 
-// console.log(data);
+const data = $ref({ player: null, h2h: { sets: [] } });
+
+const { data: playerData } = $(
+    await useFetch(`/api/player?name=${route.params.player}`)
+);
+
+data.player = playerData;
+
+async function submitHeadToHead() {
+    const { data: h2hData } = $(
+        await useFetch(
+            `/api/player?name=${route.params.player}&h2h=${h2hinput}`
+        )
+    );
+
+    data.h2h = h2hData;
+}
 </script>

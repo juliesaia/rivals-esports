@@ -1,6 +1,9 @@
 {
     "root": true,
-    "extends": ["@nuxtjs/eslint-config-typescript"],
+    "extends": [
+        "@nuxtjs/eslint-config-typescript",
+        "plugin:vue/vue3-strongly-recommended"
+    ],
     "rules": {
         "prefer-const": "error",
         "indent": "off",
@@ -12,6 +15,21 @@
         "no-unreachable": "warn",
         "vue/no-multiple-template-root": "off",
         "vue/html-indent": "off",
-        "vue/singleline-html-element-content-newline": "off"
+        "vue/singleline-html-element-content-newline": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }
+        ],
+        "vue/multi-word-component-names": "off",
+        "vue/html-self-closing": [
+            "error",
+            {
+                "html": {
+                    "void": "always"
+                }
+            }
+        ],
+        "vue/html-closing-bracket-newline": "off",
+        "vue/no-setup-props-destructure": "off"
     }
 }

@@ -28,28 +28,94 @@ export default defineEventHandler(async (event) => {
         return undefined;
     }
 
+    if (query.h2h) {
+        const result = await prisma.player.findFirst({
+            where: {
+                name: query.name.toString(),
+            },
+            select: {
+                sets: {
+                    select: {
+                        winner: {
+                            select: {
+                                name: true,
+                            },
+                        },
+                        loser: {
+                            select: {
+                                name: true,
+                            },
+                        },
+                        tournament: {
+                            select: {
+                                name: true,
+                            },
+                        },
+                        games: {
+                            select: {
+                                winnerChar: true,
+                                loserChar: true,
+                                id: true,
+                                winner: {
+                                    select: {
+                                        name: true,
+                                    },
+                                },
+                                loser: {
+                                    select: {
+                                        name: true,
+                                    },
+                                },
+                            },
+                            orderBy: {
+                                gameNumber: "asc",
+                            },
+                        },
+                        uf: true,
+                        winnerGameCount: true,
+                        loserGameCount: true,
+                        id: true,
+                    },
+                    where: {
+                        players: {
+                            some: {
+                                name: query.h2h.toString(),
+                            },
+                        },
+                    },
+                    orderBy: {
+                        completedAt: "desc",
+                    },
+                },
+                _count: {
+                    select: {
+                        wins: {
+                            where: {
+                                loser: {
+                                    is: {
+                                        name: query.h2h.toString(),
+                                    },
+                                },
+                            },
+                        },
+                        losses: {
+                            where: {
+                                winner: {
+                                    is: {
+                                        name: query.h2h.toString(),
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        return result;
+    }
+
     console.time();
-
-    // const tournaments = await prisma.player.findFirstOrThrow({
-    //     where: {
-    //         name: {
-    //             equals: query.name.toString(),
-    //         },
-    //     },
-    //     select: {
-    //         tournaments: {
-    //             select: {
-    //                 id: true,
-    //             },
-    //         },
-    //     },
-    // });
-
-    // const tournament_ids: number[] = [];
-
-    // for (const tournament of tournaments.tournaments) {
-    //     tournament_ids.push(tournament.id);
-    // }
 
     const result = await prisma.player.findFirst({
         where: {
@@ -57,17 +123,39 @@ export default defineEventHandler(async (event) => {
                 equals: query.name.toString(),
             },
         },
-        include: {
-            rankings: true,
-            socials: true,
+        select: {
+            name: true,
+            smashggid: true,
+            pronouns: true,
+            rankings: {
+                select: {
+                    rank: true,
+                    season: true,
+                },
+            },
+            socials: {
+                select: {
+                    type: true,
+                    externalUsername: true,
+                    id: true,
+                },
+            },
+            _count: {
+                select: {
+                    wins: true,
+                    losses: true,
+                },
+            },
             tournaments: {
-                include: {
+                select: {
+                    id: true,
+                    season: true,
+                    slug: true,
+                    name: true,
                     standings: {
                         where: {
                             player: {
-                                name: {
-                                    equals: query.name.toString(),
-                                },
+                                name: query.name.toString(),
                             },
                         },
                         select: {
@@ -77,78 +165,87 @@ export default defineEventHandler(async (event) => {
                     },
                     sets: {
                         select: {
-                            winner: true,
-                            loser: true,
+                            winner: {
+                                select: {
+                                    name: true,
+                                },
+                            },
+                            loser: {
+                                select: {
+                                    name: true,
+                                },
+                            },
+                            games: {
+                                select: {
+                                    winnerChar: true,
+                                    loserChar: true,
+                                    id: true,
+                                    winner: {
+                                        select: {
+                                            name: true,
+                                        },
+                                    },
+                                    loser: {
+                                        select: {
+                                            name: true,
+                                        },
+                                    },
+                                },
+                                orderBy: {
+                                    gameNumber: "asc",
+                                },
+                            },
                             uf: true,
+                            winnerGameCount: true,
+                            loserGameCount: true,
+                            id: true,
                         },
                         orderBy: {
                             completedAt: "desc",
                         },
                         where: {
-                            OR: [
-                                {
-                                    winner: {
-                                        is: {
-                                            name: query.name.toString(),
-                                        },
-                                    },
+                            players: {
+                                some: {
+                                    name: query.name.toString(),
                                 },
-                                {
-                                    loser: {
-                                        is: {
-                                            name: query.name.toString(),
-                                        },
-                                    },
-                                },
-                            ],
+                            },
                         },
                     },
                 },
             },
-
-            // wins: {
-            //     include: {
-            //         loser: true,
-            //     },
-            // },
-            // losses: true,
         },
     });
 
-    // let queries: any[] = [];
+    if (!result) {
+        return "error";
+    }
 
-    // for (const tournament of result?.tournaments ?? []) {
-    //     for (const set of tournament.sets) {
-    //         const won = set.winner.name === query.name.toString();
+    const characters = {};
 
-    //         queries.push(
-    //             prisma.standing.findFirst({
-    //                 where: {
-    //                     player: {
-    //                         smashggid: won
-    //                             ? set.loser.smashggid
-    //                             : set.winner.smashggid,
-    //                     },
-    //                     tournament: {
-    //                         slug: tournament.slug,
-    //                     },
-    //                 },
-    //                 select: {
-    //                     seed: true,
-    //                 },
-    //             })
-    //         );
-    //         // console.log(
-    //         //     `UF: ${
-    //         //         won
-    //         //             ? tournament.standings[0].seed - other_seed.seed
-    //         //             : other_seed.seed - tournament.standings[0].seed
-    //         //     }`
-    //         // );
-    //     }
-    // }
+    for (const tournament of result.tournaments) {
+        for (const set of tournament.sets) {
+            for (const game of set.games) {
+                const character =
+                    game.winner.name === query.name
+                        ? game.winnerChar
+                        : game.loserChar;
 
-    // await prisma.$transaction(queries);
+                if (!(character in characters)) {
+                    characters[character] = 1;
+                } else {
+                    characters[character] += 1;
+                }
+            }
+        }
+    }
+
+    const characters_list = Object.entries(characters);
+
+    // @ts-ignore
+    characters_list.sort(([, a], [, b]) => b - a);
+
+    // eslint-disable-next-line dot-notation
+    result["characters"] = characters_list;
 
     console.timeEnd();
 
