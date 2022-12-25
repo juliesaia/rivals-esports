@@ -61,14 +61,22 @@
                 </div>
                 <ABtn class="mb-4" type="submit">Submit</ABtn>
             </form>
-            <h2 v-if="data.h2h._count" class="mb-2">
+            <h2 v-if="data.h2h.sets.length" class="mb-2">
                 Lifetime: {{ data.h2h._count.wins }} -
                 {{ data.h2h._count.losses }}
             </h2>
-            <Set :data="data.h2h.sets" />
+            <div
+                ref="setRef"
+                class="overflow-hidden transition-all duration-500"
+                :style="{
+                    'max-height': '0px',
+                }"
+            >
+                <Set :data="data.h2h.sets" />
+            </div>
         </div>
     </main>
-    <div class="h-40" />
+    <div class="h-80" />
     <!-- <vue-json-pretty :data="data" /> -->
 </template>
 
@@ -76,10 +84,13 @@
 // import VueJsonPretty from "vue-json-pretty";
 import Tournament from "../components/Tournament.vue";
 import Set from "../components/Set.vue";
+import { sleep } from "~~/server/utils";
 
 const route = useRoute();
 
 const h2hinput = $ref("");
+
+const setRef = $ref(null);
 
 const data = $ref({ player: null, h2h: { sets: [] } });
 
@@ -100,7 +111,14 @@ async function submitHeadToHead() {
         )
     );
 
+    if (data.h2h.sets.length) {
+        close(setRef);
+        await sleep(500);
+    }
+
     data.h2h = h2hData;
+    await nextTick();
+    open(setRef);
 }
 
 function search(input) {
@@ -111,5 +129,14 @@ function search(input) {
     return Object.values(data.allPlayers).filter((name) => {
         return name.toLowerCase().startsWith(input.toLowerCase());
     });
+}
+
+function open(el) {
+    console.log(el.scrollHeight);
+    el.style.maxHeight = el.scrollHeight + "px";
+}
+function close(el) {
+    console.log("closing");
+    el.style.maxHeight = "0px";
 }
 </script>
