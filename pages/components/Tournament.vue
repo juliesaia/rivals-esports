@@ -1,6 +1,6 @@
 <template>
     <h1 class="mt-8">Tournaments</h1>
-    <Accordion class="w-120 py-4">
+    <Accordion class="w-160 py-4">
         <div
             v-for="tournament in tournaments"
             :key="tournament.id"

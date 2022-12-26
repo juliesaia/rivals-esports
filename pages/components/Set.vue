@@ -45,7 +45,11 @@
                 </div>
             </div>
             <div class="flex mx-4">
-                <div v-for="game in set.games" :key="game.id">
+                <div
+                    v-for="game in set.games"
+                    :key="game.id"
+                    class="flex flex-col justify-evenly"
+                >
                     <img
                         v-if="getChar(game, set, 'winner')"
                         :src="`/characters/${getChar(game, set, 'winner')}.png`"
