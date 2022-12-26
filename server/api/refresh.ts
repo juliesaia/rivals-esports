@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { rounds_from_victory, character_dict, sleep } from "../utils";
+import { prisma } from "../prisma";
 import { allRCSMajors } from "../constants";
-const prisma = new PrismaClient();
 
 async function get_startgg(
     query: string,

@@ -68,12 +68,18 @@ export const allRCSMajors = {
     // "tournament/rcs-season-6-fireworks-1/event/rivals-of-aether-singles": "RCS Season 6 - Fireworks",
     // "tournament/rcs-season-6-crystal/event/rivals-of-aether-singles": "RCS Season 6 - Crystal",
     // "tournament/genesis-8/event/rivals-of-aether-singles": "Genesis 8",
-    "tournament/gote-4thekids-7/event/rivals-of-aether-singles": "GoTE 4TheKids 7",
-    "tournament/na-rcs-season-7-june-online-major/event/rivals-of-aether-singles": "RCS June Online Major",
-    "tournament/double-down-2022/event/rivals-of-aether-singles": "Double Down 2022",
-    "tournament/indie-showcase-ssc-2022/event/rivals-singles": "Super Smash Con 2022",
+    "tournament/gote-4thekids-7/event/rivals-of-aether-singles":
+        "GoTE 4TheKids 7",
+    "tournament/na-rcs-season-7-june-online-major/event/rivals-of-aether-singles":
+        "RCS June Online Major",
+    "tournament/double-down-2022/event/rivals-of-aether-singles":
+        "Double Down 2022",
+    "tournament/indie-showcase-ssc-2022/event/rivals-singles":
+        "Super Smash Con 2022",
     "tournament/riptide-2022/event/rivals-of-aether-singles": "Riptide 2022",
-    "tournament/the-big-house-10/event/rivals-of-aether-singles": "The Big House 10",
+    "tournament/the-big-house-10/event/rivals-of-aether-singles":
+        "The Big House 10",
     "tournament/heat-wave-5/event/rivals-of-aether-singles": "Heat Wave 5",
-    "tournament/na-rcs-season-7-december-online-major/event/rivals-of-aether-singles": "RCS December Online Major"
-}
+    "tournament/na-rcs-season-7-december-online-major/event/rivals-of-aether-singles":
+        "RCS December Online Major",
+};
