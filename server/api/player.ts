@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { rounds_from_victory } from "../utils";
+import { DirectedGraph } from "../graphTheory/graphs/DirectedGraph";
+import { Edge, Node, Path } from "../graphTheory/elements/AllElements";
 
 // TODO: when prisma adds relation support for computed values change uf to computed and remove from db
 const prisma = new PrismaClient().$extends({
@@ -115,6 +117,82 @@ export default defineEventHandler(async (event) => {
         });
 
         return result;
+    }
+
+    if (query.armadaNumber) {
+
+        const allSets = await prisma.set.findMany({
+            where: {
+                loserGameCount: {
+                    not: -1
+                }
+            },
+            select: {
+                winner: {
+                    select: {
+                        name: true,
+                        id: true
+                    }
+                },
+                loser: {
+                    select: {
+                        name: true,
+                        id: true
+                    }
+                },
+                tournament: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        });
+
+        const player1 = await prisma.player.findFirst({
+            where: {
+                name: {
+                    equals:query.name.toString()
+                }
+            }, select: {
+                id: true
+            }
+        });
+
+        const player2 = await prisma.player.findFirst({
+            where: {
+                name: {
+                    equals:query.armadaNumber.toString()
+                }
+            }, select: {
+                id: true
+            }
+        });
+
+        let p1id = player1?.id;
+        let p2id = player2?.id;
+
+        if (!(p1id && p2id)) {
+            return undefined;
+        }
+
+        let edges: Edge[] = [];
+
+        for (let i = 0; i < allSets.length; i++) {
+            let node1 = new Node(allSets[i].winner, allSets[i].winner.id);
+            let node2 = new Node(allSets[i].loser, allSets[i].loser.id);
+            edges.push(new Edge(node1, node2, allSets[i]));
+        }
+
+        let graph = new DirectedGraph(edges);
+
+        let shortestPath = graph.getShortestDistance(p1id, p2id);
+
+        if (!shortestPath) {
+            return "No link found";
+        }
+
+        return shortestPath?.getNodes().map(x => x.data.name).join(' > ');
+
     }
 
     console.time();

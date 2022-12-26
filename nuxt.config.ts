@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     },
     css: [
         "vue-json-pretty/lib/styles.css",
-        "/home/cheesypotato/rivals-esports/styles.css",
+        "~~/styles.css",
     ],
     modules: ["@anu-vue/nuxt", "@unocss/nuxt"],
 });
