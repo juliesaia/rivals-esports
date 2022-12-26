@@ -1,3 +1,3 @@
-export {Edge} from "./Edge";
-export {Node} from "./Node";
-export {Path} from "./Path";
+export { Edge } from "./Edge";
+export { Node } from "./Node";
+export { Path } from "./Path";

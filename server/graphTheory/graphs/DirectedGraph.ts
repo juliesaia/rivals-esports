@@ -1,4 +1,4 @@
-import {Edge, Node, Path} from "../elements/AllElements";
+import { Edge, Node, Path } from "../elements/AllElements";
 
 export class DirectedGraph {
     edges: Edge[];
@@ -8,11 +8,11 @@ export class DirectedGraph {
     }
 
     getNodes(): Node[] {
-        let toReturn: Node[] = [];
+        const toReturn: Node[] = [];
 
         for (let i = 0; i < this.edges.length; i++) {
             toReturn.push(this.edges[i].node1);
-            if (i == this.edges.length-1) {
+            if (i === this.edges.length - 1) {
                 toReturn.push(this.edges[i].node2);
             }
         }
@@ -21,29 +21,24 @@ export class DirectedGraph {
     }
 
     findNode(key: any): Node | null {
+        const allNodes = this.getNodes();
 
-        let allNodes = this.getNodes();
-
-        for (let node of allNodes) {
-
-            if (node.key == key) {
+        for (const node of allNodes) {
+            if (node.key === key) {
                 return node;
             }
-
         }
 
         return null;
-
     }
 
     getNeighbors(nodeKey: any): Edge[] {
+        const relevantEdges = this.edges.filter(x => x.node1.key === nodeKey);
 
-        let relevantEdges = this.edges.filter(x => x.node1.key == nodeKey);
+        const filteredEdges: Edge[] = [];
+        const knownKeys: any[] = [];
 
-        let filteredEdges: Edge[] = [];
-        let knownKeys: any[] = [];
-
-        for (let edge of relevantEdges) {
+        for (const edge of relevantEdges) {
             if (!knownKeys.includes(edge.node2.key)) {
                 filteredEdges.push(edge);
                 knownKeys.push(edge.node2.key);
@@ -51,63 +46,50 @@ export class DirectedGraph {
         }
 
         return filteredEdges;
-        
     }
 
     getShortestDistance(srcKey: any, destKey: any): Path | undefined {
         let potentialPaths: Path[] = [];
 
-        let startingNeighbors = this.getNeighbors(srcKey);
+        const startingNeighbors = this.getNeighbors(srcKey);
 
-        for (let edge of startingNeighbors) {
-
+        for (const edge of startingNeighbors) {
             potentialPaths.push(new Path([edge]));
-
         }
 
         while (true) {
-
-            //Check known paths to see if complete
-            for (let path of potentialPaths) {
-
-                if (path.dest.key == destKey) {
+            // Check known paths to see if complete
+            for (const path of potentialPaths) {
+                if (path.dest.key === destKey) {
                     return path;
-                } 
-
+                }
             }
 
-            //Extend all known paths
-            let newPaths: Path[] = [];
+            // Extend all known paths
+            const newPaths: Path[] = [];
 
-            for (let path of potentialPaths) {
-
+            for (const path of potentialPaths) {
                 let extensions = this.getNeighbors(path.dest.key);
 
-                //Filter extensions to remove extensions to nodes already included
+                // Filter extensions to remove extensions to nodes already included
                 extensions = extensions.filter(x => !path.includes(x.node2.key));
 
-                for (let edge of extensions) {
-
-                    let toPush = path.clone();
+                for (const edge of extensions) {
+                    const toPush = path.clone();
 
                     toPush.extend(edge);
 
                     newPaths.push(toPush);
-
                 }
-
             }
 
-            if (newPaths.length == 0) {
+            if (newPaths.length === 0) {
                 break;
             }
 
             potentialPaths = newPaths;
-
         }
 
         return undefined;
-
     }
-
 }
