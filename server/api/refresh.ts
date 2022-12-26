@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { rounds_from_victory, character_dict, sleep } from "../utils";
+import { allRCSMajors } from "../constants";
 const prisma = new PrismaClient();
 
 async function get_startgg(
@@ -82,26 +83,9 @@ export default defineEventHandler(async (_event) => {
     await prisma.player.deleteMany({});
     await prisma.tournament.deleteMany({});
 
-    const s7_majors = {
-        "tournament/gote-4thekids-7/event/rivals-of-aether-singles":
-            "GoTE 4TheKids 7",
-        "tournament/na-rcs-season-7-june-online-major/event/rivals-of-aether-singles":
-            "RCS June Online Major",
-        "tournament/double-down-2022/event/rivals-of-aether-singles":
-            "Double Down 2022",
-        "tournament/indie-showcase-ssc-2022/event/rivals-singles":
-            "Super Smash Con 2022",
-        "tournament/riptide-2022/event/rivals-of-aether-singles":
-            "Riptide 2022",
-        "tournament/the-big-house-10/event/rivals-of-aether-singles":
-            "The Big House 10",
-        "tournament/heat-wave-5/event/rivals-of-aether-singles": "Heat Wave 5",
-        "tournament/na-rcs-season-7-december-online-major/event/rivals-of-aether-singles":
-            "RCS December Online Major",
-    };
     let scuffedid = 0;
 
-    for (const url in s7_majors) {
+    for (const url in allRCSMajors) {
         console.log(`Getting data from ${url}`);
         console.log("Getting entrants and sets");
         const [entrants, sets] = await get_startgg(
@@ -111,7 +95,7 @@ export default defineEventHandler(async (_event) => {
                     event(
                         slug: "${url}"
                     ) {
-                        entrants(query: { page: $page, perPage: 30 }) {
+                        entrants(query: { page: $page, perPage: 25 }) {
                             pageInfo {
                                 totalPages
                             }
@@ -192,7 +176,7 @@ export default defineEventHandler(async (_event) => {
             data: {
                 slug: url,
                 season: 7,
-                name: s7_majors[url],
+                name: allRCSMajors[url],
             },
         });
 
