@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/attribute-hyphenation -->
 <template>
     <form
         class="flex flex-col items-center"
@@ -9,7 +10,7 @@
                 :triggers="[]"
                 :autoHide="false"
                 :shown="
-                    focused && input?.length > 0 && autocomplete[0] !== input
+                    focused && input?.length > 0 // && autocomplete[0] !== input
                 "
                 :auto-size="true"
             >
@@ -17,18 +18,40 @@
                     v-model="input"
                     type="text"
                     @keydown.down="
-                        selected === autocomplete.length - 1
-                            ? (selected = autocomplete.length - 1)
-                            : selected++;
-                        autocompleteref?.children[selected].scrollIntoView({
-                            block: 'nearest',
-                        });
+                        async () => {
+                            selected >= autocomplete.length - 1
+                                ? (selected = autocomplete.length - 1)
+                                : selected++;
+                            if (
+                                isScrolledIntoView(
+                                    autocompleteref?.children[selected]
+                                )
+                            ) {
+                                key_pressed = true;
+                                await sleep(150);
+                                key_pressed = false;
+                            }
+                            autocompleteref?.children[selected].scrollIntoView({
+                                block: 'nearest',
+                            });
+                        }
                     "
                     @keydown.up="
-                        selected <= 0 ? (selected = 0) : selected--;
-                        autocompleteref?.children[selected].scrollIntoView({
-                            block: 'nearest',
-                        });
+                        async () => {
+                            selected <= 0 ? (selected = 0) : selected--;
+                            if (
+                                isScrolledIntoView(
+                                    autocompleteref?.children[selected]
+                                )
+                            ) {
+                                key_pressed = true;
+                                await sleep(150);
+                                key_pressed = false;
+                            }
+                            autocompleteref?.children[selected].scrollIntoView({
+                                block: 'nearest',
+                            });
+                        }
                     "
                     @focus="
                         selected = 0;
@@ -41,8 +64,11 @@
                         <div
                             v-for="(item, index) in autocomplete"
                             :key="item"
-                            class="p-2 hover:bg-purple-300 transition-colors cursor-pointer"
-                            :class="{ 'bg-purple-300': selected === index }"
+                            class="p-2 hover:bg-purple-300 cursor-pointer"
+                            :class="{
+                                'bg-purple-300': selected === index,
+                                'transition-colors': key_pressed,
+                            }"
                             @mousedown="submit(item)"
                         >
                             {{ item }}
@@ -55,6 +81,7 @@
     </form>
 </template>
 <script setup lang="ts">
+import { sleep, isScrolledIntoView } from "~~/server/utils";
 const { data } = defineProps<{
     data: Array<any>;
 }>();
@@ -65,14 +92,18 @@ let input = $ref("");
 
 const autocompleteref = $ref<HTMLElement | null>(null);
 
-const selected = $ref(0);
+let selected = $ref(0);
 
 let focused = $ref(false);
+
+const key_pressed = $ref(false);
 
 const autocomplete = $computed(() => {
     if (!input) {
         return [];
     }
+
+    selected = 0;
 
     return data.filter((item) => {
         return item.toLowerCase().startsWith(input.toLowerCase());
@@ -80,6 +111,9 @@ const autocomplete = $computed(() => {
 });
 
 function submit(item) {
+    if (!item) {
+        return;
+    }
     input = item;
 
     emit("submit", item);

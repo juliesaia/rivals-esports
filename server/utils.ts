@@ -44,3 +44,17 @@ export function int_to_ord(i: number) {
     }
     return i + "th";
 }
+
+export function isScrolledIntoView(el: Element) {
+    let { top: top1, bottom: bottom1 } = el.getBoundingClientRect();
+    const { top: top2, bottom: bottom2 } = document
+        .getElementsByClassName("v-popper__popper")[0]
+        .getBoundingClientRect();
+
+    top1 += 1;
+    bottom1 -= 1;
+
+    return (
+        (top2 < top1 && bottom2 > top1) || (top2 < bottom1 && bottom2 > bottom1)
+    );
+}

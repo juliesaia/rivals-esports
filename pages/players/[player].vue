@@ -31,10 +31,12 @@
         <h3 class="mb-4">
             Winrate:
             {{
-                (
-                    data.player._count.wins /
-                    (data.player._count.wins + data.player._count.losses)
-                ).toFixed(2) * 100
+                Math.round(
+                    (
+                        data.player._count.wins /
+                        (data.player._count.wins + data.player._count.losses)
+                    ).toFixed(2) * 100
+                )
             }}%
         </h3>
         <div
@@ -49,43 +51,25 @@
         </div>
         <Tournament :data="data.player.tournaments" />
 
-        <div class="w-160 text-center">
-            <h1 class="mt-8 mb-4">Head to Head</h1>
-            <!-- <v-autocomplete /> -->
+        <SetList type="h2h" title="Head to Head" />
 
-            <Autocomplete @submit="submitHeadToHead" :data="data.allPlayers" />
-
-            <h2 v-if="data.h2h.sets.length" class="mb-2">
-                Lifetime: {{ data.h2h._count.wins }} -
-                {{ data.h2h._count.losses }}
-            </h2>
-            <div
-                ref="setRef"
-                class="overflow-hidden transition-all duration-500"
-                :style="{
-                    'max-height': '0px',
-                }"
-            >
-                <Set :data="data.h2h.sets" />
-            </div>
-        </div>
+        <SetList type="armadaNumber" title="Degrees of Winning" />
     </main>
     <div class="h-80" />
-    <!-- <vue-json-pretty :data="data" /> -->
 </template>
 
 <script setup>
 // import VueJsonPretty from "vue-json-pretty";
 import Tournament from "../components/Tournament.vue";
-import Set from "../components/Set.vue";
-import Autocomplete from "../components/Autocomplete.vue";
-import { sleep } from "~~/server/utils";
+import SetList from "../components/SetList.vue";
 
 const route = useRoute();
 
-const setRef = $ref(null);
-
-const data = $ref({ player: null, h2h: { sets: [] } });
+const data = $ref({
+    player: null,
+    h2h: { sets: [] },
+    armadaNumber: { sets: [] },
+});
 
 const { data: playerData } = $(
     await useFetch(`/api/player?name=${route.params.player}`)
@@ -95,29 +79,5 @@ data.player = playerData;
 
 const { data: allPlayers } = $(await useFetch("/api/players"));
 
-data.allPlayers = allPlayers;
-
-async function submitHeadToHead(playername) {
-    const { data: h2hData } = $(
-        await useFetch(
-            `/api/player?name=${route.params.player}&h2h=${playername}`
-        )
-    );
-
-    if (data.h2h.sets.length) {
-        close(setRef);
-        await sleep(500);
-    }
-
-    data.h2h = h2hData;
-    await nextTick();
-    open(setRef);
-}
-
-function open(el) {
-    el.style.maxHeight = el.scrollHeight + "px";
-}
-function close(el) {
-    el.style.maxHeight = "0px";
-}
+provide("allPlayers", allPlayers);
 </script>

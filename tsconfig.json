@@ -3,6 +3,8 @@
     "extends": "./.nuxt/tsconfig.json",
     "compilerOptions": {
         "noImplicitAny": false,
-        "types": ["anu-vue/volar"]
+        "types": ["anu-vue/volar"],
+        "strictNullChecks": false,
+        "strict": false
     }
 }

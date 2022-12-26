@@ -1,16 +1,16 @@
 import { prisma } from "../prisma";
 import { DirectedGraph } from "../graphTheory/graphs/DirectedGraph";
-import { Edge, Node, Path } from "../graphTheory/elements/AllElements";
+import { Edge, Node } from "../graphTheory/elements/AllElements";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
 
     if (!query.name) {
-        return undefined;
+        throw new Error("not found");
     }
 
     if (query.h2h) {
-        const result = await prisma.player.findFirst({
+        const result = await prisma.player.findFirstOrThrow({
             where: {
                 name: query.name.toString(),
             },
@@ -101,32 +101,26 @@ export default defineEventHandler(async (event) => {
     if (query.armadaNumber) {
         const allSets = await prisma.set.findMany({
             where: {
-                loserGameCount: {
-                    not: -1,
+                NOT: {
+                    loserGameCount: -1,
                 },
             },
             select: {
                 winner: {
                     select: {
-                        name: true,
                         id: true,
                     },
                 },
                 loser: {
                     select: {
-                        name: true,
                         id: true,
                     },
                 },
-                tournament: {
-                    select: {
-                        name: true,
-                    },
-                },
+                id: true,
             },
         });
 
-        const player1 = await prisma.player.findFirst({
+        const player1 = await prisma.player.findFirstOrThrow({
             where: {
                 name: {
                     equals: query.name.toString(),
@@ -137,7 +131,7 @@ export default defineEventHandler(async (event) => {
             },
         });
 
-        const player2 = await prisma.player.findFirst({
+        const player2 = await prisma.player.findFirstOrThrow({
             where: {
                 name: {
                     equals: query.armadaNumber.toString(),
@@ -152,7 +146,7 @@ export default defineEventHandler(async (event) => {
         const p2id = player2?.id;
 
         if (!(p1id && p2id)) {
-            return undefined;
+            throw new Error("not found");
         }
 
         const edges: Edge[] = [];
@@ -168,18 +162,78 @@ export default defineEventHandler(async (event) => {
         const shortestPath = graph.getShortestDistance(p1id, p2id);
 
         if (!shortestPath) {
-            return "No link found";
+            throw new Error("not found");
         }
 
-        return shortestPath
-            ?.getNodes()
-            .map((x) => x.data.name)
-            .join(" > ");
+        const edgeids = shortestPath.edges.map((el) => el.metadata.id);
+
+        const queries = edgeids.map((edgeid: number) =>
+            prisma.set.findFirstOrThrow({
+                where: {
+                    id: edgeid,
+                },
+                select: {
+                    winner: {
+                        select: {
+                            name: true,
+                            id: true,
+                        },
+                    },
+                    loser: {
+                        select: {
+                            name: true,
+                            id: true,
+                        },
+                    },
+                    tournament: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                    games: {
+                        select: {
+                            winnerChar: true,
+                            loserChar: true,
+                            id: true,
+                            winner: {
+                                select: {
+                                    name: true,
+                                },
+                            },
+                            loser: {
+                                select: {
+                                    name: true,
+                                },
+                            },
+                        },
+                        orderBy: {
+                            gameNumber: "asc",
+                        },
+                    },
+                    uf: true,
+                    winnerGameCount: true,
+                    loserGameCount: true,
+                    id: true,
+                    fullRoundText: true,
+                    phase: true,
+                },
+            })
+        );
+
+        const sets = await prisma.$transaction(queries);
+
+        const path = sets.map((el) => el.loser.name);
+
+        path.unshift(sets[0].winner.name);
+
+        const pathstring = path.join(" > ");
+
+        return { sets, path: pathstring };
     }
 
     console.time();
 
-    const result = await prisma.player.findFirst({
+    const result = await prisma.player.findFirstOrThrow({
         where: {
             name: {
                 equals: query.name.toString(),
@@ -283,10 +337,6 @@ export default defineEventHandler(async (event) => {
             },
         },
     });
-
-    if (!result) {
-        return "error";
-    }
 
     const characters = {};
 
