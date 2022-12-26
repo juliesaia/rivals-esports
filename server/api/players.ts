@@ -28,5 +28,5 @@ export default defineEventHandler(async (_event) => {
         },
     });
 
-    return result;
+    return result.map((player) => player.name);
 });

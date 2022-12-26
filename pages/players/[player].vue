@@ -52,15 +52,9 @@
         <div class="w-160 text-center">
             <h1 class="mt-8 mb-4">Head to Head</h1>
             <!-- <v-autocomplete /> -->
-            <form
-                class="flex flex-col items-center"
-                @submit.prevent="submitHeadToHead"
-            >
-                <div class="w-40 mb-4">
-                    <AInput v-model="h2hinput" type="text" />
-                </div>
-                <ABtn class="mb-4" type="submit">Submit</ABtn>
-            </form>
+
+            <Autocomplete @submit="submitHeadToHead" :data="data.allPlayers" />
+
             <h2 v-if="data.h2h.sets.length" class="mb-2">
                 Lifetime: {{ data.h2h._count.wins }} -
                 {{ data.h2h._count.losses }}
@@ -84,11 +78,10 @@
 // import VueJsonPretty from "vue-json-pretty";
 import Tournament from "../components/Tournament.vue";
 import Set from "../components/Set.vue";
+import Autocomplete from "../components/Autocomplete.vue";
 import { sleep } from "~~/server/utils";
 
 const route = useRoute();
-
-const h2hinput = $ref("");
 
 const setRef = $ref(null);
 
@@ -104,10 +97,10 @@ const { data: allPlayers } = $(await useFetch("/api/players"));
 
 data.allPlayers = allPlayers;
 
-async function submitHeadToHead() {
+async function submitHeadToHead(playername) {
     const { data: h2hData } = $(
         await useFetch(
-            `/api/player?name=${route.params.player}&h2h=${h2hinput}`
+            `/api/player?name=${route.params.player}&h2h=${playername}`
         )
     );
 
@@ -121,22 +114,10 @@ async function submitHeadToHead() {
     open(setRef);
 }
 
-function search(input) {
-    if (input.length < 1) {
-        return [];
-    }
-
-    return Object.values(data.allPlayers).filter((name) => {
-        return name.toLowerCase().startsWith(input.toLowerCase());
-    });
-}
-
 function open(el) {
-    console.log(el.scrollHeight);
     el.style.maxHeight = el.scrollHeight + "px";
 }
 function close(el) {
-    console.log("closing");
     el.style.maxHeight = "0px";
 }
 </script>
