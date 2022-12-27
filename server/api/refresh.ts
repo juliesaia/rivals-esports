@@ -140,12 +140,13 @@ export default defineEventHandler(async (_event) => {
                                     }
                                 }
                                 winnerId
-                                completedAt
+                                round
                                 displayScore
                                 fullRoundText
                                 phaseGroup {
                                     phase {
                                         name
+                                        phaseOrder
                                     }
                                 }
                                 games {
@@ -267,9 +268,45 @@ export default defineEventHandler(async (_event) => {
 
         for (const set of sets) {
             const winner_id = set.winnerId;
-            const completedAt = set.completedAt;
             const player1 = set.slots[0].entrant;
             const player2 = set.slots[1].entrant;
+
+            let order = 1;
+
+            if (set.phaseGroup) {
+                let scale;
+                if (set.phaseGroup.phase.name.toLowerCase().includes("pools")) {
+                    scale = 1;
+                } else if (
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 256")
+                ) {
+                    scale = 2;
+                } else if (
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 128")
+                ) {
+                    scale = 3;
+                } else if (
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 64")
+                ) {
+                    scale = 4;
+                } else if (
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 32")
+                ) {
+                    scale = 5;
+                } else if (
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 16")
+                ) {
+                    scale = 6;
+                } else if (
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 8")
+                ) {
+                    scale = 7;
+                } else {
+                    scale = set.phaseGroup.phase.phaseOrder;
+                }
+                order *= scale * 100;
+            }
+            order += Math.abs(set.round);
 
             const [winner, loser] =
                 player1.id === winner_id
@@ -331,7 +368,7 @@ export default defineEventHandler(async (_event) => {
                                 slug: url,
                             },
                         },
-                        completedAt,
+                        order,
                         winnerGameCount,
                         loserGameCount,
                         // smashggid: set.id,

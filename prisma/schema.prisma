@@ -57,7 +57,7 @@ model Set {
   loserid Int
   tournament Tournament @relation(fields: [tournamentid], references: [id])
   tournamentid Int
-  completedAt Int
+  order Int
   uf Int
   winnerGameCount Int
   loserGameCount Int

@@ -59,7 +59,6 @@
 </template>
 
 <script setup>
-// import VueJsonPretty from "vue-json-pretty";
 import Tournament from "../components/Tournament.vue";
 import SetList from "../components/SetList.vue";
 

@@ -67,7 +67,7 @@ export default defineEventHandler(async (event) => {
                         },
                     },
                     orderBy: {
-                        completedAt: "desc",
+                        order: "desc",
                     },
                 },
                 _count: {
@@ -320,7 +320,7 @@ export default defineEventHandler(async (event) => {
                             phase: true,
                         },
                         orderBy: {
-                            completedAt: "desc",
+                            order: "desc",
                         },
                         where: {
                             players: {
