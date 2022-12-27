@@ -1,6 +1,10 @@
 <template>
     <main class="flex flex-col items-center">
         <div class="text-2xl mt-8 mb-4 flex">
+            <img
+                v-if="data.player.favoriteCharacter"
+                :src="`/characters/${data.player.favoriteCharacter}.png`"
+            />
             <h2>
                 {{ data.player.name }}
             </h2>
@@ -30,14 +34,7 @@
         <h3>Losses: {{ data.player._count.losses }}</h3>
         <h3 class="mb-4">
             Winrate:
-            {{
-                Math.round(
-                    (
-                        data.player._count.wins /
-                        (data.player._count.wins + data.player._count.losses)
-                    ).toFixed(2) * 100
-                )
-            }}%
+            {{ winrate(data.player._count.wins, data.player._count.sets) }}
         </h3>
         <div
             v-for="character in data.player.characters.filter(
@@ -61,6 +58,7 @@
 <script setup>
 import Tournament from "../components/Tournament.vue";
 import SetList from "../components/SetList.vue";
+import { winrate } from "~~/server/utils";
 
 const route = useRoute();
 
@@ -76,7 +74,7 @@ const { data: playerData } = $(
 
 data.player = playerData;
 
-const { data: allPlayers } = $(await useFetch("/api/players"));
+const { data: allPlayers } = $(await useFetch("/api/players?min=true"));
 
 provide("allPlayers", allPlayers);
 </script>

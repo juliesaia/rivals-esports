@@ -243,6 +243,7 @@ export default defineEventHandler(async (event) => {
             name: true,
             smashggid: true,
             pronouns: true,
+            favoriteCharacter: true,
             rankings: {
                 select: {
                     rank: true,
@@ -260,6 +261,7 @@ export default defineEventHandler(async (event) => {
                 select: {
                     wins: true,
                     losses: true,
+                    sets: true,
                 },
             },
             tournaments: {

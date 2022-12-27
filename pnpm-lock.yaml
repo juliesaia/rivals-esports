@@ -9,8 +9,10 @@ specifiers:
   '@types/node': ^18.11.17
   '@unocss/nuxt': ^0.47.6
   anu-vue: ^0.11.0
+  compress-json: ^2.1.2
   eslint: ^8.30.0
   floating-vue: 2.0.0-beta.20
+  jsonh: ^0.0.6
   nuxt: 3.0.0
   prisma: ^4.8.0
   typescript: ^4.9.4
@@ -21,7 +23,9 @@ dependencies:
   '@anu-vue/nuxt': 0.11.0
   '@prisma/client': 4.8.0_prisma@4.8.0
   anu-vue: 0.11.0
+  compress-json: 2.1.2
   floating-vue: 2.0.0-beta.20
+  jsonh: 0.0.6
   vue-json-pretty: 2.2.3
 
 devDependencies:
@@ -2014,6 +2018,10 @@ packages:
       readable-stream: 3.6.0
     dev: true
 
+  /compress-json/2.1.2:
+    resolution: {integrity: sha512-91247RD8bKQXzRmXUS4zGT250mhw86+J9X8w2L2SGtRE7g0CvzjOETFaFmsDdaXPWv8T7L9iiM7kdcnnH3BH7w==}
+    dev: false
+
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
@@ -3894,6 +3902,10 @@ packages:
     optionalDependencies:
       graceful-fs: 4.2.10
     dev: true
+
+  /jsonh/0.0.6:
+    resolution: {integrity: sha512-l72J9zzA2CgVgCM6VlgA0fgcfKTK+ptNJAwkaw+2Z0V4U0Stj/YyGFElrrS8UjLmdQLF8maBoAxfqHFJboblTg==}
+    dev: false
 
   /klona/2.0.5:
     resolution: {integrity: sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==}

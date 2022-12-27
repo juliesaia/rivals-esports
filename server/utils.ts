@@ -58,3 +58,10 @@ export function isScrolledIntoView(el: Element) {
         (top2 < top1 && bottom2 > top1) || (top2 < bottom1 && bottom2 > bottom1)
     );
 }
+
+export function winrate(wins: number, games: number) {
+    if (games === 0) {
+        return "0%";
+    }
+    return Math.round((wins / games) * 100) + "%";
+}

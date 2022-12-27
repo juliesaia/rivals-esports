@@ -84,6 +84,8 @@ export default defineEventHandler(async (_event) => {
 
     let scuffedid = 0;
 
+    const favorite_character_dict = {};
+
     for (const url in allRCSMajors) {
         console.log(`Getting data from ${url}`);
         console.log("Getting entrants and sets");
@@ -308,6 +310,14 @@ export default defineEventHandler(async (_event) => {
             }
             order += Math.abs(set.round);
 
+            if (set.fullRoundText.toLowerCase().includes("grand final")) {
+                order += 25;
+            }
+
+            if (set.fullRoundText.toLowerCase().includes("reset")) {
+                order += 25;
+            }
+
             const [winner, loser] =
                 player1.id === winner_id
                     ? [player1, player2]
@@ -414,6 +424,7 @@ export default defineEventHandler(async (_event) => {
                             }
                         }
                     }
+
                     const [winnerDiscriminator, loserDiscriminator] =
                         game.winnerId === set.winnerId
                             ? [
@@ -424,6 +435,48 @@ export default defineEventHandler(async (_event) => {
                                   loser.participants[0].user.discriminator,
                                   winner.participants[0].user.discriminator,
                               ];
+
+                    if (winnerChar) {
+                        if (!(winnerDiscriminator in favorite_character_dict)) {
+                            favorite_character_dict[winnerDiscriminator] = {
+                                [character_dict[winnerChar]]: 1,
+                            };
+                        } else if (
+                            !(
+                                character_dict[winnerChar] in
+                                favorite_character_dict[winnerDiscriminator]
+                            )
+                        ) {
+                            favorite_character_dict[winnerDiscriminator][
+                                character_dict[winnerChar]
+                            ] = 1;
+                        } else {
+                            favorite_character_dict[winnerDiscriminator][
+                                character_dict[winnerChar]
+                            ] += 1;
+                        }
+                    }
+
+                    if (loserChar) {
+                        if (!(loserDiscriminator in favorite_character_dict)) {
+                            favorite_character_dict[loserDiscriminator] = {
+                                [character_dict[loserChar]]: 1,
+                            };
+                        } else if (
+                            !(
+                                character_dict[loserChar] in
+                                favorite_character_dict[loserDiscriminator]
+                            )
+                        ) {
+                            favorite_character_dict[loserDiscriminator][
+                                character_dict[loserChar]
+                            ] = 1;
+                        } else {
+                            favorite_character_dict[loserDiscriminator][
+                                character_dict[loserChar]
+                            ] += 1;
+                        }
+                    }
 
                     queries.push(
                         prisma.game.create({
@@ -469,6 +522,36 @@ export default defineEventHandler(async (_event) => {
         console.log("Prisma done!");
     }
 
+    console.log("Favorite characters...");
+
+    let queries: any[] = [];
+
+    for (const [discriminator, characters] of Object.entries(
+        favorite_character_dict
+    )) {
+        const favoriteCharacter = Object.keys(characters).reduce(function (
+            a,
+            b
+        ) {
+            return characters[a] > characters[b] ? a : b;
+        });
+
+        queries.push(
+            prisma.player.update({
+                where: {
+                    smashggid: discriminator,
+                },
+                data: {
+                    favoriteCharacter,
+                },
+            })
+        );
+    }
+
+    await prisma.$transaction(queries);
+
+    console.log("Favorite characters done!");
+
     console.log("Getting standings");
 
     const [standings] = await get_startgg(
@@ -502,7 +585,7 @@ export default defineEventHandler(async (_event) => {
         [["league", "standings"]]
     );
 
-    const queries: any[] = [];
+    queries = [];
 
     for (const standing of standings) {
         const player = standing.player;

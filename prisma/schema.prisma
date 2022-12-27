@@ -16,6 +16,7 @@ model Player {
   gameWins Game[] @relation("gameWins")
   gameLosses Game[] @relation("gameLosses")
   standings Standing[]
+  favoriteCharacter String?
 }
 
 model Ranking {
