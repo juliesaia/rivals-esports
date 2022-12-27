@@ -9,9 +9,10 @@
             Lifetime: {{ data._count.wins }} -
             {{ data._count.losses }}
         </h2>
-        <h2 v-if="type === 'armadaNumber' && data.sets.length" class="mb-2">
-            Path: {{ data.path }}
-        </h2>
+        <div v-if="type === 'armadaNumber' && data.sets.length" class="mb-2">
+            <h2>Armada Number: {{ data.path.split(">").length - 1 }}</h2>
+            <h2>Path: {{ data.path }}</h2>
+        </div>
         <div
             ref="setRef"
             class="overflow-hidden transition-all duration-500"
@@ -37,7 +38,7 @@ const route = useRoute();
 
 const setRef = $ref(null);
 
-let data = $ref({ sets: [], _count: { wins: 0, losses: 0 }, path: {} });
+let data = $ref({ sets: [], _count: { wins: 0, losses: 0 }, path: "" });
 
 const allPlayers: string[] = inject("allPlayers");
 

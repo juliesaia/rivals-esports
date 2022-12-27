@@ -91,7 +91,7 @@
                     {{ set.fullRoundText }}
                 </div>
             </div>
-            <div class="text-end">UF: {{ set.uf }}</div>
+            <div class="text-end whitespace-nowrap">UF: {{ set.uf }}</div>
         </div>
     </div>
 </template>

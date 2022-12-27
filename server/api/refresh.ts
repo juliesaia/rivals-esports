@@ -101,6 +101,9 @@ export default defineEventHandler(async (_event) => {
                             nodes {
                                 seeds {
                                     seedNum
+                                    phase {
+                                        phaseOrder
+                                    }
                                 }
                                 participants {
                                     player {
@@ -189,6 +192,9 @@ export default defineEventHandler(async (_event) => {
             let seed;
 
             if (entrant.seeds) {
+                entrant.seeds.sort(
+                    (a, b) => a.phase.phaseOrder - b.phase.phaseOrder
+                );
                 seed = entrant.seeds[0].seedNum;
             }
 

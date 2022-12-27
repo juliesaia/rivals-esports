@@ -27,32 +27,35 @@ export default defineEventHandler(async (_event) => {
                     name: true,
                 },
             },
-            games: {
-                select: {
-                    winnerChar: true,
-                    loserChar: true,
-                    id: true,
-                    winner: {
-                        select: {
-                            name: true,
-                        },
-                    },
-                    loser: {
-                        select: {
-                            name: true,
-                        },
-                    },
-                },
-                orderBy: {
-                    gameNumber: "asc",
-                },
-            },
+            // games: {
+            //     select: {
+            //         winnerChar: true,
+            //         loserChar: true,
+            //         id: true,
+            //         winner: {
+            //             select: {
+            //                 name: true,
+            //             },
+            //         },
+            //         loser: {
+            //             select: {
+            //                 name: true,
+            //             },
+            //         },
+            //     },
+            //     orderBy: {
+            //         gameNumber: "asc",
+            //     },
+            // },
             uf: true,
             winnerGameCount: true,
             loserGameCount: true,
             id: true,
             fullRoundText: true,
             phase: true,
+        },
+        orderBy: {
+            uf: "desc",
         },
     });
 
