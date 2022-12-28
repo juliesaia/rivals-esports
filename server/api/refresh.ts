@@ -1,4 +1,5 @@
-import { rounds_from_victory, character_dict, sleep } from "../utils";
+import { rounds_from_victory, sleep } from "../utils";
+import { character_dict } from "../constants";
 import { prisma } from "../prisma";
 import { allRCSMajors } from "../constants";
 
@@ -17,7 +18,7 @@ async function get_startgg(
 
     while (true) {
         console.log(`Page ${page}...`);
-        const { data, errors } = await $fetch<any>(
+        const { data, errors } = await $fetch(
             "https://api.start.gg/gql/alpha",
             {
                 body: { query, variables: { ...variables, page } },

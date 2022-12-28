@@ -178,7 +178,7 @@ select:-webkit-autofill:focus {
     width: 32px;
     height: 32px;
 }
-.Ori and Sein {
+.Ori {
     background-image: url("/characters/sprite.png");
     background-position: 0 -352px;
     width: 32px;
@@ -196,7 +196,7 @@ select:-webkit-autofill:focus {
     width: 32px;
     height: 32px;
 }
-.Shovel Knight {
+.SK {
     background-image: url("/characters/sprite.png");
     background-position: 0 -448px;
     width: 32px;
