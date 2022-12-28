@@ -4,7 +4,7 @@
             v-if="set?.tournament"
             class="flex justify-center items-center mb-4"
         >
-            <img
+            <nuxt-img
                 :src="`/tournaments/${set.tournament.name}.png`"
                 height="40"
                 width="40"
@@ -50,11 +50,11 @@
                     :key="game.id"
                     class="flex flex-col justify-evenly"
                 >
-                    <img
+                    <div
                         v-if="getChar(game, set, 'winner')"
-                        :src="`/characters/${getChar(game, set, 'winner')}.png`"
                         :class="{
                             'opacity-50': set.winner.name === game.loser.name,
+                            [getChar(game, set, 'winner')]: true,
                         }"
                     />
                     <div
@@ -65,11 +65,11 @@
                         v-else-if="set.winner.name === game.loser.name"
                         class="i-bx-bxs-circle text-red-500 block"
                     />
-                    <img
+                    <div
                         v-if="getChar(game, set, 'loser')"
-                        :src="`/characters/${getChar(game, set, 'loser')}.png`"
                         :class="{
                             'opacity-50': set.loser.name === game.loser.name,
+                            [getChar(game, set, 'loser')]: true,
                         }"
                     />
                     <div

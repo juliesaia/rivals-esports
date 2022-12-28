@@ -1,22 +1,32 @@
 <!-- eslint-disable vue/attribute-hyphenation -->
 <template>
     <form
-        class="flex flex-col items-center"
+        class="flex items-center"
+        :class="{ 'flex-col': !horizontal }"
         @submit.prevent="() => submit(autocomplete[selected])"
     >
-        <div class="w-40 mb-4">
+        <ABtn
+            v-if="horizontal"
+            type="submit"
+            class="mb-4"
+            :class="{ 'mr-4': horizontal }"
+        >
+            Submit
+        </ABtn>
+        <div class="w-40">
             <VDropdown
-                :placement="'bottom'"
+                :placement="placement"
                 :triggers="[]"
                 :autoHide="false"
                 :shown="
-                    focused && input?.length > 0 // && autocomplete[0] !== input
+                    (autocomplete?.length ?? 0) > 0 && focused // && autocomplete[0] !== input
                 "
-                :auto-size="true"
+                :auto-size="!horizontal"
             >
                 <AInput
                     v-model="input"
                     type="text"
+                    class="mb-4"
                     @keydown.down="
                         async () => {
                             selected >= autocomplete.length - 1
@@ -60,7 +70,11 @@
                     @blur="focused = false"
                 />
                 <template #popper>
-                    <div ref="autocompleteref" class="max-h-50">
+                    <div
+                        ref="autocompleteref"
+                        class="max-h-50"
+                        :class="{ 'w-40': horizontal }"
+                    >
                         <div
                             v-for="(item, index) in autocomplete"
                             :key="item"
@@ -77,16 +91,22 @@
                 </template>
             </VDropdown>
         </div>
-        <ABtn type="submit" class="mb-4">Submit</ABtn>
+        <ABtn v-if="!horizontal" type="submit" class="mb-4">Submit</ABtn>
     </form>
 </template>
 <script setup lang="ts">
 import { sleep, isScrolledIntoView } from "~~/server/utils";
-const { data } = defineProps<{
+const {
+    data,
+    horizontal = false,
+    placement = "bottom",
+} = defineProps<{
     data: Array<any>;
+    horizontal?: boolean;
+    placement?: string;
 }>();
 
-const emit = defineEmits(["submit"]);
+const emit = defineEmits(["submit", "input"]);
 
 let input = $ref("");
 
@@ -123,4 +143,8 @@ function submit(item) {
     // @ts-ignore
     document.activeElement.blur();
 }
+
+watchEffect(() => {
+    emit("input", input);
+});
 </script>

@@ -11,6 +11,11 @@ export default defineEventHandler(async (event) => {
             select: {
                 name: true,
             },
+            orderBy: {
+                sets: {
+                    _count: "desc", // sort by "relevance"
+                },
+            },
         });
 
         return result.map((player) => player.name);
@@ -32,20 +37,8 @@ export default defineEventHandler(async (event) => {
             },
             _count: {
                 select: {
-                    sets: {
-                        where: {
-                            loserGameCount: {
-                                gt: -1,
-                            },
-                        },
-                    },
-                    wins: {
-                        where: {
-                            loserGameCount: {
-                                gt: -1,
-                            },
-                        },
-                    },
+                    sets: true,
+                    wins: true,
                 },
             },
             tournaments: {

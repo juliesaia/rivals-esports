@@ -1,11 +1,11 @@
 <template>
     <main class="flex flex-col items-center">
         <div class="text-2xl mt-8 mb-4 flex">
-            <img
+            <div
                 v-if="data.player.favoriteCharacter"
-                :src="`/characters/${data.player.favoriteCharacter}.png`"
+                :class="data.player.favoriteCharacter"
             />
-            <h2>
+            <h2 class="ml-2">
                 {{ data.player.name }}
             </h2>
             <div v-for="social in data.player.socials" :key="social.id">
@@ -43,7 +43,7 @@
             :key="character.name"
             class="flex items-center"
         >
-            <img :src="`/characters/${character[0]}.png`" />
+            <div :class="character[0]" />
             <h3>: {{ character[1] }}</h3>
         </div>
         <Tournament :data="data.player.tournaments" />

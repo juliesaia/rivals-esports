@@ -13,6 +13,7 @@
     "devDependencies": {
         "@anu-vue/preset-theme-default": "^0.11.0",
         "@iconify-json/bx": "^1.1.5",
+        "@nuxt/image-edge": "1.0.0-27840416.dc1ed65",
         "@nuxtjs/eslint-config-typescript": "^12.0.0",
         "@types/node": "^18.11.17",
         "@unocss/nuxt": "^0.47.6",

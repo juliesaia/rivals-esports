@@ -11,7 +11,7 @@
 
                 <template #accordion-trigger>
                     <h3 class="cursor-pointer flex items-center p-3">
-                        <img
+                        <nuxt-img
                             :src="`/tournaments/${tournament.name}.png`"
                             height="40"
                             width="40"
