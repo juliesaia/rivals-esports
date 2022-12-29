@@ -1,5 +1,4 @@
-import JSONH from "jsonh";
-import { compress } from "compress-json";
+import { compress } from "../utils";
 import { prisma } from "../prisma";
 
 export default defineEventHandler(async (event) => {
@@ -58,8 +57,5 @@ export default defineEventHandler(async (event) => {
         },
     });
 
-    console.log(JSONH.stringify(result).length);
-    console.log(JSON.stringify(compress(JSONH.pack(result))).length);
-    console.log(JSON.stringify(result).length);
-    return result;
+    return compress(result);
 });

@@ -1,3 +1,9 @@
+import {
+    compress as compressjson,
+    decompress as decompressjson,
+} from "compress-json";
+import JSONH from "jsonh";
+
 export function rounds_from_victory(x: number) {
     if (x === 1) {
         return 0;
@@ -43,4 +49,12 @@ export function winrate(wins: number, games: number) {
         return "0%";
     }
     return Math.round((wins / games) * 100) + "%";
+}
+
+export function compress(data) {
+    return compressjson(JSONH.pack(data));
+}
+
+export function decompress(data) {
+    return JSONH.unpack(decompressjson(data));
 }

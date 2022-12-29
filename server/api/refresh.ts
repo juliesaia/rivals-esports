@@ -301,9 +301,14 @@ export default defineEventHandler(async (_event) => {
                 ) {
                     scale = 6;
                 } else if (
-                    set.phaseGroup.phase.name.toLowerCase().includes("top 8")
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 8") ||
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 6")
                 ) {
                     scale = 7;
+                } else if (
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 4")
+                ) {
+                    scale = 8;
                 } else {
                     scale = set.phaseGroup.phase.phaseOrder;
                 }

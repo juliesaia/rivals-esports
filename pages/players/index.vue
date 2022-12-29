@@ -13,7 +13,7 @@
                 "
                 @input="(e) => (filterinput = e)"
             />
-            <div class="border border-gray-900 rounded-xl">
+            <div class="overflow-hidden border border-gray-900 rounded-xl">
                 <div
                     class="flex items-center text-center border-b border-gray-900 px-4 pb-4 pt-6"
                 >
@@ -56,9 +56,7 @@
                     :to="`/players/${player.name}/`"
                     class="py-4 hover:bg-purple-300 block border-gray-900"
                     :class="{
-                        'bg-purple-100': index % 2 === 1,
-                        'rounded-b-xl': index === sorted.length - 1,
-                        'border-b': index !== sorted.length - 1,
+                        'bg-purple-200': index % 2 === 1,
                     }"
                 >
                     <div class="flex items-center text-center px-4 h-8">
@@ -137,11 +135,15 @@
 
 <script setup>
 import Autocomplete from "../components/Autocomplete.vue";
-import { winrate } from "~~/server/utils";
+import { winrate, decompress } from "~~/server/utils";
 
 const router = useRouter();
 
-const { data } = $(await useFetch("/api/players"));
+const { data: compressed_data } = $(await useFetch("/api/players"));
+
+// const data = $computed(() => decompress(compressed_data));
+
+const data = decompress(compressed_data);
 
 const sort = $ref({
     type: "Rank",

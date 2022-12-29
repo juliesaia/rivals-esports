@@ -5,7 +5,11 @@
         "
     >
         <NuxtLayout>
+            <Navbar />
             <NuxtPage />
         </NuxtLayout>
     </div>
 </template>
+<script setup>
+import Navbar from "./pages/components/Navbar.vue";
+</script>
