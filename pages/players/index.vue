@@ -183,7 +183,10 @@ const sorted = $computed(() => {
                     : (b.rankings[0]?.rank ?? Infinity) -
                       (a.rankings[0]?.rank ?? Infinity)
             )
-            .slice((page - 1) * 10, page * 10);
+            .slice(
+                (page - 1) * Math.min(10, filtered.length),
+                page * Math.min(10, filtered.length)
+            );
     }
     if (sort.type === "Player") {
         return filtered
@@ -231,16 +234,24 @@ const totalPages = $computed(() => Math.ceil(filtered.length / 10));
 const pages = $computed(() => {
     if (page === 1) {
         const output = [];
-        for (let i = page; i < page + 10 && i < totalPages; i++) {
+        for (
+            let i = page;
+            i < page + Math.min(10, filtered.length) && i <= totalPages;
+            i++
+        ) {
             output.push(i);
         }
         return output;
-    } else if (page === totalPages) {
-        const output = [];
-        for (let i = totalPages - 10 + 1; i <= totalPages; i++) {
-            output.push(i);
-        }
-        return output;
+        // } else if (page === totalPages) {
+        //     const output = [];
+        //     for (
+        //         let i = totalPages - Math.min(10, filtered.length) + 1;
+        //         i <= totalPages;
+        //         i++
+        //     ) {
+        //         output.push(i);
+        //     }
+        //     return output;
     } else if (page === Math.max(...pages) + 1) {
         pages.splice(0, 1);
         pages.push(page);
