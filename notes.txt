@@ -10,3 +10,5 @@ wiki:
     - player bios?
     - event descriptions
     - basically just copy liquipedia
+
+should winrates count dq's? should dq wins count and dq losses not count?

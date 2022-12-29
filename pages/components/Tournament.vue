@@ -12,7 +12,7 @@
                 <template #accordion-trigger>
                     <h3 class="cursor-pointer flex items-center p-3">
                         <nuxt-img
-                            :src="`/tournaments/${tournament.name}.png`"
+                            :src="resizeSGG(tournament.profileImage, 40, 40)"
                             height="40"
                             width="40"
                             class="mr-2"
@@ -50,7 +50,7 @@
 import Accordion from "../components/Accordion.vue";
 import AccordionItem from "../components/AccordionItem.vue";
 import Set from "./Set.vue";
-import { int_to_ord } from "~~/server/utils";
+import { int_to_ord, resizeSGG } from "~~/server/utils";
 
 // const username = location.pathname.split("/").at(-1);
 

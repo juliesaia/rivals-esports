@@ -58,3 +58,12 @@ export function compress(data) {
 export function decompress(data) {
     return JSONH.unpack(decompressjson(data));
 }
+
+export function resizeSGG(raw_url, width, height) {
+    const url = new URL(raw_url);
+    const ehk = url.searchParams.get("ehkOptimized");
+    const href = url.origin + url.pathname.replace(".png", "-optimized.png");
+    return `https://www.bing.com/th?pid=Sgg&qlt=100&u=${encodeURIComponent(
+        href
+    )}&ehk=${encodeURIComponent(ehk)}&w=${width}&h=${height}`;
+}

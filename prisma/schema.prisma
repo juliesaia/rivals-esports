@@ -34,7 +34,13 @@ model Tournament {
   sets Set[]
   standings Standing[]
   slug String @unique
+  eventSlug String @unique
   name String @unique
+  online Boolean
+  state String?
+  city String?
+  profileImage String?
+  bannerImage String?
 }
 
 model Standing {

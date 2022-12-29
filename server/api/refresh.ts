@@ -3,6 +3,22 @@ import { character_dict } from "../constants";
 import { prisma } from "../prisma";
 import { allRCSMajors } from "../constants";
 
+async function get_startgg_basic(query: string) {
+    const { data, errors } = await $fetch("https://api.start.gg/gql/alpha", {
+        body: { query },
+        headers: {
+            Authorization: "Bearer " + process.env.SMASHGGAPI,
+        },
+        method: "POST",
+    });
+
+    if (errors) {
+        console.log(errors);
+    }
+
+    return data;
+}
+
 async function get_startgg(
     query: string,
     variables: object,
@@ -87,8 +103,54 @@ export default defineEventHandler(async (_event) => {
 
     const favorite_character_dict = {};
 
-    for (const url in allRCSMajors) {
+    for (const url of allRCSMajors) {
         console.log(`Getting data from ${url}`);
+
+        const { event } = await get_startgg_basic(
+            /* GraphQL */
+            `
+                query TournamentQuery {
+                    event(
+                        slug: "${url}"
+                    ) {
+                        tournament {
+                            name
+                            images {
+                                url
+                                type
+                            }
+                            addrState
+                            city
+                            slug
+                        }
+                        isOnline
+                    }
+                }
+            `
+        );
+
+        await prisma.tournament.create({
+            data: {
+                slug: event.tournament.slug,
+                eventSlug: url,
+                season: 7,
+                name: event.tournament.name,
+                online: event.isOnline,
+                state: event.tournament.addrState,
+                city: event.tournament.city,
+                profileImage:
+                    event.tournament.images[0].type === "profile"
+                        ? event.tournament.images[0]?.url
+                        : event.tournament.images[1]?.url,
+                bannerImage:
+                    event.tournament.images[0].type === "banner"
+                        ? event.tournament.images[0]?.url
+                        : event.tournament.images[1]?.url,
+            },
+        });
+
+        console.log("Created tournament");
+
         console.log("Getting entrants and sets");
         const [entrants, sets] = await get_startgg(
             /* GraphQL */
@@ -178,14 +240,6 @@ export default defineEventHandler(async (_event) => {
 
         console.log("Doing prisma...");
 
-        await prisma.tournament.create({
-            data: {
-                slug: url,
-                season: 7,
-                name: allRCSMajors[url],
-            },
-        });
-
         let queries: any[] = [];
 
         const seed_dict = {};
@@ -216,7 +270,7 @@ export default defineEventHandler(async (_event) => {
                     update: {
                         tournaments: {
                             connect: {
-                                slug: url,
+                                eventSlug: url,
                             },
                         },
                         standings: {
@@ -225,7 +279,7 @@ export default defineEventHandler(async (_event) => {
                                 seed,
                                 tournament: {
                                     connect: {
-                                        slug: url,
+                                        eventSlug: url,
                                     },
                                 },
                                 // spr:
@@ -243,7 +297,7 @@ export default defineEventHandler(async (_event) => {
                         },
                         tournaments: {
                             connect: {
-                                slug: url,
+                                eventSlug: url,
                             },
                         },
                         standings: {
@@ -252,7 +306,7 @@ export default defineEventHandler(async (_event) => {
                                 seed,
                                 tournament: {
                                     connect: {
-                                        slug: url,
+                                        eventSlug: url,
                                     },
                                 },
                                 // spr:
@@ -381,7 +435,7 @@ export default defineEventHandler(async (_event) => {
                         },
                         tournament: {
                             connect: {
-                                slug: url,
+                                eventSlug: url,
                             },
                         },
                         order,
