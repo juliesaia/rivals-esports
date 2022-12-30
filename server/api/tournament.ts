@@ -25,6 +25,7 @@ export default defineEventHandler(async (event) => {
                 startAt: true,
                 endAt: true,
                 timezone: true,
+                online: true,
                 standings: {
                     select: {
                         placement: true,
@@ -44,7 +45,9 @@ export default defineEventHandler(async (event) => {
                         name: tournament_name,
                     },
                     {
-                        slug: tournament_name,
+                        slug: {
+                            contains: tournament_name, // shortslug
+                        },
                     },
                 ],
             },

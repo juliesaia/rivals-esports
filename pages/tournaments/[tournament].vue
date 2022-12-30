@@ -12,11 +12,14 @@
         >
             {{ tournament.name }}</NuxtLink
         >
-        <div class="my-4 flex">
-            <div v-if="tournament.city" class="mr-1">
-                {{ tournament.city }},
+        <div class="my-4">
+            <div v-if="tournament.online">Online</div>
+            <div v-else class="flex">
+                <div v-if="tournament.city" class="mr-1">
+                    {{ tournament.city }},
+                </div>
+                <div v-if="tournament.state">{{ tournament.state }}</div>
             </div>
-            <div>{{ tournament.state }}</div>
         </div>
         <div>
             {{
@@ -39,4 +42,6 @@ const route = useRoute();
 const { data: tournament } = $(
     await useFetch(`/api/tournament?name=${route.params.tournament}`)
 );
+
+console.log(tournament);
 </script>
