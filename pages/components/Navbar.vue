@@ -8,7 +8,12 @@
         >
             Players
         </NuxtLink>
-        <div class="py-4 px-2">Tournaments</div>
+        <NuxtLink
+            class="py-4 px-2 transition-all hover:text-white border-transparent border-b-4 hover:border-white mb--1"
+            to="/tournaments"
+        >
+            Tournaments
+        </NuxtLink>
         <div class="py-4 px-2">Wiki</div>
     </div>
 </template>

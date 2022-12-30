@@ -14,17 +14,34 @@
         >
         <div class="my-4">
             <div v-if="tournament.online">Online</div>
-            <div v-else class="flex">
-                <div v-if="tournament.city" class="mr-1">
-                    {{ tournament.city }},
-                </div>
-                <div v-if="tournament.state">{{ tournament.state }}</div>
+            <div v-else-if="tournament.city && tournament.state" class="flex">
+                <div class="mr-1">{{ tournament.city }},</div>
+                <div>{{ tournament.state }}</div>
             </div>
         </div>
-        <div>
+        <div
+            v-if="
+                dayjs
+                    .unix(tournament.startAt)
+                    .tz(tournament.timezone)
+                    .isSame(dayjs.unix(tournament.endAt), 'day')
+            "
+        >
             {{
-                `${dayjs.unix(tournament.startAt).format("MMMM D")} - ${dayjs
+                dayjs
+                    .unix(tournament.startAt)
+                    .tz(tournament.timezone)
+                    .format("MMMM D, YYYY")
+            }}
+        </div>
+        <div v-else>
+            {{
+                `${dayjs
+                    .unix(tournament.startAt)
+                    .tz(tournament.timezone)
+                    .format("MMMM D")} - ${dayjs
                     .unix(tournament.endAt)
+                    .tz(tournament.timezone)
                     .format("MMMM D, YYYY")}`
             }}
         </div>
@@ -34,14 +51,17 @@
     <div class="h-80" />
 </template>
 <script setup lang="ts">
-import dayjs from "dayjs";
+import dayjs, { extend } from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone"; // dependent on utc plugin
 import { resizeSGG } from "~~/server/utils";
+
+extend(utc);
+extend(timezone);
 
 const route = useRoute();
 
 const { data: tournament } = $(
     await useFetch(`/api/tournament?name=${route.params.tournament}`)
 );
-
-console.log(tournament);
 </script>

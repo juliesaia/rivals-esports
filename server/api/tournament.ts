@@ -45,9 +45,7 @@ export default defineEventHandler(async (event) => {
                         name: tournament_name,
                     },
                     {
-                        slug: {
-                            contains: tournament_name, // shortslug
-                        },
+                        slug: `tournament/${tournament_name}`, // shortSlug
                     },
                 ],
             },

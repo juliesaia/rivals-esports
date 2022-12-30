@@ -25,7 +25,11 @@
                     >
                         {{ set.winnerGameCount }}
                     </div>
-                    <div>{{ set.winner.name }}</div>
+                    <NuxtLink
+                        class="hover:underline"
+                        :to="`/players/${set.winner.name}`"
+                        >{{ set.winner.name }}</NuxtLink
+                    >
                 </div>
                 <div
                     class="flex"
@@ -41,7 +45,11 @@
                     >
                         {{ set.loserGameCount }}
                     </div>
-                    <div>{{ set.loser.name }}</div>
+                    <NuxtLink
+                        class="hover:underline"
+                        :to="`/players/${set.loser.name}`"
+                        >{{ set.loser.name }}</NuxtLink
+                    >
                 </div>
             </div>
             <div class="flex mx-4">
