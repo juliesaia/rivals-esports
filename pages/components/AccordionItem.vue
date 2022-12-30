@@ -1,14 +1,15 @@
 <template>
-    <li class="accordion__item">
-        <div
-            class="accordion__trigger"
-            :class="{ accordion__trigger_active: visible }"
-            @click="toggle"
-        >
-            <!-- This slot will handle the title/header of the accordion and is the part you click on -->
-            <slot name="accordion-trigger" />
+    <li class="m-3 mb-0 shadow-lg rounded-lg border border-gray-900">
+        <div class="flex">
+            <div class="flex-grow">
+                <!-- This slot will handle the title/header of the accordion-->
+                <slot name="accordion-header" />
+            </div>
+            <div
+                class="i-bx-chevron-down my-auto text-4xl cursor-pointer"
+                @click="toggle"
+            />
         </div>
-
         <transition
             name="accordion"
             @enter="start"

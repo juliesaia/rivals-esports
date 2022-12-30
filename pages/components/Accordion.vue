@@ -1,5 +1,5 @@
 <template>
-    <ul class="accordion">
+    <ul>
         <slot />
     </ul>
 </template>

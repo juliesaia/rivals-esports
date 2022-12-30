@@ -122,6 +122,9 @@ export default defineEventHandler(async (_event) => {
                             addrState
                             city
                             slug
+                            startAt
+                            endAt
+                            timezone
                         }
                         isOnline
                     }
@@ -138,6 +141,9 @@ export default defineEventHandler(async (_event) => {
                 online: event.isOnline,
                 state: event.tournament.addrState,
                 city: event.tournament.city,
+                startAt: event.tournament.startAt,
+                endAt: event.tournament.endAt,
+                timezone: event.tournament.timezone,
                 profileImage:
                     event.tournament.images[0].type === "profile"
                         ? event.tournament.images[0]?.url

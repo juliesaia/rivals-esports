@@ -7,5 +7,10 @@ export default defineNuxtConfig({
         },
     },
     css: ["vue-json-pretty/lib/styles.css", "~~/styles.css"],
-    modules: ["@anu-vue/nuxt", "@unocss/nuxt", "@nuxt/image-edge"],
+    modules: [
+        "@anu-vue/nuxt",
+        "@unocss/nuxt",
+        "@nuxt/image-edge",
+        "@nathanchase/nuxt-dayjs-module",
+    ],
 });

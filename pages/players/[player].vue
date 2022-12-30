@@ -1,6 +1,6 @@
 <template>
     <main class="flex flex-col items-center">
-        <div class="text-2xl mt-8 mb-4 flex">
+        <div class="text-2xl mt-8 flex">
             <div
                 v-if="data.player.favoriteCharacter"
                 :class="data.player.favoriteCharacter"
@@ -30,8 +30,9 @@
                 />
             </div>
         </div>
-        <h3>Wins: {{ data.player._count.wins }}</h3>
-        <h3>Losses: {{ data.player._count.losses }}</h3>
+        <h3 class="my-2">{{ data.player.pronouns }}</h3>
+        <h3>Set Wins: {{ data.player._count.wins }}</h3>
+        <h3>Set Losses: {{ data.player._count.losses }}</h3>
         <h3 class="mb-4">
             Winrate:
             {{ winrate(data.player._count.wins, data.player._count.sets) }}

@@ -30,6 +30,7 @@ export default defineEventHandler(async (event) => {
                         tournament: {
                             select: {
                                 name: true,
+                                shortSlug: true,
                                 profileImage: true,
                             },
                         },
@@ -271,6 +272,7 @@ export default defineEventHandler(async (event) => {
                     id: true,
                     season: true,
                     slug: true,
+                    shortSlug: true,
                     name: true,
                     profileImage: true,
                     standings: {

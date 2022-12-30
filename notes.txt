@@ -12,3 +12,5 @@ wiki:
     - basically just copy liquipedia
 
 should winrates count dq's? should dq wins count and dq losses not count?
+
+dropdown button for tournaments, make name/pic a link

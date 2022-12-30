@@ -15,6 +15,14 @@ export const prisma = new PrismaClient().$extends({
                 },
             },
         },
+        tournament: {
+            shortSlug: {
+                needs: { slug: true },
+                compute(tournament) {
+                    return tournament.slug.split("tournament/")[1];
+                },
+            },
+        },
         // set: {
         // uf: we dont have the technology
         // },

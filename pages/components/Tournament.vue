@@ -1,16 +1,12 @@
 <template>
     <h1 class="mt-8">Tournaments</h1>
     <Accordion class="w-160 py-4">
-        <div
-            v-for="tournament in tournaments"
-            :key="tournament.id"
-            class="m-3 mb-0 shadow-lg rounded-lg border border-gray-900"
-        >
+        <div v-for="tournament in tournaments" :key="tournament.id">
             <AccordionItem>
                 <!-- This slot will handle the title/header of the accordion and is the part you click on -->
 
-                <template #accordion-trigger>
-                    <h3 class="cursor-pointer flex items-center p-3">
+                <template #accordion-header>
+                    <h3 class="flex items-center p-3">
                         <nuxt-img
                             :src="resizeSGG(tournament.profileImage, 40, 40)"
                             height="40"
@@ -18,9 +14,12 @@
                             class="mr-2"
                         />
                         <div class="flex flex-col">
-                            <div>
+                            <NuxtLink
+                                class="hover:underline"
+                                :to="`/tournaments/${tournament.shortSlug}`"
+                            >
                                 {{ tournament.name }}
-                            </div>
+                            </NuxtLink>
                             <div>
                                 {{
                                     int_to_ord(
@@ -52,7 +51,7 @@ import AccordionItem from "../components/AccordionItem.vue";
 import Set from "./Set.vue";
 import { int_to_ord, resizeSGG } from "~~/server/utils";
 
-// const username = location.pathname.split("/").at(-1);
+defineEmits(["toggle"]);
 
 const { data: tournaments } = defineProps<{
     data: Array<any>;

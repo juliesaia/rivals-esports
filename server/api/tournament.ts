@@ -7,32 +7,52 @@ export default defineEventHandler(async (event) => {
         throw new Error("not found");
     }
 
-    console.log(query);
+    const tournament_names = [query.name.toString()];
 
-    const tournament_name = query.name.toString();
+    tournament_names.push(tournament_names[0].replaceAll("-", " "));
 
-    const tournament = await prisma.tournament.findFirstOrThrow({
-        select: {
-            name: true,
-            season: true,
-            slug: true,
-            standings: {
-                select: {
-                    placement: true,
-                    seed: true,
-                    player: {
-                        select: {
-                            name: true,
-                            favoriteCharacter: true,
+    for (const tournament_name of tournament_names) {
+        const tournament = await prisma.tournament.findFirst({
+            select: {
+                name: true,
+                season: true,
+                slug: true,
+                shortSlug: true,
+                state: true,
+                city: true,
+                profileImage: true,
+                bannerImage: true,
+                startAt: true,
+                endAt: true,
+                timezone: true,
+                standings: {
+                    select: {
+                        placement: true,
+                        seed: true,
+                        player: {
+                            select: {
+                                name: true,
+                                favoriteCharacter: true,
+                            },
                         },
                     },
                 },
             },
-        },
-        where: {
-            name: tournament_name,
-        },
-    });
+            where: {
+                OR: [
+                    {
+                        name: tournament_name,
+                    },
+                    {
+                        slug: tournament_name,
+                    },
+                ],
+            },
+        });
 
-    return tournament;
+        if (tournament) {
+            return tournament;
+        }
+    }
+    throw new Error("Tournament not found.");
 });

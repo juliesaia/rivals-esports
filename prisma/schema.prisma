@@ -41,6 +41,9 @@ model Tournament {
   city String?
   profileImage String?
   bannerImage String?
+  startAt Int?
+  endAt Int?
+  timezone String?
 }
 
 model Standing {
