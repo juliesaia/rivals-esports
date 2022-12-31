@@ -54,12 +54,20 @@ export function winrate(wins: number, games: number) {
     return Math.round((wins / games) * 100) + "%";
 }
 
-export function compress(data) {
+export function compress(data: any[]) {
     return compressjson(JSONH.pack(data));
 }
 
 export function decompress(data) {
     return JSONH.unpack(decompressjson(data));
+}
+
+export function compress_one(data) {
+    return compressjson(data);
+}
+
+export function decompress_one(data) {
+    return decompressjson(data);
 }
 
 export function resizeSGG(raw_url, width, height) {

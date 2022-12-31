@@ -1,21 +1,21 @@
 <template>
-    <div class="w-160 text-center">
-        <h1 class="mt-8 mb-4">{{ title }}</h1>
+    <div class="$ w-160 text-center">
+        <h1 class="$ mt-8 mb-4">{{ title }}</h1>
         <!-- <v-autocomplete /> -->
 
         <Autocomplete :data="allPlayers" @submit="submit" />
 
-        <h2 v-if="type === 'h2h' && data.sets.length" class="mb-2">
+        <h2 v-if="type === 'h2h' && data.sets.length" class="$ mb-2">
             Lifetime: {{ data._count.wins }} -
             {{ data._count.losses }}
         </h2>
-        <div v-if="type === 'armadaNumber' && data.sets.length" class="mb-2">
+        <div v-if="type === 'armadaNumber' && data.sets.length" class="$ mb-2">
             <h2>Armada Number: {{ data.path.split(">").length - 1 }}</h2>
             <h2>Path: {{ data.path }}</h2>
         </div>
         <div
             ref="setRef"
-            class="overflow-hidden transition-all duration-500"
+            class="$ overflow-hidden transition-all duration-500"
             :style="{
                 'max-height': '0px',
             }"

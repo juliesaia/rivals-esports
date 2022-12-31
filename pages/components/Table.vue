@@ -1,9 +1,9 @@
 <template>
-    <div class="flex flex-col mt-8">
+    <div class="$ flex flex-col mt-8">
         <Autocomplete
             :horizontal="true"
             placement="right-start"
-            class="ml-auto"
+            class="$ ml-auto"
             :data="data.map((el) => el.name)"
             @submit="
                 (e) => {
@@ -12,20 +12,20 @@
             "
             @input="(e) => (filterinput = e)"
         />
-        <div class="overflow-hidden border border-gray-900 rounded-xl">
+        <div class="$ overflow-hidden border border-gray-900 rounded-xl">
             <div
-                class="flex items-center text-center border-b border-gray-900 px-4 pb-4 pt-6"
+                class="$ flex items-center text-center border-b border-gray-900 px-4 pb-4 pt-6"
             >
                 <div
                     v-for="header in headers"
                     :key="header"
-                    class="flex items-center justify-center px-4"
+                    class="$ flex items-center justify-center px-4"
                     :class="header.width"
                 >
-                    <div class="pl-2">{{ header.name }}</div>
-                    <div class="flex flex-col ml-2">
+                    <div class="$ pl-2">{{ header.name }}</div>
+                    <div v-if="!header.unsortable" class="$ flex flex-col ml-2">
                         <div
-                            class="i-bx-bxs-chevron-up cursor-pointer"
+                            class="$ i-bx-bxs-chevron-up cursor-pointer"
                             :class="{
                                 'opacity-50 cursor-default!':
                                     sort.type === header.name &&
@@ -34,7 +34,7 @@
                             @click="sort = { type: header.name, order: 'asc' }"
                         />
                         <div
-                            class="i-bx-bxs-chevron-down cursor-pointer"
+                            class="$ i-bx-bxs-chevron-down cursor-pointer"
                             :class="{
                                 'opacity-50 cursor-default!':
                                     sort.type === header.name &&
@@ -48,29 +48,29 @@
             <div
                 v-for="(item, index) in sorted"
                 :key="item.id"
-                class="py-4 block border-gray-900"
+                class="$ py-4 block border-gray-900"
                 :class="{
                     'bg-purple-200': index % 2 === 1,
                 }"
             >
-                <div class="flex items-center text-center px-4 h-8">
+                <div class="$ flex items-center text-center px-4 h-10">
                     <div
                         v-for="header in headers"
                         :key="header.name"
-                        class="px-4"
+                        class="$ px-4"
                         :class="header.width"
                     >
                         <div
                             v-if="header.name === 'Player'"
-                            class="flex items-center px-4 w-60 pl-12"
+                            class="$ flex items-center px-4 w-60 pl-12"
                         >
                             <div
                                 v-if="item.favoriteCharacter"
                                 :class="item.favoriteCharacter"
                             />
-                            <div v-else class="h-32px w-32px" />
+                            <div v-else class="$ h-32px w-32px" />
                             <NuxtLink
-                                class="pl-2 whitespace-nowrap hover:underline"
+                                class="$ pl-2 whitespace-nowrap hover:underline"
                                 :to="`/players/${item.name}/`"
                             >
                                 {{ item.name }}
@@ -84,7 +84,7 @@
                         </div>
                         <NuxtLink
                             v-if="header.name === 'Last Tournament'"
-                            class="hover:underline"
+                            class="$ hover:underline"
                             :to="`/tournaments/${item.tournaments[0]?.shortSlug}`"
                         >
                             {{ item.tournaments[0]?.name }}
@@ -97,20 +97,20 @@
                         </div>
                         <div
                             v-if="header.name === 'Losses'"
-                            class="flex flex-col"
+                            class="$ flex flex-col"
                         >
                             <div
                                 v-for="loss in item.losses"
                                 :key="loss.id"
-                                class="flex items-center px-4 w-60 pl-12"
+                                class="$ flex items-center px-4 w-60 pl-12"
                             >
                                 <div
                                     v-if="loss.winner.favoriteCharacter"
                                     :class="loss.winner.favoriteCharacter"
                                 />
-                                <div v-else class="h-32px w-32px" />
+                                <div v-else class="$ h-32px w-32px" />
                                 <NuxtLink
-                                    class="pl-2 whitespace-nowrap hover:underline"
+                                    class="$ pl-2 whitespace-nowrap hover:underline"
                                     :to="`/players/${loss.winner.name}/`"
                                 >
                                     {{ loss.winner.name }}
@@ -122,9 +122,9 @@
             </div>
         </div>
     </div>
-    <div class="flex items-center mt-4">
+    <div class="$ flex items-center mt-4">
         <div
-            class="i-bx-bxs-chevrons-left"
+            class="$ i-bx-bxs-chevrons-left"
             :class="{
                 'cursor-pointer': page > 1,
                 'opacity-50 cursor-default!': page <= 1,
@@ -132,18 +132,18 @@
             @click="page = 1"
         />
         <div
-            class="i-bx-bxs-chevron-left"
+            class="$ i-bx-bxs-chevron-left"
             :class="{
                 'cursor-pointer': page > 1,
                 'opacity-50 cursor-default!': page <= 1,
             }"
             @click="page > 1 ? page-- : (page = 1)"
         />
-        <div class="flex justify-evenly w-120">
+        <div class="$ flex justify-evenly w-120">
             <div
                 v-for="index in pages"
                 :key="index"
-                class="mx-1 cursor-pointer select-none border border-black rounded-full flex justify-center items-center w-full px-2"
+                class="$ mx-1 cursor-pointer select-none border border-black rounded-full flex justify-center items-center w-full px-2"
                 :class="{ 'bg-purple-300': index === page }"
                 @click="page = index"
             >
@@ -151,7 +151,7 @@
             </div>
         </div>
         <div
-            class="i-bx-bxs-chevron-right"
+            class="$ i-bx-bxs-chevron-right"
             :class="{
                 'cursor-pointer': page < totalPages,
                 'opacity-50 cursor-default!': page >= totalPages,
@@ -159,7 +159,7 @@
             @click="page < totalPages ? page++ : (page = totalPages - 1)"
         />
         <div
-            class="i-bx-bxs-chevrons-right"
+            class="$ i-bx-bxs-chevrons-right"
             :class="{
                 'cursor-pointer': page < totalPages,
                 'opacity-50 cursor-default!': page >= totalPages,

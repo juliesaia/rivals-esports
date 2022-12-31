@@ -20,7 +20,6 @@ specifiers:
   prisma: ^4.8.0
   typescript: ^4.9.4
   unocss: ^0.47.6
-  vue-json-pretty: ^2.2.3
 
 dependencies:
   '@anu-vue/nuxt': 0.11.0
@@ -31,7 +30,6 @@ dependencies:
   dayjs: 1.11.7
   floating-vue: 2.0.0-beta.20
   jsonh: 0.0.6
-  vue-json-pretty: 2.2.3
 
 devDependencies:
   '@anu-vue/preset-theme-default': 0.11.0
@@ -406,8 +404,8 @@ packages:
     resolution: {integrity: sha512-ensKY7Ub59u16qsVIFEo2hwTCqZ/r9oZZFh51ivcLGHfUwTn8l1Xzng8RJUe91H/UP8PeqeBronAGx0qmzwk2g==}
     dev: false
 
-  /@floating-ui/core/1.0.4:
-    resolution: {integrity: sha512-FPFLbg2b06MIw1dqk2SOEMAMX3xlrreGjcui5OTxfBDtaKTmh0kioOVjT8gcfl58juawL/yF+S+gnq8aUYQx/Q==}
+  /@floating-ui/core/1.0.5:
+    resolution: {integrity: sha512-iDdOsaCHZH/0FM0yNBYt+cJxJF9S5jrYWNtDZOiDFMiZ7uxMJ/71h8eTwoVifEAruv9p9rlMPYCGIgMjOz95FQ==}
     dev: false
 
   /@floating-ui/dom/0.1.10:
@@ -416,10 +414,10 @@ packages:
       '@floating-ui/core': 0.3.1
     dev: false
 
-  /@floating-ui/dom/1.0.12:
-    resolution: {integrity: sha512-HeG/wHoa2laUHlDX3xkzqlUqliAfa+zqV04LaKIwNCmCNaW2p0fQi4/Kd0LB4GdFoJ2UllLFq5gWnXAd67lg7w==}
+  /@floating-ui/dom/1.1.0:
+    resolution: {integrity: sha512-TSogMPVxbRe77QCj1dt8NmRiJasPvuc+eT5jnJ6YpLqgOD2zXc5UA3S1qwybN+GVCDNdKfpKy1oj8RpzLJvh6A==}
     dependencies:
-      '@floating-ui/core': 1.0.4
+      '@floating-ui/core': 1.0.5
     dev: false
 
   /@humanwhocodes/config-array/0.11.8:
@@ -1658,7 +1656,7 @@ packages:
       '@vueuse/core': ^8.7.5
       vue-router: '4'
     dependencies:
-      '@floating-ui/dom': 1.0.12
+      '@floating-ui/dom': 1.1.0
       defu: 6.1.1
       vue: 3.2.45
     dev: false
@@ -1670,7 +1668,7 @@ packages:
       '@vueuse/core': ^9.6.0
       vue-router: '4'
     dependencies:
-      '@floating-ui/dom': 1.0.12
+      '@floating-ui/dom': 1.1.0
       vue: 3.2.45
     dev: false
 
@@ -6641,13 +6639,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /vue-json-pretty/2.2.3:
-    resolution: {integrity: sha512-tJo+4eFclQBt3gJ6EELXNdvo50wDKTZYthwmLpy9YS7UDldeJln5ff+IpdmUglfk+FqLVOX/re0+Ni/EOUPZgw==}
-    engines: {node: '>= 10.0.0', npm: '>= 5.0.0'}
-    peerDependencies:
-      vue: '>=3.0.0'
-    dev: false
 
   /vue-resize/2.0.0-alpha.1:
     resolution: {integrity: sha512-7+iqOueLU7uc9NrMfrzbG8hwMqchfVfSzpVlCMeJQe4pyibqyoifDNbKTZvwxZKDvGkB+PdFeKvnGZMoEb8esg==}
