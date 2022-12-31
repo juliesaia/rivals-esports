@@ -34,6 +34,32 @@ export default defineEventHandler(async (event) => {
                             select: {
                                 name: true,
                                 favoriteCharacter: true,
+                                losses: {
+                                    take: 2,
+                                    select: {
+                                        id: true,
+                                        winner: {
+                                            select: {
+                                                name: true,
+                                                favoriteCharacter: true,
+                                            },
+                                        },
+                                    },
+                                    where: {
+                                        OR: [
+                                            {
+                                                tournament: {
+                                                    name: tournament_name,
+                                                },
+                                            },
+                                            {
+                                                tournament: {
+                                                    slug: `tournament/${tournament_name}`, // shortSlug
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
                             },
                         },
                     },
@@ -52,6 +78,11 @@ export default defineEventHandler(async (event) => {
         });
 
         if (tournament) {
+            for (const standing of tournament.standings) {
+                Object.assign(standing, standing.player);
+                delete standing.player;
+            }
+
             return tournament;
         }
     }

@@ -47,6 +47,7 @@ export default defineEventHandler(async (event) => {
                 },
                 select: {
                     name: true,
+                    shortSlug: true,
                 },
             },
         },

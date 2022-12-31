@@ -5,7 +5,7 @@
             class="flex justify-center items-center mb-4"
         >
             <nuxt-img
-                :src="`/tournaments/${set.tournament.name}.png`"
+                :src="resizeSGG(set.tournament.profileImage, 40, 40)"
                 height="40"
                 width="40"
                 class="mr-2"
@@ -28,8 +28,9 @@
                     <NuxtLink
                         class="hover:underline"
                         :to="`/players/${set.winner.name}`"
-                        >{{ set.winner.name }}</NuxtLink
                     >
+                        {{ set.winner.name }}
+                    </NuxtLink>
                 </div>
                 <div
                     class="flex"
@@ -48,8 +49,9 @@
                     <NuxtLink
                         class="hover:underline"
                         :to="`/players/${set.loser.name}`"
-                        >{{ set.loser.name }}</NuxtLink
                     >
+                        {{ set.loser.name }}
+                    </NuxtLink>
                 </div>
             </div>
             <div class="flex mx-4">
@@ -105,6 +107,8 @@
 </template>
 
 <script setup lang="ts">
+import { resizeSGG } from "~~/server/utils";
+
 const { data: sets } = defineProps<{
     data: Array<any>;
 }>();

@@ -45,6 +45,7 @@
                     .format("MMMM D, YYYY")}`
             }}
         </div>
+        <Table :data="tournament.standings" :headers="headers" type="players" />
 
         <!-- <nuxt-img v-if="data.bannerImage" :src="data.bannerImage" /> -->
     </main>
@@ -54,6 +55,7 @@
 import dayjs, { extend } from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone"; // dependent on utc plugin
+import Table from "../components/Table.vue";
 import { resizeSGG } from "~~/server/utils";
 
 extend(utc);
@@ -64,4 +66,13 @@ const route = useRoute();
 const { data: tournament } = $(
     await useFetch(`/api/tournament?name=${route.params.tournament}`)
 );
+
+const headers = [
+    { name: "Player", width: "w-60" },
+    { name: "Placement", width: "w-30" },
+    { name: "Seed", width: "w-20" },
+    { name: "Losses", width: "w-60" },
+];
+
+console.log(tournament);
 </script>

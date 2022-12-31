@@ -16,6 +16,9 @@ export function sleep(ms) {
 }
 
 export function int_to_ord(i: number) {
+    if (i == null) {
+        return "";
+    }
     const j = i % 10;
     const k = i % 100;
     if (j === 1 && k !== 11) {

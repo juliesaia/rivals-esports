@@ -25,6 +25,7 @@
             >
                 <AInput
                     v-model="input"
+                    placeholder="Search..."
                     type="text"
                     class="mb-4"
                     @keydown.down="
