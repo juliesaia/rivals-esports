@@ -75,6 +75,6 @@ const headers = [
     { name: "Player", width: "w-60" },
     { name: "Placement", width: "w-30" },
     { name: "Seed", width: "w-20" },
-    { name: "Losses", width: "w-60" },
+    { name: "Losses", width: "w-60", unsortable: true },
 ];
 </script>

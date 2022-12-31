@@ -23,7 +23,7 @@
                     :class="header.width"
                 >
                     <div class="$ pl-2">{{ header.name }}</div>
-                    <div class="$ flex flex-col ml-2">
+                    <div v-if="!header.unsortable" class="$ flex flex-col ml-2">
                         <div
                             class="$ i-bx-bxs-chevron-up cursor-pointer"
                             :class="{
