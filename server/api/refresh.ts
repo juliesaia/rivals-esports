@@ -34,6 +34,7 @@ async function get_startgg(
 
     while (true) {
         console.log(`Page ${page}...`);
+        await sleep(1000);
         const { data, errors } = await $fetch(
             "https://api.start.gg/gql/alpha",
             {

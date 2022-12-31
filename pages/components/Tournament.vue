@@ -1,21 +1,21 @@
 <template>
-    <h1 class="mt-8">Tournaments</h1>
-    <Accordion class="w-160 py-4">
+    <h1 class="$ mt-8">Tournaments</h1>
+    <Accordion class="$ w-160 py-4">
         <div v-for="tournament in tournaments" :key="tournament.id">
             <AccordionItem>
                 <!-- This slot will handle the title/header of the accordion and is the part you click on -->
 
                 <template #accordion-header>
-                    <h3 class="flex items-center p-3">
+                    <h3 class="$ flex items-center p-3">
                         <nuxt-img
                             :src="resizeSGG(tournament.profileImage, 40, 40)"
                             height="40"
                             width="40"
-                            class="mr-2"
+                            class="$ mr-2"
                         />
-                        <div class="flex flex-col">
+                        <div class="$ flex flex-col">
                             <NuxtLink
-                                class="hover:underline"
+                                class="$ hover:underline"
                                 :to="`/tournaments/${tournament.shortSlug}`"
                             >
                                 {{ tournament.name }}
@@ -29,8 +29,8 @@
                                 place
                             </div>
                         </div>
-                        <div class="flex-grow" />
-                        <div class="flex flex-col text-end">
+                        <div class="$ flex-grow" />
+                        <div class="$ flex flex-col text-end">
                             <div>Seed: {{ tournament.standings[0].seed }}</div>
                             <div>SPR: {{ tournament.standings[0].spr }}</div>
                         </div>

@@ -1,12 +1,12 @@
 <template>
-    <li class="m-3 mb-0 shadow-lg rounded-lg border border-gray-900">
-        <div class="flex">
-            <div class="flex-grow">
+    <li class="$ m-3 mb-0 shadow-lg rounded-lg border border-gray-900">
+        <div class="$ flex">
+            <div class="$ flex-grow">
                 <!-- This slot will handle the title/header of the accordion-->
                 <slot name="accordion-header" />
             </div>
             <div
-                class="i-bx-chevron-down my-auto text-4xl cursor-pointer"
+                class="$ i-bx-chevron-down my-auto text-4xl cursor-pointer"
                 @click="toggle"
             />
         </div>
@@ -18,7 +18,7 @@
         >
             <div
                 v-show="visible"
-                class="overflow-hidden transition-all duration-500"
+                class="$ overflow-hidden transition-all duration-500"
             >
                 <ul>
                     <!-- This slot will handle all the content that is passed to the accordion -->

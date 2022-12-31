@@ -1,4 +1,5 @@
 import { prisma } from "../prisma";
+import { compress } from "../utils";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);

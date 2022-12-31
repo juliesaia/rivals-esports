@@ -1,19 +1,19 @@
 <!-- eslint-disable vue/attribute-hyphenation -->
 <template>
     <form
-        class="flex items-center"
+        class="$ flex items-center"
         :class="{ 'flex-col': !horizontal }"
         @submit.prevent="() => submit(autocomplete[selected])"
     >
         <ABtn
             v-if="horizontal"
             type="submit"
-            class="mb-4"
+            class="$ mb-4"
             :class="{ 'mr-4': horizontal }"
         >
             Submit
         </ABtn>
-        <div class="w-40">
+        <div class="$ w-40">
             <VDropdown
                 :placement="placement"
                 :triggers="[]"
@@ -27,7 +27,7 @@
                     v-model="input"
                     placeholder="Search..."
                     type="text"
-                    class="mb-4"
+                    class="$ mb-4"
                     @keydown.down="
                         async () => {
                             selected >= autocomplete.length - 1
@@ -73,13 +73,13 @@
                 <template #popper>
                     <div
                         ref="autocompleteref"
-                        class="max-h-50"
+                        class="$ max-h-50"
                         :class="{ 'w-40': horizontal }"
                     >
                         <div
                             v-for="(item, index) in autocomplete"
                             :key="item"
-                            class="p-2 hover:bg-purple-300 cursor-pointer"
+                            class="$ p-2 hover:bg-purple-300 cursor-pointer"
                             :class="{
                                 'bg-purple-300': selected === index,
                                 'transition-colors': key_pressed,
@@ -92,7 +92,7 @@
                 </template>
             </VDropdown>
         </div>
-        <ABtn v-if="!horizontal" type="submit" class="mb-4">Submit</ABtn>
+        <ABtn v-if="!horizontal" type="submit" class="$ mb-4">Submit</ABtn>
     </form>
 </template>
 <script setup lang="ts">

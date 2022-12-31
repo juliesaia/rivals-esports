@@ -104,7 +104,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = "file:/home/cheesypotato/rivals-esports/prisma/dev.db"
   // provider = "mysql"
   // url      = env("DATABASE_URL")
 }

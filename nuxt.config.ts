@@ -1,12 +1,15 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 
 export default defineNuxtConfig({
+    nitro: {
+        compressPublicAssets: true,
+    },
     vite: {
         vue: {
             reactivityTransform: true,
         },
     },
-    css: ["vue-json-pretty/lib/styles.css", "~~/styles.css"],
+    css: ["~~/styles.css"],
     modules: [
         "@anu-vue/nuxt",
         "@unocss/nuxt",
