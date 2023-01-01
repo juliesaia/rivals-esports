@@ -1,7 +1,6 @@
 import { rounds_from_victory, sleep } from "../utils";
-import { character_dict } from "../constants";
+import { character_dict, allRCSMajors } from "../constants";
 import { prisma } from "../prisma";
-import { allRCSMajors } from "../constants";
 
 async function get_startgg_basic(query: string) {
     const { data, errors } = await $fetch("https://api.start.gg/gql/alpha", {
@@ -34,7 +33,11 @@ async function get_startgg(
 
     while (true) {
         console.log(`Page ${page}...`);
+<<<<<<< HEAD
+
+=======
         await sleep(1000);
+>>>>>>> d2ed900d9d3e84132b2d542629af9fe111a1dd93
         const { data, errors } = await $fetch(
             "https://api.start.gg/gql/alpha",
             {
@@ -49,15 +52,30 @@ async function get_startgg(
         if (errors) {
             console.log(errors);
 
-            if (errors[0].includes("limit")) {
+            if (errors[0].message.includes("limit")) {
                 console.log("Rate limit exceeded, waiting 1min");
                 await sleep(60 * 1000);
                 console.log("Done waiting!");
+                continue;
             }
 
-            if (errors[0].includes("complexity")) {
-                // eslint-disable-next-line no-throw-literal
-                throw "Complexity too high";
+            if (errors[0].message.includes("complexity")) {
+                console.log("Complexity too high, lowering perPage");
+
+                const perPageNumbers = [...query.match(/perPage: \d+/g)].map(
+                    (x) => x.substring(8).trim()
+                );
+
+                console.log(perPageNumbers);
+
+                for (const perPage of perPageNumbers) {
+                    query = query.replaceAll(
+                        perPage,
+                        (parseInt(perPage) - 5).toString()
+                    );
+                }
+
+                continue;
             }
         }
 
@@ -346,11 +364,17 @@ export default defineEventHandler(async (_event) => {
                 ) {
                     scale = 2;
                 } else if (
-                    set.phaseGroup.phase.name.toLowerCase().includes("top 128")
+                    set.phaseGroup.phase.name
+                        .toLowerCase()
+                        .includes("top 128") ||
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 96")
                 ) {
                     scale = 3;
                 } else if (
-                    set.phaseGroup.phase.name.toLowerCase().includes("top 64")
+                    set.phaseGroup.phase.name
+                        .toLowerCase()
+                        .includes("top 64") ||
+                    set.phaseGroup.phase.name.toLowerCase().includes("top 48")
                 ) {
                     scale = 4;
                 } else if (
@@ -393,11 +417,27 @@ export default defineEventHandler(async (_event) => {
             let winnerGameCount = 0;
             let loserGameCount = -1;
 
-            if (set.displayScore !== "DQ") {
-                const gamecount1 = parseInt(
-                    set.displayScore.at(set.displayScore.indexOf(" - ") - 1)
-                );
-                const gamecount2 = parseInt(set.displayScore.at(-1));
+            let wlFlag = false;
+
+            if (
+                set.displayScore.at(set.displayScore.indexOf(" - ") - 1) ===
+                    "W" ||
+                set.displayScore.at(-1) === "W"
+            ) {
+                wlFlag = true;
+                winnerGameCount = 0;
+                loserGameCount = 0;
+            }
+
+            if (!set.displayScore.startsWith("DQ") && !wlFlag) {
+                // const gamecount1 = parseInt(
+                //     set.displayScore.at(set.displayScore.indexOf(" - ") - 1)
+                // );
+                // const gamecount2 = parseInt(set.displayScore.at(-1));
+
+                const splitNames = set.displayScore.split(" - ");
+                const gamecount1 = splitNames[0].match(/\d+/g).pop();
+                const gamecount2 = splitNames[1].match(/\d+/g).pop();
 
                 winnerGameCount = Math.max(gamecount1, gamecount2);
                 loserGameCount = Math.min(gamecount1, gamecount2);
