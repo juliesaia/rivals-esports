@@ -12,13 +12,7 @@
         >
             {{ tournament.name }}</NuxtLink
         >
-        <div class="$ my-4">
-            <div v-if="tournament.online">Online</div>
-            <div v-else-if="tournament.city && tournament.state" class="$ flex">
-                <div class="$ mr-1">{{ tournament.city }},</div>
-                <div>{{ tournament.state }}</div>
-            </div>
-        </div>
+        <div class="$ my-4"><Location v-bind="{ tournament }" /></div>
         <div
             v-if="
                 dayjs
@@ -56,6 +50,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone"; // dependent on utc plugin
 import Table from "../components/Table.vue";
+import Location from "../components/mini/Location.vue";
 import { resizeSGG } from "~~/server/utils";
 
 // eslint-disable-next-line import/no-named-as-default-member
@@ -71,10 +66,13 @@ const { data: tournament } = $(
     })
 );
 
+console.log(tournament);
+
 const headers = [
     { name: "Player", width: "w-60" },
     { name: "Placement", width: "w-30" },
     { name: "Seed", width: "w-20" },
+    { name: "SPR", width: "w-20" },
     { name: "Losses", width: "w-60", unsortable: true },
 ];
 </script>

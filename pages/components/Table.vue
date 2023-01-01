@@ -76,11 +76,47 @@
                                 {{ item.name }}
                             </NuxtLink>
                         </div>
+                        <div
+                            v-if="header.name === 'Tournament'"
+                            class="$ flex items-center px-4 w-60 pl-0"
+                        >
+                            <nuxt-img
+                                v-if="item.profileImage"
+                                :src="resizeSGG(item.profileImage, 40, 40)"
+                                height="40"
+                                width="40"
+                                class="$ mr-2"
+                            />
+                            <div v-else class="$ h-32px w-32px" />
+                            <NuxtLink
+                                class="$ pl-2 hover:underline text-left"
+                                :to="`/tournaments/${item.name}/`"
+                            >
+                                {{ item.name }}
+                            </NuxtLink>
+                        </div>
                         <div v-if="header.name === 'Rank'">
                             {{ item.rankings[0]?.rank }}
                         </div>
+                        <div v-if="header.name === 'Season'">
+                            {{ item.season }}
+                        </div>
                         <div v-if="header.name === 'Winrate'">
                             {{ winrate(item._count.wins, item._count.sets) }}
+                        </div>
+                        <div v-if="header.name === 'Entrants'">
+                            {{ item._count.entrants }}
+                        </div>
+                        <div v-if="header.name === 'Date'">
+                            {{
+                                dayjs
+                                    .unix(item.startAt)
+                                    .tz(item.timezone)
+                                    .format("MMMM YYYY")
+                            }}
+                        </div>
+                        <div v-if="header.name === 'Location'">
+                            <Location :tournament="item" />
                         </div>
                         <NuxtLink
                             v-if="header.name === 'Last Tournament'"
@@ -94,6 +130,9 @@
                         </div>
                         <div v-if="header.name === 'Seed'">
                             {{ item.seed }}
+                        </div>
+                        <div v-if="header.name === 'SPR'">
+                            {{ item.spr }}
                         </div>
                         <div
                             v-if="header.name === 'Losses'"
@@ -172,8 +211,17 @@
     </div>
 </template>
 <script setup lang="ts">
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone"; // dependent on utc plugin
 import Autocomplete from "../components/Autocomplete.vue";
-import { int_to_ord, winrate } from "~~/server/utils";
+import Location from "./mini/Location.vue";
+import { int_to_ord, winrate, resizeSGG } from "~~/server/utils";
+
+// eslint-disable-next-line import/no-named-as-default-member
+dayjs.extend(utc);
+// eslint-disable-next-line import/no-named-as-default-member
+dayjs.extend(timezone);
 
 const { data, headers, type } = defineProps<{
     data: any;
@@ -218,7 +266,7 @@ const sorted = $computed(() => {
             )
             .slice((page - 1) * perPage, page * perPage);
     }
-    if (sort.type === "Player") {
+    if (sort.type === "Player" || sort.type === "Tournament") {
         return filtered
             .sort((a, b) =>
                 sort.order === "asc"
@@ -263,6 +311,53 @@ const sorted = $computed(() => {
                 sort.order === "asc"
                     ? (a.placement ?? Infinity) - (b.placement ?? Infinity)
                     : (b.placement ?? Infinity) - (a.placement ?? Infinity)
+            )
+            .slice((page - 1) * perPage, page * perPage);
+    }
+    if (sort.type === "Seed") {
+        return filtered
+            .sort((a, b) =>
+                sort.order === "asc"
+                    ? (a.seed ?? Infinity) - (b.seed ?? Infinity)
+                    : (b.seed ?? Infinity) - (a.seed ?? Infinity)
+            )
+            .slice((page - 1) * perPage, page * perPage);
+    }
+    if (sort.type === "SPR") {
+        return filtered
+            .sort((a, b) =>
+                sort.order === "asc"
+                    ? (a.spr ?? Infinity) - (b.spr ?? Infinity)
+                    : (b.spr ?? Infinity) - (a.spr ?? Infinity)
+            )
+            .slice((page - 1) * perPage, page * perPage);
+    }
+    if (sort.type === "Season") {
+        return filtered
+            .sort((a, b) =>
+                sort.order === "asc"
+                    ? (a.season ?? Infinity) - (b.season ?? Infinity)
+                    : (b.season ?? Infinity) - (a.season ?? Infinity)
+            )
+            .slice((page - 1) * perPage, page * perPage);
+    }
+    if (sort.type === "Entrants") {
+        return filtered
+            .sort((a, b) =>
+                sort.order === "asc"
+                    ? (a._count.entrants ?? Infinity) -
+                      (b._count.entrants ?? Infinity)
+                    : (b._count.entrants ?? Infinity) -
+                      (a._count.entrants ?? Infinity)
+            )
+            .slice((page - 1) * perPage, page * perPage);
+    }
+    if (sort.type === "Date") {
+        return filtered
+            .sort((a, b) =>
+                sort.order === "asc"
+                    ? (a.startAt ?? Infinity) - (b.startAt ?? Infinity)
+                    : (b.startAt ?? Infinity) - (a.startAt ?? Infinity)
             )
             .slice((page - 1) * perPage, page * perPage);
     }

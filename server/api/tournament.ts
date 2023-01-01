@@ -31,6 +31,7 @@ export default defineEventHandler(async (event) => {
                     select: {
                         placement: true,
                         seed: true,
+                        spr: true,
                         player: {
                             select: {
                                 name: true,
