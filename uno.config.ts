@@ -23,10 +23,10 @@ export default defineConfig({
         presetThemeDefault(),
     ],
     transformers: [
-        transformerCompileClass({
-            trigger: "$",
-            classPrefix: "",
-        }),
+        // transformerCompileClass({
+        //     trigger: "$",
+        //     classPrefix: "",
+        // }),
     ],
     include: [/.*\/anu-vue\.js(.*)?$/, "./**/*.vue", "./**/*.md"],
 });
