@@ -1,5 +1,5 @@
 import { rounds_from_victory, sleep } from "../utils";
-import { character_dict, allRCSMajors } from "../constants";
+import { character_dict, allRCSMajors, unknownPlayers } from "../constants";
 import { prisma } from "../prisma";
 
 async function get_startgg_basic(query: string) {
@@ -60,8 +60,6 @@ async function get_startgg(
                 const perPageNumbers = [...query.match(/perPage: \d+/g)].map(
                     (x) => x.substring(8).trim()
                 );
-
-                console.log(perPageNumbers);
 
                 for (const perPage of perPageNumbers) {
                     query = query.replaceAll(
@@ -217,6 +215,7 @@ export default defineEventHandler(async (_event) => {
                                 slots {
                                     entrant {
                                         id
+                                        name
                                         participants {
                                             user {
                                                 discriminator
@@ -266,7 +265,18 @@ export default defineEventHandler(async (_event) => {
 
         for (const entrant of entrants) {
             const player = entrant.participants[0].player;
-            const user = player.user;
+            if (!entrant.standing?.placement) {
+                continue;
+            }
+            const user = player.user
+                ? player.user
+                : {
+                      discriminator: unknownPlayers.find((x) =>
+                          player.gamerTag.toLowerCase().trim().includes(x.tag)
+                      ).startggID,
+                      genderPronoun: null,
+                      authorizations: [],
+                  };
             let seed;
 
             if (entrant.seeds) {
@@ -341,12 +351,45 @@ export default defineEventHandler(async (_event) => {
 
         await prisma.$transaction(queries);
 
+        console.log("Loaded entrants!");
+
         queries = [];
 
         for (const set of sets) {
             const winner_id = set.winnerId;
             const player1 = set.slots[0].entrant;
             const player2 = set.slots[1].entrant;
+
+            if (!player1.participants[0].user) {
+                console.log(player1.name);
+                player1.participants = [
+                    {
+                        user: {
+                            discriminator: unknownPlayers.find((x) =>
+                                player1.name
+                                    .toLowerCase()
+                                    .trim()
+                                    .includes(x.tag.toLowerCase())
+                            ).startggID,
+                        },
+                    },
+                ];
+            }
+            if (!player2.participants[0].user) {
+                console.log(player2.name);
+                player2.participants = [
+                    {
+                        user: {
+                            discriminator: unknownPlayers.find((x) =>
+                                player2.name
+                                    .toLowerCase()
+                                    .trim()
+                                    .includes(x.tag.toLowerCase())
+                            ).startggID,
+                        },
+                    },
+                ];
+            }
 
             let order = 1;
 

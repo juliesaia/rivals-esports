@@ -1,5 +1,5 @@
 export const allRCSMajors = [
-    "tournament/na-rcs-week-1/event/rivals-of-aether",
+    // "tournament/na-rcs-week-1/event/rivals-of-aether",
     "tournament/na-rcs-week-2/event/rivals-of-aether",
     "tournament/na-rcs-week-3/event/rivals-of-aether",
     // "tournament/garden-of-gods-a-rivals-of-aether-national/event/rivals-of-aether-singles": "Garden of Gods - A Rivals of Aether National",
@@ -98,3 +98,62 @@ export const character_dict = {
     1922: "Pomme",
     1923: "Olympia",
 };
+
+export const unknownPlayers = [
+    {
+        tag: "LBO",
+        startggID: "d51e7bc6",
+    },
+    {
+        tag: "That_0ne_Guy",
+        startggID: "78483bd4",
+    },
+    {
+        tag: "Bicycle",
+        startggID: "5549d5a9",
+    },
+    {
+        tag: "SisterEden",
+        startggID: "70557ea3",
+    },
+    {
+        tag: "Gaming",
+        startggID: "d023dd93",
+    },
+    {
+        tag: "Roxol",
+        startggID: "a8f3fa41",
+    },
+    {
+        tag: "Gale Barret",
+        startggID: "ead8f86e",
+    },
+    {
+        tag: "XeroBox",
+        startggID: "06465305",
+    },
+    {
+        tag: "yesdefinitely",
+        startggID: "3a356ccc",
+    },
+    {
+        tag: "Joshyrachi",
+        startggID: "0827454c",
+    },
+    {
+        tag: "MasterIcarus7",
+        startggID: "de069434",
+    },
+    {
+        tag: "Nintega94",
+        startggID: "9b98020b",
+    },
+    {
+        tag: "Megapig9001",
+        startggID: "3a4dd4ee",
+    },
+    {
+        tag: "Ian",
+        startggID: "f1bce0a7",
+    },
+];
