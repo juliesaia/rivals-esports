@@ -182,6 +182,7 @@ export default defineEventHandler(async (_event) => {
                                 totalPages
                             }
                             nodes {
+                                id
                                 seeds {
                                     seedNum
                                     phase {
@@ -217,6 +218,7 @@ export default defineEventHandler(async (_event) => {
                                         id
                                         name
                                         participants {
+                                            gamerTag
                                             user {
                                                 discriminator
                                             }
@@ -271,12 +273,22 @@ export default defineEventHandler(async (_event) => {
             const user = player.user
                 ? player.user
                 : {
-                      discriminator: unknownPlayers.find((x) =>
-                          player.gamerTag.toLowerCase().trim().includes(x.tag)
-                      ).startggID,
+                      discriminator: null,
                       genderPronoun: null,
                       authorizations: [],
                   };
+
+            if (!user.discriminator) {
+                const unknownPlayerTag = unknownPlayers.find(
+                    (x) => x.tag === player.gamerTag
+                );
+                if (unknownPlayerTag) {
+                    user.discriminator = unknownPlayerTag.startggID;
+                } else {
+                    user.discriminator = `fake-${player.gamerTag}-${entrant.id}`;
+                }
+            }
+
             let seed;
 
             if (entrant.seeds) {
@@ -360,33 +372,49 @@ export default defineEventHandler(async (_event) => {
             const player1 = set.slots[0].entrant;
             const player2 = set.slots[1].entrant;
 
-            if (!player1.participants[0].user) {
-                player1.participants = [
-                    {
-                        user: {
-                            discriminator: unknownPlayers.find((x) =>
-                                player1.name
-                                    .toLowerCase()
-                                    .trim()
-                                    .includes(x.tag.toLowerCase())
-                            ).startggID,
+            if (!player1.participants[0].user?.discriminator) {
+                const unknownPlayerTag = unknownPlayers.find((x) =>
+                    player1.name
+                        .toLowerCase()
+                        .trim()
+                        .includes(x.tag.toLowerCase())
+                );
+
+                if (unknownPlayerTag) {
+                    player1.participants = [
+                        { user: { discriminator: unknownPlayerTag.startggID } },
+                    ];
+                } else {
+                    player1.participants = [
+                        {
+                            user: {
+                                discriminator: `fake-${player1.participants[0].gamerTag}-${player1.id}`,
+                            },
                         },
-                    },
-                ];
+                    ];
+                }
             }
-            if (!player2.participants[0].user) {
-                player2.participants = [
-                    {
-                        user: {
-                            discriminator: unknownPlayers.find((x) =>
-                                player2.name
-                                    .toLowerCase()
-                                    .trim()
-                                    .includes(x.tag.toLowerCase())
-                            ).startggID,
+            if (!player2.participants[0].user?.discriminator) {
+                const unknownPlayerTag = unknownPlayers.find((x) =>
+                    player2.name
+                        .toLowerCase()
+                        .trim()
+                        .includes(x.tag.toLowerCase())
+                );
+
+                if (unknownPlayerTag) {
+                    player2.participants = [
+                        { user: { discriminator: unknownPlayerTag.startggID } },
+                    ];
+                } else {
+                    player2.participants = [
+                        {
+                            user: {
+                                discriminator: `fake-${player2.participants[0].gamerTag}-${player2.id}`,
+                            },
                         },
-                    },
-                ];
+                    ];
+                }
             }
 
             let order = 1;
