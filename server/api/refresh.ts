@@ -351,7 +351,7 @@ export default defineEventHandler(async (_event) => {
 
         await prisma.$transaction(queries);
 
-        console.log("Loaded entrants!");
+        console.log("Prisma'd entrants!");
 
         queries = [];
 
@@ -361,7 +361,6 @@ export default defineEventHandler(async (_event) => {
             const player2 = set.slots[1].entrant;
 
             if (!player1.participants[0].user) {
-                console.log(player1.name);
                 player1.participants = [
                     {
                         user: {
@@ -376,7 +375,6 @@ export default defineEventHandler(async (_event) => {
                 ];
             }
             if (!player2.participants[0].user) {
-                console.log(player2.name);
                 player2.participants = [
                     {
                         user: {
