@@ -1,7 +1,7 @@
 export const allRCSMajors = [
-    // "tournament/na-rcs-week-1/event/rivals-of-aether",
-    // "tournament/na-rcs-week-2/event/rivals-of-aether",
-    // "tournament/na-rcs-week-3/event/rivals-of-aether",
+    "tournament/na-rcs-week-1/event/rivals-of-aether",
+    "tournament/na-rcs-week-2/event/rivals-of-aether",
+    "tournament/na-rcs-week-3/event/rivals-of-aether",
     "tournament/garden-of-gods-a-rivals-of-aether-national/event/rivals-of-aether-singles",
     "tournament/na-rcs-week-4/event/rivals-of-aether",
     "tournament/na-rcs-week-5/event/rivals-of-aether",
@@ -99,6 +99,8 @@ export const character_dict = {
     1923: "Olympia",
 };
 
+export const debugConsoleLogs = false;
+
 export const unknownPlayers = [
     {
         tag: "LBO",
@@ -169,7 +171,11 @@ export const unknownPlayers = [
         startggID: "67857952",
     },
     {
-        tag: "Cluf",
-        startggID: "blanklmao",
+        tag: "Poke!",
+        startggID: "cb252e9e",
+    },
+    {
+        tag: "Nintendrian",
+        startggID: "f1bce0a7",
     },
 ];

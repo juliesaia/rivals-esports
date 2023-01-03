@@ -1,5 +1,10 @@
 import { rounds_from_victory, sleep } from "../utils";
-import { character_dict, allRCSMajors, unknownPlayers } from "../constants";
+import {
+    character_dict,
+    allRCSMajors,
+    unknownPlayers,
+    debugConsoleLogs,
+} from "../constants";
 import { prisma } from "../prisma";
 
 async function get_startgg_basic(query: string) {
@@ -33,20 +38,29 @@ async function get_startgg(
 
     while (true) {
         console.log(`Page ${page}...`);
-        const { data, errors } = await $fetch(
-            "https://api.start.gg/gql/alpha",
-            {
-                body: { query, variables: { ...variables, page } },
-                headers: {
-                    Authorization: "Bearer " + process.env.SMASHGGAPI,
-                },
-                method: "POST",
-            }
-        );
+
+        let continueFlag = false;
+        const fetchRequest = await $fetch("https://api.start.gg/gql/alpha", {
+            body: { query, variables: { ...variables, page } },
+            headers: {
+                Authorization: "Bearer " + process.env.SMASHGGAPI,
+            },
+            method: "POST",
+        }).catch((e) => {
+            console.log(e);
+            continueFlag = true;
+        });
+
+        if (continueFlag) {
+            console.log("Sleeping 1 min");
+            await sleep(60 * 1000);
+            continue;
+        }
+
+        const data = fetchRequest.data;
+        const errors = fetchRequest.errors;
 
         if (errors) {
-            console.log(errors);
-
             if (errors[0].message.includes("limit")) {
                 console.log("Rate limit exceeded, waiting 1min");
                 await sleep(60 * 1000);
@@ -146,10 +160,14 @@ export default defineEventHandler(async (_event) => {
 
         await prisma.tournament.create({
             data: {
-                slug: event.tournament.slug,
+                slug: !event.tournament.slug.includes("road-to-shine")
+                    ? event.tournament.slug
+                    : url,
                 eventSlug: url,
                 season: 7,
-                name: event.tournament.name,
+                name: !event.tournament.slug.includes("road-to-shine")
+                    ? event.tournament.name
+                    : `${event.tournament.name}-${url.split("/").pop()}`,
                 online: event.isOnline,
                 state: event.tournament.addrState,
                 city: event.tournament.city,
@@ -285,8 +303,14 @@ export default defineEventHandler(async (_event) => {
                 if (unknownPlayerTag) {
                     user.discriminator = unknownPlayerTag.startggID;
                 } else {
-                    user.discriminator = `fake-${player.gamerTag}-${entrant.id}`;
+                    user.discriminator = `fake-${entrant.id}`;
                 }
+            }
+
+            if (debugConsoleLogs) {
+                console.log(
+                    `entrant ${player.gamerTag} - ${user.discriminator}`
+                );
             }
 
             let seed;
@@ -387,8 +411,9 @@ export default defineEventHandler(async (_event) => {
                 } else {
                     player1.participants = [
                         {
+                            gamerTag: player1.participants[0].gamerTag,
                             user: {
-                                discriminator: `fake-${player1.participants[0].gamerTag}-${player1.id}`,
+                                discriminator: `fake-${player1.id}`,
                             },
                         },
                     ];
@@ -409,12 +434,22 @@ export default defineEventHandler(async (_event) => {
                 } else {
                     player2.participants = [
                         {
+                            gamerTag: player2.participants[0].gamerTag,
                             user: {
-                                discriminator: `fake-${player2.participants[0].gamerTag}-${player2.id}`,
+                                discriminator: `fake-${player2.id}`,
                             },
                         },
                     ];
                 }
+            }
+
+            if (debugConsoleLogs) {
+                console.log(
+                    `p1 ${player1.participants[0].gamerTag} - ${player1.participants[0].user.discriminator}`
+                );
+                console.log(
+                    `p2 ${player2.participants[0].gamerTag} - ${player2.participants[0].user.discriminator}`
+                );
             }
 
             let order = 1;
