@@ -1,5 +1,5 @@
 <template>
-    <div class="$ flex flex-col mt-8">
+    <div class="$ flex flex-col">
         <Autocomplete
             :horizontal="true"
             placement="right-start"

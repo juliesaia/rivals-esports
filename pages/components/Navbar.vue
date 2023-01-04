@@ -4,12 +4,14 @@
         <div class="$ flex-grow" />
         <NuxtLink
             class="$ py-4 px-2 transition-all hover:text-white border-transparent border-b-4 hover:border-white mb--1"
+            activeClass="text-white border-white"
             to="/players"
         >
             Players
         </NuxtLink>
         <NuxtLink
             class="$ py-4 px-2 transition-all hover:text-white border-transparent border-b-4 hover:border-white mb--1"
+            activeClass="text-white border-white"
             to="/tournaments"
         >
             Tournaments

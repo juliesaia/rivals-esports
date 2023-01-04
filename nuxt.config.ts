@@ -16,4 +16,9 @@ export default defineNuxtConfig({
         "@nuxt/image-edge",
         "@nathanchase/nuxt-dayjs-module",
     ],
+    app: {
+        head: {
+            title: "Rivals Esports",
+        },
+    },
 });
