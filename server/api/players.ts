@@ -30,9 +30,9 @@ export default defineEventHandler(async (event) => {
                     rank: true,
                 },
                 take: 1,
-                orderBy: {
-                    season: "desc",
-                },
+                // orderBy: {
+                //     season: "desc",
+                // },
             },
             _count: {
                 select: {

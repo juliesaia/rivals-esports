@@ -59,7 +59,7 @@
 <script setup>
 import Tournament from "../components/Tournament.vue";
 import SetList from "../components/SetList.vue";
-import { decompress_one, winrate } from "~~/server/utils";
+import { /* decompress_one, */ winrate } from "~~/server/utils";
 
 const route = useRoute();
 
@@ -73,7 +73,8 @@ const { data: compressed_data } = $(
     await useFetch("/api/player", { query: { name: route.params.player } })
 );
 
-data.player = decompress_one(compressed_data);
+// data.player = decompress_one(compressed_data);
+data.player = compressed_data;
 
 const { data: allPlayers } = $(
     await useFetch("/api/players", { query: { min: true } })

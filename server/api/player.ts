@@ -1,7 +1,7 @@
 import { prisma } from "../prisma";
 import { DirectedGraph } from "../graphTheory/graphs/DirectedGraph";
 import { Edge, Node } from "../graphTheory/elements/AllElements";
-import { compress_one } from "../utils";
+// import { compress_one } from "../utils";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
@@ -378,7 +378,7 @@ export default defineEventHandler(async (event) => {
     console.timeEnd();
 
     // console.log(JSON.stringify(result).length);
-    // console.log(JSON.stringify(compress([result])).length);
+    // console.log(JSON.stringify(compress(result)).length);
 
-    return compress_one(result);
+    return result;
 });
