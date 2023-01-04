@@ -1,5 +1,10 @@
 import { rounds_from_victory, sleep } from "../utils";
-import { character_dict, allRCSMajors } from "../constants";
+import {
+    character_dict,
+    allRCSMajors,
+    unknownPlayers,
+    debugConsoleLogs,
+} from "../constants";
 import { prisma } from "../prisma";
 
 async function get_startgg_basic(query: string) {
@@ -33,20 +38,29 @@ async function get_startgg(
 
     while (true) {
         console.log(`Page ${page}...`);
-        const { data, errors } = await $fetch(
-            "https://api.start.gg/gql/alpha",
-            {
-                body: { query, variables: { ...variables, page } },
-                headers: {
-                    Authorization: "Bearer " + process.env.SMASHGGAPI,
-                },
-                method: "POST",
-            }
-        );
+
+        let continueFlag = false;
+        const fetchRequest = await $fetch("https://api.start.gg/gql/alpha", {
+            body: { query, variables: { ...variables, page } },
+            headers: {
+                Authorization: "Bearer " + process.env.SMASHGGAPI,
+            },
+            method: "POST",
+        }).catch((e) => {
+            console.log(e);
+            continueFlag = true;
+        });
+
+        if (continueFlag) {
+            console.log("Sleeping 1 min");
+            await sleep(60 * 1000);
+            continue;
+        }
+
+        const data = fetchRequest.data;
+        const errors = fetchRequest.errors;
 
         if (errors) {
-            console.log(errors);
-
             if (errors[0].message.includes("limit")) {
                 console.log("Rate limit exceeded, waiting 1min");
                 await sleep(60 * 1000);
@@ -60,8 +74,6 @@ async function get_startgg(
                 const perPageNumbers = [...query.match(/perPage: \d+/g)].map(
                     (x) => x.substring(8).trim()
                 );
-
-                console.log(perPageNumbers);
 
                 for (const perPage of perPageNumbers) {
                     query = query.replaceAll(
@@ -148,10 +160,14 @@ export default defineEventHandler(async (_event) => {
 
         await prisma.tournament.create({
             data: {
-                slug: event.tournament.slug,
+                slug: !event.tournament.slug.includes("road-to-shine")
+                    ? event.tournament.slug
+                    : url,
                 eventSlug: url,
                 season: 7,
-                name: event.tournament.name,
+                name: !event.tournament.slug.includes("road-to-shine")
+                    ? event.tournament.name
+                    : `${event.tournament.name}-${url.split("/").pop()}`,
                 online: event.isOnline,
                 state: event.tournament.addrState,
                 city: event.tournament.city,
@@ -184,6 +200,7 @@ export default defineEventHandler(async (_event) => {
                                 totalPages
                             }
                             nodes {
+                                id
                                 seeds {
                                     seedNum
                                     phase {
@@ -217,7 +234,9 @@ export default defineEventHandler(async (_event) => {
                                 slots {
                                     entrant {
                                         id
+                                        name
                                         participants {
+                                            gamerTag
                                             user {
                                                 discriminator
                                             }
@@ -266,7 +285,34 @@ export default defineEventHandler(async (_event) => {
 
         for (const entrant of entrants) {
             const player = entrant.participants[0].player;
-            const user = player.user;
+            if (!entrant.standing?.placement) {
+                continue;
+            }
+            const user = player.user
+                ? player.user
+                : {
+                      discriminator: null,
+                      genderPronoun: null,
+                      authorizations: [],
+                  };
+
+            if (!user.discriminator) {
+                const unknownPlayerTag = unknownPlayers.find(
+                    (x) => x.tag === player.gamerTag
+                );
+                if (unknownPlayerTag) {
+                    user.discriminator = unknownPlayerTag.startggID;
+                } else {
+                    user.discriminator = `fake-${entrant.id}`;
+                }
+            }
+
+            if (debugConsoleLogs) {
+                console.log(
+                    `entrant ${player.gamerTag} - ${user.discriminator}`
+                );
+            }
+
             let seed;
 
             if (entrant.seeds) {
@@ -341,12 +387,70 @@ export default defineEventHandler(async (_event) => {
 
         await prisma.$transaction(queries);
 
+        console.log("Prisma'd entrants!");
+
         queries = [];
 
         for (const set of sets) {
             const winner_id = set.winnerId;
             const player1 = set.slots[0].entrant;
             const player2 = set.slots[1].entrant;
+
+            if (!player1.participants[0].user?.discriminator) {
+                const unknownPlayerTag = unknownPlayers.find((x) =>
+                    player1.name
+                        .toLowerCase()
+                        .trim()
+                        .includes(x.tag.toLowerCase())
+                );
+
+                if (unknownPlayerTag) {
+                    player1.participants = [
+                        { user: { discriminator: unknownPlayerTag.startggID } },
+                    ];
+                } else {
+                    player1.participants = [
+                        {
+                            gamerTag: player1.participants[0].gamerTag,
+                            user: {
+                                discriminator: `fake-${player1.id}`,
+                            },
+                        },
+                    ];
+                }
+            }
+            if (!player2.participants[0].user?.discriminator) {
+                const unknownPlayerTag = unknownPlayers.find((x) =>
+                    player2.name
+                        .toLowerCase()
+                        .trim()
+                        .includes(x.tag.toLowerCase())
+                );
+
+                if (unknownPlayerTag) {
+                    player2.participants = [
+                        { user: { discriminator: unknownPlayerTag.startggID } },
+                    ];
+                } else {
+                    player2.participants = [
+                        {
+                            gamerTag: player2.participants[0].gamerTag,
+                            user: {
+                                discriminator: `fake-${player2.id}`,
+                            },
+                        },
+                    ];
+                }
+            }
+
+            if (debugConsoleLogs) {
+                console.log(
+                    `p1 ${player1.participants[0].gamerTag} - ${player1.participants[0].user.discriminator}`
+                );
+                console.log(
+                    `p2 ${player2.participants[0].gamerTag} - ${player2.participants[0].user.discriminator}`
+                );
+            }
 
             let order = 1;
 
