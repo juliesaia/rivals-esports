@@ -39,6 +39,7 @@
                     .format("MMMM D, YYYY")}`
             }}
         </div>
+        <div class="$ text-2xl mt-4">Standings</div>
         <Table :data="tournament.standings" :headers="headers" type="players" />
 
         <!-- <nuxt-img v-if="data.bannerImage" :src="data.bannerImage" /> -->

@@ -1,5 +1,6 @@
 <template>
     <main class="$ flex flex-col items-center">
+        <div class="$ text-3xl mt-8">Players</div>
         <Table v-bind="{ data, headers }" type="players" />
     </main>
 </template>
