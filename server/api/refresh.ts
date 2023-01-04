@@ -8,6 +8,7 @@ import {
 import { prisma } from "../prisma";
 
 async function get_startgg_basic(query: string) {
+    // @ts-ignore
     const { data, errors } = await $fetch("https://api.start.gg/gql/alpha", {
         body: { query },
         headers: {
@@ -57,7 +58,9 @@ async function get_startgg(
             continue;
         }
 
+        // @ts-ignore
         const data = fetchRequest.data;
+        // @ts-ignore
         const errors = fetchRequest.errors;
 
         if (errors) {
@@ -285,9 +288,7 @@ export default defineEventHandler(async (_event) => {
 
         for (const entrant of entrants) {
             const player = entrant.participants[0].player;
-            if (!entrant.standing?.placement) {
-                continue;
-            }
+
             const user = player.user
                 ? player.user
                 : {
@@ -307,12 +308,6 @@ export default defineEventHandler(async (_event) => {
                 }
             }
 
-            if (debugConsoleLogs) {
-                console.log(
-                    `entrant ${player.gamerTag} - ${user.discriminator}`
-                );
-            }
-
             let seed;
 
             if (entrant.seeds) {
@@ -323,6 +318,16 @@ export default defineEventHandler(async (_event) => {
             }
 
             seed_dict[user.discriminator] = seed;
+
+            // if (!entrant.standing?.placement) {
+            //     continue;
+            // }
+
+            if (debugConsoleLogs) {
+                console.log(
+                    `entrant ${player.gamerTag} - ${user.discriminator}`
+                );
+            }
 
             let placement;
             if (entrant.standing) {
@@ -758,7 +763,7 @@ export default defineEventHandler(async (_event) => {
 
     console.log("Favorite characters done!");
 
-    console.log("Getting standings");
+    console.log("Getting rankings");
 
     const [standings] = await get_startgg(
         /* GraphQL */
