@@ -3,112 +3,56 @@
 import { prisma } from "../prisma";
 
 export default defineEventHandler(async (_event) => {
-    const result = await prisma.player.findFirstOrThrow({
+    const result = await prisma.player.findMany({
         where: {
-            name: {
-                equals: "Penguin",
-            },
+            AND: [
+                {
+                    wins: {
+                        some: {
+                            loser: {
+                                name: "darai",
+                            },
+                        },
+                    },
+                },
+                {
+                    losses: {
+                        none: {
+                            winner: {
+                                name: "darai",
+                            },
+                        },
+                    },
+                },
+            ],
         },
         select: {
             name: true,
-            smashggid: true,
-            pronouns: true,
-            favoriteCharacter: true,
-            rankings: {
-                select: {
-                    rank: true,
-                    season: true,
-                },
-            },
-            socials: {
-                select: {
-                    type: true,
-                    externalUsername: true,
-                    id: true,
-                },
-            },
-            _count: {
-                select: {
-                    wins: true,
-                    losses: true,
-                    sets: true,
-                },
-            },
-            tournaments: {
-                select: {
-                    id: true,
-                    season: true,
-                    slug: true,
-                    shortSlug: true,
-                    name: true,
-                    profileImage: true,
-                    standings: {
-                        where: {
-                            player: {
-                                name: "Penguin",
-                            },
-                        },
-                        select: {
-                            seed: true,
-                            spr: true,
-                            placement: true,
-                        },
+            wins: {
+                where: {
+                    loser: {
+                        name: "darai",
                     },
-                    sets: {
+                },
+                select: {
+                    tournament: {
                         select: {
-                            winner: {
-                                select: {
-                                    name: true,
-                                },
-                            },
-                            loser: {
-                                select: {
-                                    name: true,
-                                },
-                            },
-                            games: {
-                                select: {
-                                    winnerChar: true,
-                                    loserChar: true,
-                                    id: true,
-                                    winner: {
-                                        select: {
-                                            name: true,
-                                        },
-                                    },
-                                    loser: {
-                                        select: {
-                                            name: true,
-                                        },
-                                    },
-                                },
-                                orderBy: {
-                                    gameNumber: "asc",
-                                },
-                            },
-                            uf: true,
-                            winnerGameCount: true,
-                            loserGameCount: true,
-                            id: true,
-                            fullRoundText: true,
-                            phase: true,
-                        },
-                        orderBy: {
-                            order: "desc",
-                        },
-                        where: {
-                            players: {
-                                some: {
-                                    name: "Penguin",
-                                },
-                            },
+                            name: true,
                         },
                     },
                 },
-                orderBy: {
-                    id: "desc",
-                },
             },
+            // _count: {
+            //     select: {
+            //         wins: {
+            //             where: {
+            //                 loser: {
+            //                     name: "darai",
+            //                 },
+            //             },
+            //         },
+            //     },
+            // },
         },
     });
 

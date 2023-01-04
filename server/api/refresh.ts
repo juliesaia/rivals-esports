@@ -338,6 +338,7 @@ export default defineEventHandler(async (_event) => {
                         smashggid: user.discriminator,
                     },
                     update: {
+                        name: player.gamerTag,
                         tournaments: {
                             connect: {
                                 eventSlug: url,
