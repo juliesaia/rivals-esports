@@ -56,6 +56,7 @@ export const allRCSMajors = [
     "tournament/dreamhack-atlanta-2019/event/rivals-1v1",
     "tournament/na-rcs-season-4-december-online-major/event/rivals-singles",
     "tournament/genesis-7-1/event/rivals-of-aether-singles",
+    "tournament/na-rocs-finals/event/rivals-of-aether-singles",
     "tournament/rcs-season-5-fire/event/rivals-of-aether-singles",
     "tournament/rcs-season-5-air/event/rivals-of-aether-singles",
     "tournament/rcs-season-5-earth/event/rivals-of-aether-singles",
@@ -118,10 +119,10 @@ export const unknownPlayers = [
         tag: "SisterEden",
         startggID: "70557ea3",
     },
-    {
-        tag: "Gaming",
-        startggID: "d023dd93",
-    },
+    // {
+    //     tag: "Gaming",
+    //     startggID: "d023dd93",
+    // },
     {
         tag: "Roxol",
         startggID: "a8f3fa41",
@@ -172,6 +173,10 @@ export const unknownPlayers = [
     },
     {
         tag: "Poke!",
+        startggID: "cb252e9e",
+    },
+    {
+        tag: "Rich",
         startggID: "cb252e9e",
     },
     {

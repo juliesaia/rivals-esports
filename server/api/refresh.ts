@@ -285,9 +285,6 @@ export default defineEventHandler(async (_event) => {
 
         for (const entrant of entrants) {
             const player = entrant.participants[0].player;
-            if (!entrant.standing?.placement) {
-                continue;
-            }
             const user = player.user
                 ? player.user
                 : {
