@@ -17,3 +17,5 @@ dropdown button for tournaments, make name/pic a link
 
 cp /home/cheesypotato/rivals-esports/node_modules/.pnpm/@floating-ui+dom@1.1.0/node_modules/@floating-ui/dom/dist/floating-ui.dom.umd.js /home/cheesypotato/rivals-esports/.output/server/node_modules/@floating-ui/dom/dist/floating-ui.dom.umd.js
 cp /home/cheesypotato/rivals-esports@floating-ui/core/dist/floating-ui.core.umd.js /home/cheesypotato/rivals-esports/.output/server/node_modules/@floating-ui/core/dist/floating-ui.core.umd.js
+
+make standings table rows a dropdown with all sets?

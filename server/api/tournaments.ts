@@ -21,6 +21,9 @@ export default defineEventHandler(async (_event) => {
                 },
             },
         },
+        orderBy: {
+            id: "desc",
+        },
     });
 
     for (const tournament of result) {

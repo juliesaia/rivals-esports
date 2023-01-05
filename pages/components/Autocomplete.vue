@@ -113,6 +113,8 @@ let input = $ref("");
 
 const autocompleteref = $ref<HTMLElement | null>(null);
 
+const clean_data = [...new Set(data)];
+
 let selected = $ref(0);
 
 let focused = $ref(false);
@@ -126,7 +128,7 @@ const autocomplete = $computed(() => {
 
     selected = 0;
 
-    return data.filter((item) => {
+    return clean_data.filter((item) => {
         return item.toLowerCase().startsWith(input.toLowerCase());
     });
 });

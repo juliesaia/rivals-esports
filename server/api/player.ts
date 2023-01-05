@@ -341,6 +341,11 @@ export default defineEventHandler(async (event) => {
                         },
                     },
                 },
+                where: {
+                    sets: {
+                        some: {}, // exist
+                    },
+                },
                 orderBy: {
                     id: "desc",
                 },
