@@ -22,7 +22,7 @@ export default defineEventHandler(async (_event) => {
             },
         },
         orderBy: {
-            id: "desc",
+            startAt: "desc",
         },
     });
 

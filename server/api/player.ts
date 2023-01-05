@@ -72,7 +72,9 @@ export default defineEventHandler(async (event) => {
                         },
                     },
                     orderBy: {
-                        order: "desc",
+                        tournament: {
+                            startAt: "desc",
+                        },
                     },
                 },
                 _count: {
@@ -353,7 +355,7 @@ export default defineEventHandler(async (event) => {
                     },
                 },
                 orderBy: {
-                    id: "desc",
+                    startAt: "desc",
                 },
             },
         },
