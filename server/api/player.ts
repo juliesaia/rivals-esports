@@ -343,7 +343,13 @@ export default defineEventHandler(async (event) => {
                 },
                 where: {
                     sets: {
-                        some: {}, // exist
+                        some: {
+                            players: {
+                                some: {
+                                    name: query.name.toString(),
+                                },
+                            },
+                        },
                     },
                 },
                 orderBy: {
