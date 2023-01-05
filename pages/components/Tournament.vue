@@ -20,7 +20,9 @@
                             >
                                 {{ tournament.name }}
                             </NuxtLink>
-                            <div v-if="tournament.standings[0].placement">
+                            <div
+                                v-if="tournament.standings[0].placement != null"
+                            >
                                 {{
                                     int_to_ord(
                                         tournament.standings[0].placement
@@ -31,10 +33,10 @@
                         </div>
                         <div class="$ flex-grow" />
                         <div class="$ flex flex-col text-end">
-                            <div v-if="tournament.standings[0].seed">
+                            <div v-if="tournament.standings[0].seed != null">
                                 Seed: {{ tournament.standings[0].seed }}
                             </div>
-                            <div v-if="tournament.standings[0].spr">
+                            <div v-if="tournament.standings[0].spr != null">
                                 SPR: {{ tournament.standings[0].spr }}
                             </div>
                         </div>
