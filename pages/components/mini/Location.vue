@@ -1,11 +1,8 @@
 <template>
     <div v-if="tournament.online">Online</div>
-    <div
-        v-else-if="tournament.city && tournament.state"
-        class="$ flex justify-center"
-    >
-        <div class="$ mr-1">{{ tournament.city }},</div>
-        <div>{{ tournament.state }}</div>
+    <div v-else class="$ flex justify-center">
+        <div v-if="tournament.city" class="$ mr-1">{{ tournament.city }},</div>
+        <div v-if="tournament.state">{{ tournament.state }}</div>
     </div>
 </template>
 <script setup lang="ts">
