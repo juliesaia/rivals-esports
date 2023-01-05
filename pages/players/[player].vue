@@ -8,7 +8,12 @@
             <h2 class="$ ml-2">
                 {{ data.player.name }}
             </h2>
-            <div v-for="social in data.player.socials" :key="social.id">
+            <div
+                v-for="social in data.player.socials.sort((a, b) =>
+                    (a.type ?? Infinity) > (b.type ?? Infinity) ? 1 : -1
+                )"
+                :key="social.id"
+            >
                 <a
                     v-if="social.type === 'TWITTER'"
                     v-tooltip="`@${social.externalUsername}`"
