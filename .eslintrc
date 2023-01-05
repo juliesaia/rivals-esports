@@ -32,6 +32,7 @@
         "vue/html-closing-bracket-newline": "off",
         "vue/no-setup-props-destructure": "off",
         "arrow-parens": "off",
-        "vue/attribute-hyphenation": "off"
+        "vue/attribute-hyphenation": "off",
+        "no-console": "off"
     }
 }

@@ -250,7 +250,7 @@ const filtered = $computed(() => {
     page = 1;
 
     return data.filter((item) => {
-        return item.name.toLowerCase().startsWith(filterinput.toLowerCase());
+        return item.name.toLowerCase().includes(filterinput.toLowerCase());
     });
 });
 
