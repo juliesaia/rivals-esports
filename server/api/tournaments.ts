@@ -23,5 +23,11 @@ export default defineEventHandler(async (_event) => {
         },
     });
 
+    for (const tournament of result) {
+        if (!tournament.timezone) {
+            tournament.timezone = "America/New_York";
+        }
+    }
+
     return compress(result);
 });

@@ -73,7 +73,12 @@ export function decompress_one(data) {
 export function resizeSGG(raw_url, width, height) {
     const url = new URL(raw_url);
     const ehk = url.searchParams.get("ehkOptimized");
-    const href = url.origin + url.pathname.replace(".png", "-optimized.png");
+    const href =
+        url.origin +
+        url.pathname
+            .replace(".png", "-optimized.png")
+            .replace(".jpg", "-optimized.jpg")
+            .replace(".jpeg", "-optimized.jpeg");
     return `https://www.bing.com/th?pid=Sgg&qlt=100&u=${encodeURIComponent(
         href
     )}&ehk=${encodeURIComponent(ehk)}&w=${width}&h=${height}`;

@@ -85,6 +85,10 @@ export default defineEventHandler(async (event) => {
                 delete standing.player;
             }
 
+            if (!tournament.timezone) {
+                tournament.timezone = "America/New_York";
+            }
+
             return tournament;
         }
     }

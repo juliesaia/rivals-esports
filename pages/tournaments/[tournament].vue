@@ -67,8 +67,6 @@ const { data: tournament } = $(
     })
 );
 
-console.log(tournament);
-
 const headers = [
     { name: "Player", width: "w-60" },
     { name: "Placement", width: "w-30" },
