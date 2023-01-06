@@ -8,20 +8,27 @@ import {
 import { prisma } from "../prisma";
 
 async function get_startgg_basic(query: string) {
-    // @ts-ignore
-    const { data, errors } = await $fetch("https://api.start.gg/gql/alpha", {
-        body: { query },
-        headers: {
-            Authorization: "Bearer " + process.env.SMASHGGAPI,
-        },
-        method: "POST",
-    });
-
-    if (errors) {
-        console.log(errors);
+    let fetchRequest;
+    try {
+        fetchRequest = await $fetch("https://api.start.gg/gql/alpha", {
+            body: { query },
+            headers: {
+                Authorization: "Bearer " + process.env.SMASHGGAPI,
+            },
+            method: "POST",
+        });
+    } catch (e) {
+        console.log(e);
+        console.log("Sleeping 1 min...");
+        await sleep(60 * 1000);
+        return get_startgg_basic(query);
     }
 
-    return data;
+    if (fetchRequest.errors) {
+        console.log(fetchRequest.errors);
+    }
+
+    return fetchRequest.data;
 }
 
 async function get_startgg(
@@ -40,20 +47,19 @@ async function get_startgg(
     while (true) {
         console.log(`Page ${page}...`);
 
-        let continueFlag = false;
-        const fetchRequest = await $fetch("https://api.start.gg/gql/alpha", {
-            body: { query, variables: { ...variables, page } },
-            headers: {
-                Authorization: "Bearer " + process.env.SMASHGGAPI,
-            },
-            method: "POST",
-        }).catch((e) => {
-            console.log(e);
-            continueFlag = true;
-        });
+        let fetchRequest;
 
-        if (continueFlag) {
-            console.log("Sleeping 1 min");
+        try {
+            fetchRequest = await $fetch("https://api.start.gg/gql/alpha", {
+                body: { query, variables: { ...variables, page } },
+                headers: {
+                    Authorization: "Bearer " + process.env.SMASHGGAPI,
+                },
+                method: "POST",
+            });
+        } catch (e) {
+            console.log(e);
+            console.log("Sleeping 1 min...");
             await sleep(60 * 1000);
             continue;
         }
@@ -132,7 +138,8 @@ export default defineEventHandler(async (_event) => {
 
     const favorite_character_dict = {};
 
-    for (const url of allRCSMajors) {
+    for (const tourney of allRCSMajors) {
+        const url = tourney.url;
         console.log(`Getting data from ${url}`);
 
         const { event } = await get_startgg_basic(
@@ -167,10 +174,13 @@ export default defineEventHandler(async (_event) => {
                     ? event.tournament.slug
                     : url,
                 eventSlug: url,
-                season: 7,
+                season: tourney.season,
                 name: !event.tournament.slug.includes("road-to-shine")
                     ? event.tournament.name
-                    : `${event.tournament.name}-${url.split("/").pop()}`,
+                    : `${event.tournament.name}-${url
+                          .split("/")
+                          .pop()
+                          .replaceAll("-", " ")}`,
                 online: event.isOnline,
                 state: event.tournament.addrState,
                 city: event.tournament.city,
@@ -307,6 +317,10 @@ export default defineEventHandler(async (_event) => {
                 }
             }
 
+            if (seed_dict[user.discriminator]) {
+                continue;
+            }
+
             let seed;
 
             if (entrant.seeds) {
@@ -318,13 +332,9 @@ export default defineEventHandler(async (_event) => {
 
             seed_dict[user.discriminator] = seed;
 
-            // if (!entrant.standing?.placement) {
-            //     continue;
-            // }
-
             if (debugConsoleLogs) {
                 console.log(
-                    `entrant ${player.gamerTag} - ${user.discriminator}`
+                    `entrant ${player.gamerTag} - ${user.discriminator} - ${seed}`
                 );
             }
 
