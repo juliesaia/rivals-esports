@@ -153,7 +153,8 @@ export default defineEventHandler(async (event) => {
         const p2id = player2?.id;
 
         if (!(p1id && p2id)) {
-            throw new Error("not found");
+            // throw new Error("not found");
+            return { sets: [], _count: { wins: 0, losses: 0 }, path: null };
         }
 
         const edges: Edge[] = [];
@@ -169,7 +170,8 @@ export default defineEventHandler(async (event) => {
         const shortestPath = graph.getShortestDistance(p1id, p2id);
 
         if (!shortestPath) {
-            throw new Error("not found");
+            // throw new Error("not found");
+            return { sets: [], _count: { wins: 0, losses: 0 }, path: null };
         }
 
         const edgeids = shortestPath.edges.map((el) => el.metadata.id);

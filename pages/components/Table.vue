@@ -233,10 +233,17 @@ const router = useRouter();
 
 const perPage = 8;
 
-const sort = $ref({
-    type: headers[1].name,
-    order: "asc",
-});
+const sort = $ref(
+    type === "players"
+        ? {
+              type: headers[1].name,
+              order: "asc",
+          }
+        : {
+              type: "Date",
+              order: "desc",
+          }
+);
 
 let page = $ref(1);
 
