@@ -841,5 +841,5 @@ export default defineEventHandler(async (_event) => {
 
     console.log("Everything done!");
     console.timeEnd();
-    return { message: "done" };
+    return { message: "Refreshed entire database!" };
 });
