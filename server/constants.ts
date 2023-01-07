@@ -68,10 +68,6 @@ export const allRCSMajors = [
         season: 1,
     },
     {
-        url: "tournament/na-rcs-season-3-september-monthly/event/rivals-singles",
-        season: 2,
-    },
-    {
         url: "tournament/road-to-shine-rivals/event/qualifier-1-may-20th",
         season: 2,
     },
@@ -169,6 +165,10 @@ export const allRCSMajors = [
     },
     {
         url: "tournament/na-rcs-season-3-august-monthly/event/rivals-singles",
+        season: 3,
+    },
+    {
+        url: "tournament/na-rcs-season-3-september-monthly/event/rivals-singles",
         season: 3,
     },
     {

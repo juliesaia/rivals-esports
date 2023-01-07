@@ -177,7 +177,7 @@ export default defineEventHandler(async (_event) => {
                 season: tourney.season,
                 name: !event.tournament.slug.includes("road-to-shine")
                     ? event.tournament.name
-                    : `${event.tournament.name}-${url
+                    : `${event.tournament.name} ${url
                           .split("/")
                           .pop()
                           .replaceAll("-", " ")}`,
