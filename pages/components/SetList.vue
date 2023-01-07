@@ -9,9 +9,17 @@
             Lifetime: {{ data._count.wins }} -
             {{ data._count.losses }}
         </h2>
-        <div v-if="type === 'armadaNumber' && data.sets.length" class="$ mb-2">
-            <h2>Armada Number: {{ data.path.split(">").length - 1 }}</h2>
-            <h2>Path: {{ data.path }}</h2>
+        <div
+            v-if="
+                type === 'armadaNumber' &&
+                (data.sets.length || data.path === null)
+            "
+            class="$ mb-2"
+        >
+            <h2 v-if="data.path">
+                Armada Number: {{ data.path.split(">").length - 1 }}
+            </h2>
+            <h2>Path: {{ data.path ?? "No possible path." }}</h2>
         </div>
         <div
             ref="setRef"
@@ -56,6 +64,7 @@ async function submit(playername: string) {
 
     // @ts-ignore sometimes its not worth it
     data = newData;
+
     await nextTick();
     open(setRef);
 }
