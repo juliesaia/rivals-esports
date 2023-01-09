@@ -1,6 +1,7 @@
 import { prisma } from "../prisma";
 import { DirectedGraph } from "../graphTheory/graphs/DirectedGraph";
 import { Edge, Node } from "../graphTheory/elements/AllElements";
+import { debugConsoleLogs } from "../constants";
 // import { compress_one } from "../utils";
 
 export default defineEventHandler(async (event) => {
@@ -10,7 +11,9 @@ export default defineEventHandler(async (event) => {
         throw new Error("not found");
     }
 
-    console.log(query.name);
+    if (debugConsoleLogs) {
+        console.log(query.name);
+    }
 
     if (query.h2h) {
         const result = await prisma.player.findFirstOrThrow({
@@ -106,6 +109,14 @@ export default defineEventHandler(async (event) => {
     }
 
     if (query.armadaNumber) {
+        if (debugConsoleLogs) {
+            console.log(
+                `Getting ${query.armadaNumber.toString()} number of ${query.name.toString()}`
+            );
+        }
+        if (query.name.toString() === query.armadaNumber.toString()) {
+            return { sets: [], _count: { wins: 0, losses: 0 }, path: null };
+        }
         const allSets = await prisma.set.findMany({
             where: {
                 NOT: {
