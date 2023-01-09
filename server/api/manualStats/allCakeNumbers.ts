@@ -1,5 +1,4 @@
 import { prisma } from "../../prisma";
-import { debugConsoleLogs } from "~~/server/constants";
 import { DirectedGraph } from "~~/server/graphTheory/graphs/DirectedGraph";
 import { Edge, Node } from "~~/server/graphTheory/elements/AllElements";
 
@@ -54,9 +53,15 @@ export default defineEventHandler(async (event) => {
 
     const graph = new DirectedGraph(edges);
 
-    const allPaths = graph
-        .getAllPathsTo(sourcePlayer.id)
-        .sort((a, b) => b.getLength() - a.getLength());
+    let allPaths;
+
+    if (query.direction === "to") {
+        allPaths = graph.getAllPathsTo(sourcePlayer.id);
+    } else if (query.direction === "from") {
+        allPaths = graph.getAllPathsFrom(sourcePlayer.id);
+    }
+
+    allPaths = allPaths.sort((a, b) => b.getLength() - a.getLength());
 
     const toReturn = [];
 
@@ -71,6 +76,8 @@ export default defineEventHandler(async (event) => {
             path: pathString,
         });
     }
+
+    toReturn.splice(1);
 
     return toReturn.map((x) => `${x.length} - ${x.path}`).join("\n");
 });

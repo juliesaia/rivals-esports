@@ -1,16 +1,41 @@
 <template>
-    <button @click="allCakeNumbers">Find all cake numbers</button>
+    <button @click="allNumbersTo">[Find longest number to ___]</button>
+    <button @click="allNumbersFrom">[Find longest number from ___]</button>
+    <button @click="spreadStats">
+        [Spread stats with ___ minimum placements]
+    </button>
+    <AInput v-model="textField" type="text" />
     <div>{{ debug }}</div>
 </template>
 
 <script setup>
-let debug = $ref({});
+let debug = $ref("");
 
-async function allCakeNumbers() {
+let textField = $ref("");
+
+async function allNumbersTo() {
     const { data } = $(
-        await useFetch("api/manualStats/allCakeNumbers?source=CheesyPotato")
+        await useFetch(
+            `api/manualStats/allCakeNumbers?source=${textField}&direction=to`
+        )
     );
 
+    debug = data;
+}
+
+async function allNumbersFrom() {
+    const { data } = $(
+        await useFetch(
+            `api/manualStats/allCakeNumbers?source=${textField}&direction=from`
+        )
+    );
+    debug = data;
+}
+
+async function spreadStats() {
+    const { data } = $(
+        await useFetch(`api/manualStats/spreadStats?min=${textField}`)
+    );
     debug = data;
 }
 </script>
