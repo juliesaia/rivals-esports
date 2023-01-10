@@ -33,6 +33,11 @@ export class Path {
         this.dest = edge.node2;
     }
 
+    extendFront(edge: Edge): void {
+        this.edges.unshift(edge);
+        this.src = edge.node1;
+    }
+
     includes(nodeKey: any): boolean {
         for (const edge of this.edges) {
             if (edge.includes(nodeKey)) {

@@ -4,6 +4,7 @@ import {
     allRCSMajors,
     unknownPlayers,
     debugConsoleLogs,
+    accountMerges,
 } from "../constants";
 import { prisma } from "../prisma";
 
@@ -177,7 +178,7 @@ export default defineEventHandler(async (_event) => {
                 season: tourney.season,
                 name: !event.tournament.slug.includes("road-to-shine")
                     ? event.tournament.name
-                    : `${event.tournament.name}-${url
+                    : `${event.tournament.name} ${url
                           .split("/")
                           .pop()
                           .replaceAll("-", " ")}`,
@@ -317,6 +318,12 @@ export default defineEventHandler(async (_event) => {
                 }
             }
 
+            for (const account of accountMerges) {
+                if (account.includes(user.discriminator)) {
+                    user.discriminator = account[0];
+                }
+            }
+
             if (seed_dict[user.discriminator]) {
                 continue;
             }
@@ -434,6 +441,16 @@ export default defineEventHandler(async (_event) => {
                     ];
                 }
             }
+            for (const account of accountMerges) {
+                if (
+                    player1.participants[0].user?.discriminator &&
+                    account.includes(
+                        player1.participants[0].user?.discriminator
+                    )
+                ) {
+                    player1.participants[0].user.discriminator = account[0];
+                }
+            }
             if (!player2.participants[0].user?.discriminator) {
                 const unknownPlayerTag = unknownPlayers.find((x) =>
                     player2.name
@@ -455,6 +472,16 @@ export default defineEventHandler(async (_event) => {
                             },
                         },
                     ];
+                }
+            }
+            for (const account of accountMerges) {
+                if (
+                    player2.participants[0].user?.discriminator &&
+                    account.includes(
+                        player2.participants[0].user?.discriminator
+                    )
+                ) {
+                    player2.participants[0].user.discriminator = account[0];
                 }
             }
 
@@ -841,5 +868,5 @@ export default defineEventHandler(async (_event) => {
 
     console.log("Everything done!");
     console.timeEnd();
-    return { message: "done" };
+    return { message: "Refreshed entire database!" };
 });
