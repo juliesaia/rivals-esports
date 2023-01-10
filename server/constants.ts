@@ -446,3 +446,9 @@ export const unknownPlayers = [
         startggID: "f1bce0a7",
     },
 ];
+
+export const seasons_dict = {
+    RCS: [7, 6, 5, 4, 3, 2, 1, 0],
+    Grassroots: [1],
+    ROCS: [1],
+};

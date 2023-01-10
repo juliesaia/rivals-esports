@@ -4,6 +4,8 @@ import { prisma } from "../prisma";
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
 
+    console.time();
+
     if (query.min) {
         // autocomplete
         const result = await prisma.player.findMany({
@@ -58,5 +60,13 @@ export default defineEventHandler(async (event) => {
         },
     });
 
-    return compress(result);
+    console.timeEnd();
+
+    console.time("compress");
+
+    const output = compress(result);
+
+    console.timeEnd("compress");
+
+    return output;
 });

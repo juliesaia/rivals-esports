@@ -7,7 +7,7 @@ specifiers:
   '@nathanchase/nuxt-dayjs-module': ^1.0.11
   '@nuxt/image-edge': 1.0.0-27840416.dc1ed65
   '@nuxtjs/eslint-config-typescript': ^12.0.0
-  '@prisma/client': ^4.8.0
+  '@prisma/client': ^4.8.1
   '@types/node': ^18.11.17
   '@unocss/nuxt': ^0.47.6
   anu-vue: ^0.11.0
@@ -24,7 +24,7 @@ specifiers:
 dependencies:
   '@anu-vue/nuxt': 0.11.0
   '@nathanchase/nuxt-dayjs-module': 1.0.11
-  '@prisma/client': 4.8.0_prisma@4.8.0
+  '@prisma/client': 4.8.1_prisma@4.8.0
   anu-vue: 0.11.0
   compress-json: 2.1.2
   dayjs: 1.11.7
@@ -863,8 +863,8 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
-  /@prisma/client/4.8.0_prisma@4.8.0:
-    resolution: {integrity: sha512-Y1riB0p2W52kh3zgssP/YAhln3RjBFcJy3uwEiyjmU+TQYh6QTZDRFBo3JtBWuq2FyMOl1Rye8jxzUP+n0l5Cg==}
+  /@prisma/client/4.8.1_prisma@4.8.0:
+    resolution: {integrity: sha512-d4xhZhETmeXK/yZ7K0KcVOzEfI5YKGGEr4F5SBV04/MU4ncN/HcE28sy3e4Yt8UFW0ZuImKFQJE+9rWt9WbGSQ==}
     engines: {node: '>=14.17'}
     requiresBuild: true
     peerDependencies:

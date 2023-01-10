@@ -5,7 +5,7 @@
 
         <Autocomplete :data="allPlayers" @submit="submit" />
 
-        <h2 v-if="type === 'h2h' && data.sets.length" class="$ mb-2">
+        <h2 v-if="type === 'h2h' && submitted" class="$ mb-2">
             Lifetime: {{ data._count.wins }} -
             {{ data._count.losses }}
         </h2>
@@ -46,6 +46,8 @@ const route = useRoute();
 
 const setRef = $ref(null);
 
+const submitted = $ref(false);
+
 let data = $ref({ sets: [], _count: { wins: 0, losses: 0 }, path: "" });
 
 const allPlayers: string[] = inject("allPlayers");
@@ -67,6 +69,7 @@ async function submit(playername: string) {
 
     await nextTick();
     open(setRef);
+    submitted = true;
 }
 
 function open(el) {

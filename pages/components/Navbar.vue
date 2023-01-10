@@ -1,5 +1,7 @@
 <template>
-    <div class="$ w-full bg-purple-400 flex px-16 border-b-4 border-purple-900">
+    <nav
+        class="$ w-full bg-purple-400 flex px-16 border-b-4 border-purple-900 sticky top-0 z-9999"
+    >
         <NuxtLink class="$ py-4" to="/">Rivals Esports</NuxtLink>
         <div class="$ flex-grow" />
         <NuxtLink
@@ -17,5 +19,5 @@
             Tournaments
         </NuxtLink>
         <div class="$ py-4 px-2">Wiki</div>
-    </div>
+    </nav>
 </template>

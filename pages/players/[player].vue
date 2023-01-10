@@ -1,5 +1,5 @@
 <template>
-    <main class="$ flex flex-col items-center">
+    <main class="$ flex flex-col items-center w-50vw mx-auto">
         <div class="$ text-2xl mt-8 flex">
             <div
                 v-if="data.player.favoriteCharacter"
@@ -52,7 +52,48 @@
             <div :class="character[0]" />
             <h3>: {{ character[1] }}</h3>
         </div>
+
         <Tournament :data="data.player.tournaments" />
+
+        <div
+            class="fixed top-50% right-0 border-2 border-purple-900 border-r-transparent rounded-l-xl p-8"
+            style="transform: translateY(-50%)"
+        >
+            <ACheckbox
+                v-model="filters.online"
+                label="Include Online"
+                class="mb-4"
+            />
+            <div class="flex">
+                <div
+                    v-for="(seasons, league) in seasons_dict"
+                    :key="league"
+                    class="flex flex-col items-evenly mr-4"
+                >
+                    <div>{{ league }}</div>
+                    <ACheckbox
+                        v-if="seasons.length > 1"
+                        v-model="all[league]"
+                        label="All"
+                        @change="
+                            (e) =>
+                                e.target.checked
+                                    ? (filters.leagues[league] =
+                                          seasons_dict[league])
+                                    : (filters.leagues[league] = [])
+                        "
+                    />
+                    <ACheckbox
+                        v-for="season in seasons"
+                        :key="season"
+                        v-model="filters.leagues[league]"
+                        :value="season"
+                        :label="season.toString()"
+                    />
+                </div>
+            </div>
+        </div>
+        <div>{{ filters }}</div>
 
         <SetList type="h2h" title="Head to Head" />
 
@@ -65,6 +106,7 @@
 import Tournament from "../components/Tournament.vue";
 import SetList from "../components/SetList.vue";
 import { /* decompress_one, */ winrate } from "~~/server/utils";
+import { seasons_dict } from "~~/server/constants";
 
 const route = useRoute();
 
@@ -72,6 +114,28 @@ const data = $ref({
     player: null,
     h2h: { sets: [] },
     armadaNumber: { sets: [] },
+});
+
+const filters = $ref({
+    online: true,
+});
+
+filters.leagues = structuredClone(seasons_dict); // sometimes its too reactive...
+
+const all = $ref({});
+
+for (const league in seasons_dict) {
+    all[league] = true;
+}
+
+watchEffect(() => {
+    for (const [league, seasons] of Object.entries(filters.leagues)) {
+        if (seasons.length === seasons_dict[league].length) {
+            all[league] = true;
+        } else {
+            all[league] = false;
+        }
+    }
 });
 
 const { data: compressed_data } = $(
