@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
         const tournament = await prisma.tournament.findFirst({
             select: {
                 name: true,
-                season: true,
+                // season: true,
                 slug: true,
                 shortSlug: true,
                 state: true,

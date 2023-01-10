@@ -46,11 +46,12 @@ const route = useRoute();
 
 const setRef = $ref(null);
 
-const submitted = $ref(false);
+let submitted = $ref(false);
 
 let data = $ref({ sets: [], _count: { wins: 0, losses: 0 }, path: "" });
 
 const allPlayers: string[] = inject("allPlayers");
+const filters: any = inject("filters");
 
 async function submit(playername: string) {
     const { data: newData } = $(

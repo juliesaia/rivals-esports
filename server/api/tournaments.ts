@@ -7,7 +7,7 @@ export default defineEventHandler(async (_event) => {
     const result = await prisma.tournament.findMany({
         select: {
             name: true,
-            season: true,
+            // season: true,
             shortSlug: true,
             online: true,
             profileImage: true,

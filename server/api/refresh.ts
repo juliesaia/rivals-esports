@@ -1,10 +1,11 @@
 import { rounds_from_victory, sleep } from "../utils";
 import {
     character_dict,
-    allRCSMajors,
+    allTournaments,
     unknownPlayers,
     debugConsoleLogs,
     accountMerges,
+    allLeagues,
 } from "../constants";
 import { prisma } from "../prisma";
 
@@ -127,6 +128,7 @@ async function get_startgg(
 
 export default defineEventHandler(async (_event) => {
     console.time();
+    await prisma.league.deleteMany({});
     await prisma.social.deleteMany({});
     await prisma.game.deleteMany({});
     await prisma.set.deleteMany({});
@@ -135,11 +137,23 @@ export default defineEventHandler(async (_event) => {
     await prisma.player.deleteMany({});
     await prisma.tournament.deleteMany({});
 
+    let queries: any[] = [];
+
+    for (const league of allLeagues) {
+        queries.push(
+            prisma.league.create({
+                data: league,
+            })
+        );
+    }
+
+    const prismaLeagues = await prisma.$transaction(queries);
+
     let scuffedid = 0;
 
     const favorite_character_dict = {};
 
-    for (const tourney of allRCSMajors) {
+    for (const tourney of allTournaments) {
         const url = tourney.url;
         console.log(`Getting data from ${url}`);
 
@@ -169,13 +183,13 @@ export default defineEventHandler(async (_event) => {
             `
         );
 
-        await prisma.tournament.create({
+        const prismaTournament = await prisma.tournament.create({
             data: {
                 slug: !event.tournament.slug.includes("road-to-shine")
                     ? event.tournament.slug
                     : url,
                 eventSlug: url,
-                season: tourney.season,
+                // season: tourney.season,
                 name: !event.tournament.slug.includes("road-to-shine")
                     ? event.tournament.name
                     : `${event.tournament.name} ${url
@@ -198,6 +212,31 @@ export default defineEventHandler(async (_event) => {
                         : event.tournament.images[1]?.url,
             },
         });
+
+        const leaguesToConnect = prismaLeagues
+            .filter((league) =>
+                tourney.leagues.some(
+                    (el) =>
+                        el.season === league.season &&
+                        el.shortName === league.shortName
+                )
+            )
+            .map((el) => ({
+                id: el.id,
+            }));
+
+        if (leaguesToConnect.length > 0) {
+            await prisma.tournament.update({
+                where: {
+                    id: prismaTournament.id,
+                },
+                data: {
+                    leagues: {
+                        connect: leaguesToConnect,
+                    },
+                },
+            });
+        }
 
         console.log("Created tournament");
 
@@ -772,7 +811,7 @@ export default defineEventHandler(async (_event) => {
 
     console.log("Favorite characters...");
 
-    let queries: any[] = [];
+    queries = [];
 
     for (const [discriminator, characters] of Object.entries(
         favorite_character_dict
@@ -800,71 +839,72 @@ export default defineEventHandler(async (_event) => {
 
     console.log("Favorite characters done!");
 
-    console.log("Getting rankings");
+    console.log("Getting rankings TODO");
 
-    const [standings] = await get_startgg(
-        /* GraphQL */
-        `
-            query TournamentQuery($page: Int) {
-                league(slug: "tournament/rcs7-north-america") {
-                    standings(query: { perPage: 100, page: $page }) {
-                        pageInfo {
-                            totalPages
-                        }
-                        nodes {
-                            player {
-                                gamerTag
-                                user {
-                                    discriminator
-                                    genderPronoun
-                                    authorizations {
-                                        externalUsername
-                                        type
-                                    }
-                                }
-                            }
-                            placement
-                        }
-                    }
-                }
-            }
-        `,
-        {},
-        [["league", "standings"]]
-    );
+    // TODO
+    // const [standings] = await get_startgg(
+    //     /* GraphQL */
+    //     `
+    //         query TournamentQuery($page: Int) {
+    //             league(slug: "tournament/rcs7-north-america") {
+    //                 standings(query: { perPage: 100, page: $page }) {
+    //                     pageInfo {
+    //                         totalPages
+    //                     }
+    //                     nodes {
+    //                         player {
+    //                             gamerTag
+    //                             user {
+    //                                 discriminator
+    //                                 genderPronoun
+    //                                 authorizations {
+    //                                     externalUsername
+    //                                     type
+    //                                 }
+    //                             }
+    //                         }
+    //                         placement
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     `,
+    //     {},
+    //     [["league", "standings"]]
+    // );
 
-    queries = [];
+    // queries = [];
 
-    for (const standing of standings) {
-        const player = standing.player;
-        const user = player.user;
+    // for (const standing of standings) {
+    //     const player = standing.player;
+    //     const user = player.user;
 
-        queries.push(
-            prisma.ranking.create({
-                data: {
-                    season: 7,
-                    rank: standing.placement,
-                    player: {
-                        connectOrCreate: {
-                            where: {
-                                smashggid: user.discriminator,
-                            },
-                            create: {
-                                name: player.gamerTag,
-                                smashggid: user.discriminator,
-                                pronouns: user.genderPronoun,
-                                socials: {
-                                    create: user.authorizations,
-                                },
-                            },
-                        },
-                    },
-                },
-            })
-        );
-    }
+    //     queries.push(
+    //         prisma.ranking.create({
+    //             data: {
+    //                 season: 7,
+    //                 rank: standing.placement,
+    //                 player: {
+    //                     connectOrCreate: {
+    //                         where: {
+    //                             smashggid: user.discriminator,
+    //                         },
+    //                         create: {
+    //                             name: player.gamerTag,
+    //                             smashggid: user.discriminator,
+    //                             pronouns: user.genderPronoun,
+    //                             socials: {
+    //                                 create: user.authorizations,
+    //                             },
+    //                         },
+    //                     },
+    //                 },
+    //             },
+    //         })
+    //     );
+    // }
 
-    await prisma.$transaction(queries);
+    // await prisma.$transaction(queries);
 
     console.log("Everything done!");
     console.timeEnd();

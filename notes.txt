@@ -23,3 +23,5 @@ make standings table rows a dropdown with all sets?
 todo: make some sort of scuffed cache
 using a builtin prisma thing isnt worth it because making our own 
 lets us cache the compression
+
+TODO: send filter data with h2h and armadaNumber queries

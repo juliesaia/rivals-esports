@@ -36,16 +36,14 @@
             </div>
         </div>
         <h3 class="$ my-2">{{ data.player.pronouns }}</h3>
-        <h3>Set Wins: {{ data.player._count.wins }}</h3>
-        <h3>Set Losses: {{ data.player._count.losses }}</h3>
+        <h3>Set Wins: {{ wins }}</h3>
+        <h3>Set Losses: {{ losses }}</h3>
         <h3 class="$ mb-4">
             Winrate:
-            {{ winrate(data.player._count.wins, data.player._count.sets) }}
+            {{ winrate(wins, wins + losses) }}
         </h3>
         <div
-            v-for="character in data.player.characters.filter(
-                (el) => el[0] !== 'null'
-            )"
+            v-for="character in characters.filter((el) => el[0] !== 'null')"
             :key="character.name"
             class="$ flex items-center"
         >
@@ -53,15 +51,20 @@
             <h3>: {{ character[1] }}</h3>
         </div>
 
-        <Tournament :data="data.player.tournaments" />
+        <Tournament :data="filtered_tournaments" />
 
         <div
-            class="fixed top-50% right-0 border-2 border-purple-900 border-r-transparent rounded-l-xl p-8"
+            class="fixed top-50% right-0 border-2 border-purple-900 border-r-transparent rounded-l-xl p-8 flex flex-col"
             style="transform: translateY(-50%)"
         >
             <ACheckbox
                 v-model="filters.online"
                 label="Include Online"
+                class="mb-4"
+            />
+            <ACheckbox
+                v-model="filters.offseason"
+                label="Include Offseason"
                 class="mb-4"
             />
             <div class="flex">
@@ -93,7 +96,6 @@
                 </div>
             </div>
         </div>
-        <div>{{ filters }}</div>
 
         <SetList type="h2h" title="Head to Head" />
 
@@ -118,6 +120,7 @@ const data = $ref({
 
 const filters = $ref({
     online: true,
+    offseason: true,
 });
 
 filters.leagues = structuredClone(seasons_dict); // sometimes its too reactive...
@@ -145,9 +148,67 @@ const { data: compressed_data } = $(
 // data.player = decompress_one(compressed_data);
 data.player = compressed_data;
 
+console.log(data.player);
+
+const filtered_tournaments = $computed(() =>
+    data.player.tournaments.filter(
+        (el) =>
+            (filters.online || el.online === false) &&
+            (filters.offseason || el.leagues.length > 0) &&
+            (el.leagues.length === 0 ||
+                el.leagues.some((el2) =>
+                    filters.leagues[el2.shortName].includes(el2.season)
+                ))
+    )
+);
+
+const wins = $computed(
+    () =>
+        filtered_tournaments
+            .map((el) => el.sets)
+            .flat()
+            .filter((el) => el.winner.name === data.player.name).length
+);
+
+const losses = $computed(
+    () =>
+        filtered_tournaments
+            .map((el) => el.sets)
+            .flat()
+            .filter((el) => el.loser.name === data.player.name).length
+);
+
+const characters = $computed(() => {
+    const characters = {};
+    for (const tournament of filtered_tournaments) {
+        for (const set of tournament.sets) {
+            for (const game of set.games) {
+                const character =
+                    game.winner.name === data.player.name
+                        ? game.winnerChar
+                        : game.loserChar;
+
+                if (!(character in characters)) {
+                    characters[character] = 1;
+                } else {
+                    characters[character] += 1;
+                }
+            }
+        }
+    }
+
+    const characters_list = Object.entries(characters);
+
+    // @ts-ignore
+    characters_list.sort(([, a], [, b]) => b - a);
+
+    return characters_list;
+});
+
 const { data: allPlayers } = $(
     await useFetch("/api/players", { query: { min: true } })
 );
 
 provide("allPlayers", allPlayers);
+provide("filters", filters);
 </script>

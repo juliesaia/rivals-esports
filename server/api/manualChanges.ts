@@ -7,10 +7,7 @@ const nameChanges = [
     },
 ];
 
-export default defineEventHandler(async (event) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const query = getQuery(event);
-
+export default defineEventHandler(async () => {
     const queries = [];
 
     // Apply all name changes

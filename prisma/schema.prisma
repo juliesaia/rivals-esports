@@ -21,18 +21,21 @@ model Player {
 
 model Ranking {
   id Int @id @default(autoincrement())
-  season Int
   rank Int
+  top50 Int?
+  points Int
   player Player @relation(fields: [playerid], references: [id])
   playerid Int
+  league League @relation(fields: [leagueid], references: [id])
+  leagueid Int
 }
 
 model Tournament {
   id Int @id @default(autoincrement())
-  season Int
   entrants Player[]
   sets Set[]
   standings Standing[]
+  leagues League[]
   slug String @unique
   eventSlug String @unique
   name String @unique
@@ -95,6 +98,16 @@ model Social {
   type String
   externalUsername String?
   playerid Int
+}
+
+model League {
+  id Int @id @default(autoincrement())
+  tournaments Tournament[]
+  name String
+  shortName String
+  iconImage String
+  season Int
+  rankings Ranking[]
 }
 
 generator client {

@@ -38,6 +38,14 @@ export default defineEventHandler(async (event) => {
                                 name: true,
                                 shortSlug: true,
                                 profileImage: true,
+                                leagues: {
+                                    select: {
+                                        name: true,
+                                        shortName: true,
+                                        iconImage: true,
+                                        season: true,
+                                    },
+                                },
                             },
                         },
                         games: {
@@ -209,6 +217,14 @@ export default defineEventHandler(async (event) => {
                         select: {
                             name: true,
                             profileImage: true,
+                            leagues: {
+                                select: {
+                                    name: true,
+                                    shortName: true,
+                                    iconImage: true,
+                                    season: true,
+                                },
+                            },
                         },
                     },
                     games: {
@@ -268,7 +284,7 @@ export default defineEventHandler(async (event) => {
             rankings: {
                 select: {
                     rank: true,
-                    season: true,
+                    // season: true,
                 },
             },
             socials: {
@@ -278,21 +294,30 @@ export default defineEventHandler(async (event) => {
                     id: true,
                 },
             },
-            _count: {
-                select: {
-                    wins: true,
-                    losses: true,
-                    sets: true,
-                },
-            },
+            // _count: {
+            //     select: {
+            //         wins: true,
+            //         losses: true,
+            //         sets: true,
+            //     },
+            // },
             tournaments: {
                 select: {
                     id: true,
-                    season: true,
+                    // season: true,
                     slug: true,
                     shortSlug: true,
                     name: true,
                     profileImage: true,
+                    online: true,
+                    leagues: {
+                        select: {
+                            name: true,
+                            shortName: true,
+                            iconImage: true,
+                            season: true,
+                        },
+                    },
                     standings: {
                         where: {
                             player: {
@@ -373,33 +398,6 @@ export default defineEventHandler(async (event) => {
             },
         },
     });
-
-    const characters = {};
-
-    for (const tournament of result.tournaments) {
-        for (const set of tournament.sets) {
-            for (const game of set.games) {
-                const character =
-                    game.winner.name === result.name
-                        ? game.winnerChar
-                        : game.loserChar;
-
-                if (!(character in characters)) {
-                    characters[character] = 1;
-                } else {
-                    characters[character] += 1;
-                }
-            }
-        }
-    }
-
-    const characters_list = Object.entries(characters);
-
-    // @ts-ignore
-    characters_list.sort(([, a], [, b]) => b - a);
-
-    // eslint-disable-next-line dot-notation
-    result["characters"] = characters_list;
 
     console.timeEnd();
 
