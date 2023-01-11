@@ -34,9 +34,18 @@ export default defineEventHandler(async (event) => {
 
     const sourcePlayer = await prisma.player.findFirstOrThrow({
         where: {
-            name: {
-                equals: query.source.toString(),
-            },
+            OR: [
+                {
+                    id: {
+                        equals: parseInt(query.source.toString()) || -1,
+                    },
+                },
+                {
+                    name: {
+                        equals: query.source.toString(),
+                    },
+                },
+            ],
         },
         select: {
             id: true,

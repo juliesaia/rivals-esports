@@ -4,6 +4,7 @@
     <button @click="spreadStats">
         [Spread stats with ___ minimum placements]
     </button>
+    <button @click="getAccolades">[Get accolades of ___]</button>
     <AInput v-model="textField" type="text" />
     <div>{{ debug }}</div>
 </template>
@@ -11,7 +12,7 @@
 <script setup>
 let debug = $ref("");
 
-let textField = $ref("");
+let textField = $ref("Penguin");
 
 async function allNumbersTo() {
     const { data } = $(
@@ -36,6 +37,11 @@ async function spreadStats() {
     const { data } = $(
         await useFetch(`api/manualStats/spreadStats?min=${textField}`)
     );
+    debug = data;
+}
+
+async function getAccolades() {
+    const { data } = $(await useFetch(`api/accolades?player=${textField}`));
     debug = data;
 }
 </script>
