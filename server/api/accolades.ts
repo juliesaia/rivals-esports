@@ -1,4 +1,4 @@
-import { stat } from "fs";
+import { seasons_dict } from "../constants";
 import { prisma } from "../prisma";
 
 export default defineEventHandler(async (event) => {
@@ -73,12 +73,7 @@ export default defineEventHandler(async (event) => {
         },
     });
 
-    const seasonCount =
-        (await prisma.league.count({
-            where: {
-                shortName: "RCS",
-            },
-        })) - 1;
+    const seasonCount = seasons_dict.RCS.length;
 
     const toReturn = {
         achievements: [],
@@ -260,7 +255,7 @@ export default defineEventHandler(async (event) => {
     // Summarize achievments
     const tempAchievements = [];
     for (const ach of toReturn.achievements) {
-        let index = tempAchievements.findIndex(
+        const index = tempAchievements.findIndex(
             (x) => x.info.title === ach.info.title
         );
         if (index === -1) {
@@ -276,7 +271,7 @@ export default defineEventHandler(async (event) => {
     // Summarize trophies
     const tempTrophies = [];
     for (const trophy of toReturn.trophies) {
-        let index = tempTrophies.findIndex(
+        const index = tempTrophies.findIndex(
             (x) => x.info.title === trophy.info.title
         );
         if (index === -1) {
