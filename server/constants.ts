@@ -989,6 +989,8 @@ export const accountMerges = [
     ["58f05c85", "e26674c6", "fake-376918"],
     // Etalus
     ["7d00fe5b", "fake-1984417", "fake-2312779"],
+    // Forrest
+    ["b28a3bc7", "d301ad65"],
     // Gaming
     ["d023dd93", "fake-321025"],
     // Ghostmissingno

@@ -5,6 +5,7 @@
         [Spread stats with ___ minimum placements]
     </button>
     <button @click="getAccolades">[Get accolades of ___]</button>
+    <button @click="randomDebug">[Random debug button]</button>
     <AInput v-model="textField" type="text" />
     <div>{{ debug }}</div>
 </template>
@@ -42,6 +43,11 @@ async function spreadStats() {
 
 async function getAccolades() {
     const { data } = $(await useFetch(`api/accolades?player=${textField}`));
+    debug = data;
+}
+
+async function randomDebug() {
+    const { data } = $(await useFetch("api/manualStats/randomDebug"));
     debug = data;
 }
 </script>
