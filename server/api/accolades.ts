@@ -1,4 +1,5 @@
-import { seasons_dict } from "../constants";
+import { debugConsoleLogs } from "../constants";
+import { seasons_dict } from "../dictionaries";
 import { rcsTimestamps } from "../lists/rcsTimestamps";
 import { top50 } from "../lists/top50";
 import { prisma } from "../prisma";
@@ -6,24 +7,40 @@ import { prisma } from "../prisma";
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
 
-    const playerName = query.player;
+    const playerName = Array.isArray(query.player)
+        ? query.player[0]
+        : query.player;
 
-    const playerID = (
-        await prisma.player.findFirstOrThrow({
-            where: {
-                name: playerName,
-            },
-            select: {
-                id: true,
-            },
-        })
-    ).id;
+    if (debugConsoleLogs) {
+        console.log(`Getting accolades of ${playerName}`);
+        console.time();
+    }
+
+    let playerID;
+    try {
+        playerID = (
+            await prisma.player.findFirstOrThrow({
+                where: {
+                    name: playerName,
+                },
+                select: {
+                    id: true,
+                },
+            })
+        ).id;
+    } catch (e) {
+        if (debugConsoleLogs) {
+            console.timeEnd();
+        }
+        return { message: "player not found" };
+    }
 
     const player = await prisma.player.findFirst({
         where: {
             id: playerID,
         },
         select: {
+            id: true,
             standings: {
                 select: {
                     placement: true,
@@ -188,16 +205,16 @@ export default defineEventHandler(async (event) => {
                     x.end >= standing.tournament.startAt
             );
 
-            if (relevantSeason) {
+            if (relevantSeason && set.winnerid === playerID) {
                 const loserTop50 = top50[
                     `season${relevantSeason.season}`
                 ]?.find((x) => x.smashggID === set.loser.smashggid);
 
                 if (loserTop50) {
                     const index = top50Achievements.barriers.findIndex(
-                        (x) => x > loserTop50.ranking
+                        (x) => x >= loserTop50.ranking
                     );
-                    const topX = top50Achievements.barriers[index];
+                    const topX = top50Achievements.barriers[index].toString();
 
                     toReturn.achievements.push({
                         info: {
@@ -324,12 +341,16 @@ export default defineEventHandler(async (event) => {
 
     toReturn.trophies = tempTrophies;
 
+    if (debugConsoleLogs) {
+        console.timeEnd();
+    }
+
     return toReturn;
 });
 
 function getAchievement(
-    name: String,
-    instanceName?: String,
+    name: string,
+    instanceName?: string,
     totalCount?: number,
     maxPossible?: number
 ) {

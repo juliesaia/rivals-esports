@@ -108,7 +108,7 @@
 import Tournament from "../components/Tournament.vue";
 import SetList from "../components/SetList.vue";
 import { /* decompress_one, */ winrate } from "~~/server/utils";
-import { seasons_dict } from "~~/server/constants";
+import { seasons_dict } from "~~/server/dictionaries";
 
 const route = useRoute();
 

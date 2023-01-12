@@ -3,6 +3,10 @@ import { prisma } from "../../prisma";
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
 
+    if (Array.isArray(query.min)) {
+        query.min = query.min[0];
+    }
+
     if (!parseInt(query.min)) {
         return "Input error";
     }
@@ -27,11 +31,11 @@ export default defineEventHandler(async (event) => {
         });
 
         if (allSPR.length < parseInt(query.min)) {
-            players[i]["avgSPR"] = null;
+            players[i].avgSPR = null;
             continue;
         }
 
-        players[i]["avgSPR"] =
+        players[i].avgSPR =
             allSPR.length > 0
                 ? allSPR.map((x) => x.spr).reduce((a, b) => a + b) /
                   allSPR.length

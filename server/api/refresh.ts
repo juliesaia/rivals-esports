@@ -1,12 +1,10 @@
 import { rounds_from_victory, sleep } from "../utils";
-import {
-    character_dict,
-    allTournaments,
-    unknownPlayers,
-    debugConsoleLogs,
-    accountMerges,
-    allLeagues,
-} from "../constants";
+import { debugConsoleLogs } from "../constants";
+import { character_dict } from "../dictionaries";
+import { unknownPlayers } from "../lists/unkownPlayers";
+import { allLeagues } from "../lists/allLeagues";
+import { allTournaments } from "../lists/allTournaments";
+import { playerMerges as accountMerges } from "../lists/playerMerges";
 import { prisma } from "../prisma";
 
 async function get_startgg_basic(query: string) {
