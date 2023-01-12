@@ -1,4 +1,6 @@
 import { seasons_dict } from "../constants";
+import { rcsTimestamps } from "../lists/rcsTimestamps";
+import { top50 } from "../lists/top50";
 import { prisma } from "../prisma";
 
 export default defineEventHandler(async (event) => {
@@ -31,6 +33,7 @@ export default defineEventHandler(async (event) => {
                             online: true,
                             name: true,
                             slug: true,
+                            startAt: true,
                             sets: {
                                 where: {
                                     OR: [
@@ -53,6 +56,11 @@ export default defineEventHandler(async (event) => {
                                     },
                                     winnerid: true,
                                     loserid: true,
+                                    loser: {
+                                        select: {
+                                            smashggid: true,
+                                        },
+                                    },
                                 },
                             },
                             leagues: {
@@ -172,13 +180,45 @@ export default defineEventHandler(async (event) => {
                     );
                 }
             }
+
+            // Top 50 win checks
+            const relevantSeason = rcsTimestamps.find(
+                (x) =>
+                    x.start <= standing.tournament.startAt &&
+                    x.end >= standing.tournament.startAt
+            );
+
+            if (relevantSeason) {
+                const loserTop50 = top50[
+                    `season${relevantSeason.season}`
+                ]?.find((x) => x.smashggID === set.loser.smashggid);
+
+                if (loserTop50) {
+                    const index = top50Achievements.barriers.findIndex(
+                        (x) => x > loserTop50.ranking
+                    );
+                    const topX = top50Achievements.barriers[index];
+
+                    toReturn.achievements.push({
+                        info: {
+                            title: top50Achievements.title.replace("_x_", topX),
+                            description: top50Achievements.description.replace(
+                                "_x_",
+                                topX
+                            ),
+                            rarity: top50Achievements.rarities[index],
+                        },
+                        instances: [standing.tournament.name],
+                        count: 1,
+                    });
+                }
+            }
         }
 
         // Trophy checks
         if (standing.placement <= 32 && rcsInfo) {
             if (standing.placement === 1) {
                 if (seasonFinales.includes(standing.tournament.slug)) {
-                    console.log("Season Champion " + standing.tournament.name);
                     toReturn.trophies.push({
                         info: trophiesList.seasonChampion,
                         instances: [`RCS Season ${rcsInfo.season}`],
@@ -464,12 +504,12 @@ const trophiesList = {
     },
     majorTop8: {
         title: "RCS Major Top 8 Finisher",
-        rarity: "bronze?",
+        rarity: "medal8",
         placement: 8,
     },
     majorTop32: {
         title: "RCS Major Top 32 Finisher",
-        rarity: "bronze??",
+        rarity: "medal32",
         placement: 32,
     },
 };
@@ -492,6 +532,13 @@ const seasonFinales = [
     "tournament/na-rcs-finals",
     "tournament/genesis-8",
 ];
+
+const top50Achievements = {
+    title: "Top-_x_ win",
+    description: "Beat a player where they would go on to be ranked top _x_",
+    rarities: ["master", "diamond", "platinum", "gold", "silver", "bronze"],
+    barriers: [5, 10, 20, 30, 40, 50],
+};
 
 /*
 Achievements:

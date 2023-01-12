@@ -1,25 +1,34 @@
 import { prisma } from "../../prisma";
 
 export default defineEventHandler(async (event) => {
-    const toReturn = await prisma.player.findMany({
+    const toReturn = await prisma.league.findMany({
+        where: {
+            shortName: "RCS",
+        },
         select: {
-            name: true,
-            smashggid: true,
+            season: true,
+            tournaments: {
+                select: {
+                    startAt: true,
+                    endAt: true,
+                },
+            },
         },
     });
 
-    const mappedArray = [];
+    const leagues = [];
 
-    for (const p of playerList) {
-        mappedArray.push({
-            name: p,
-            id:
-                toReturn.find((x) => x.name.toLowerCase() === p.toLowerCase())
-                    ?.smashggid || null,
+    for (const season of toReturn) {
+        const sorted = season.tournaments.sort((a, b) => a.startAt - b.startAt);
+
+        leagues.push({
+            season: season.season,
+            start: sorted[0].startAt,
+            end: sorted.pop().endAt,
         });
     }
 
-    return mappedArray;
+    return leagues;
 });
 
 const playerList = [
