@@ -75,6 +75,7 @@ export default defineEventHandler(async (event) => {
                                     },
                                     winnerid: true,
                                     loserid: true,
+                                    loserGameCount: true,
                                     loser: {
                                         select: {
                                             smashggid: true,
@@ -150,7 +151,7 @@ export default defineEventHandler(async (event) => {
                     perfectFlag = false;
                     break;
                 }
-                if (set.games.length === 3) {
+                if (set.loserGameCount !== 0) {
                     flawlessFlag = false;
                 }
             }

@@ -4,7 +4,7 @@ export const top50 = {
             name: "FullStream",
             smashggID: "aa68b2cf",
             ranking: 1,
-            char: "random",
+            char: "wrastor",
             blurb: "Though our other top 3 have history as high level players in smash games, FullStream is all our own. He began his platform fighter career in Rivals and rose to the top early in season 1, ultimately finishing our online circuit at #1. Going into Genesis 4, the question on everyone's minds was would he be able to take down the titans that were Ralph and MrLz. Coming into the top 8 from winners's side certainly gave him an advantage though he had a bit of a scare narrowly beating Arcanine in game 5 of their set. After that, the rest is history as he cleaned up MrLz 3 - 0 to take the trophy and the title of the first RCS Champion. FullStream doesn't plan on stopping anytime soon either. You can see him and some of his crew members in Ace and FlySociety at the Bigger Balc next weekend as the first major in season 2 of the RCS kicks off.",
         },
         {
@@ -25,7 +25,7 @@ export const top50 = {
             name: "CakeAssault",
             smashggID: "5fdb5d4a",
             ranking: 4,
-            char: "forsburn",
+            char: "zetterburn",
             blurb: "CakeAssault had some of the most surprising results this past year. Whispers about how good the young player was started after he took first place at Super Smash Con and made it look easy. Then he started to win online RCS weeklies, defeating FullStream with a character the viewers had never seen him play before - Wrastor. At Genesis 4 CakeAssault solidified his legacy with one of the most epic losers bracket runs in Rivals history. After losing in game 5/last hit to Arcanine, he was able to rally and defeat Handbutt, Turquoise, LBO, DolphinBrick, and eventually eliminate Ralph from the event. This level of mental fortitude bodes well for CakeAssault's future career as he'll definitely be a player to look out for in season 2.",
         },
         {
@@ -39,7 +39,7 @@ export const top50 = {
             name: "Kaos",
             smashggID: "abbbbbd8",
             ranking: 6,
-            char: "maypul",
+            char: "zetterburn",
             blurb: "Kaos was the European RCS champion and certainly had a lot to prove when he came to Genesis 4. No stranger to the big stage due to his experience as a pro Brawl player, he did not disappoint - defeating Kenneth, Turquoise, AZCards and others on his way to 5th place. Kaos is a multi-character main, changing characters as patches came out in early access updates. Now that the game has settled he tends to play Etalus and Zetterburn. Even though he was only here for a short time, players were obviously impressed with his skills and impact on the scene for global Rivals, as he was unanimously placed in the top ten on our panelist ballots.",
         },
         {
@@ -81,7 +81,7 @@ export const top50 = {
             name: "TheFailWhale",
             smashggID: "3a44c864",
             ranking: 12,
-            char: "etalus",
+            char: "kragg",
             blurb: "TheFailWhale was a fan favorite to watch on stream during season 1 due to his smooth movement and dominant playstyle. One of the best in the ICE crew, he secured 9th at Genesis 4. He (along with Nevereatcars) is the lead TO for the community run National Championship Series. Hosting hundreds of Rivals events from early access to today, his work provides players with countless hours of enjoyment.",
         },
         {
@@ -116,7 +116,7 @@ export const top50 = {
             name: "Kenneth",
             smashggID: "8618e8d2",
             ranking: 17,
-            char: "forsburn",
+            char: "etalus",
             blurb: "Even though Kenneth is a hard player to pin down and his results can vary from event to event, he trends near the top. He's proven that he's not someone to sleep on when he secured 9th place at Gensesis 4. Kenneth is a technical player and is also talented in design and programming, creating the rivalsrankings website as well as the custom /r/rivalsofaether styling.",
         },
         {
@@ -221,7 +221,7 @@ export const top50 = {
             name: "Penguin",
             smashggID: "93240653",
             ranking: 32,
-            char: "absa",
+            char: "orcane",
             blurb: "Penguin has been playing for awhile and is steadily improving. He advanced through the 70 man bracket at Super Smash Con last year to 25th place, and has big plans to go even farther again this year. He has a huge number of NCS victories under his belt, third only to Kisuno and GamingClan above him.",
         },
         {
@@ -277,14 +277,14 @@ export const top50 = {
             name: "MiNi",
             smashggID: "7890f7b4",
             ranking: 40,
-            char: "kragg",
+            char: "zetterburn",
             blurb: "MiNi is a volatile player, sometimes able to play above his skill level and others below. He's familiar with many characters and isn't afraid to play them in tournaments, even going as far as playing a different character every game in a set if he thinks a new strategy is more suitable. He's traveled across the country to play and is still grinding for that first place trophy. His best finishes to date were Super Smash Con 2016 where he placed 3rd and CEO Dreamland where he defeated CLG | PewPewU on his way to secure 9th.",
         },
         {
             name: "Jesier",
             smashggID: "48c81598",
             ranking: 41,
-            char: "ori",
+            char: "wrastor",
             blurb: "Jesier is an east coast player with a propensity for high flying air based Rivals. Often making it deep into NCS brackets, I expect Jesier to start showing up big in season 2. Notable upsets include TheDuoDesign, Ceztellz, and Guyron.",
         },
         {
@@ -356,7 +356,7 @@ export const top50 = {
             name: "FullStream",
             smashggID: "aa68b2cf",
             ranking: 1,
-            char: "random",
+            char: "ori",
             blurb: "FullStream secures himself #1 for the second year in a row. With an insane amount of first place finishes around the country, he's shown his dominance in almost every region and done it with multiple characters. His smart, optimal playstyle seeks to take advantage of his opponents and the game itself. FullStream's passion and skill have also landed him a spot on Panda Global where he plans to continue his Rivals dominance. We'll have to wait and see where season 3 takes us since this is the first time he's had people so closely at his heels!",
         },
         {
@@ -405,7 +405,7 @@ export const top50 = {
             name: "Kaos",
             smashggID: "abbbbbd8",
             ranking: 8,
-            char: "maypul",
+            char: "etalus",
             blurb: "For the second year in a row, Kaos is the only player on our top 50 list from outside North America. His legacy as the #1 player in Europe has stood up to the test once again with wins over some of NA's best like Dunk, AZCards, Penguin, DolphinBrick and more. His results are based off of just two tournaments (Shine and Genesis 5) but his performance gave our panelists enough confidence to rank him as one of the top threats who played in the circuit.",
         },
         {
@@ -482,7 +482,7 @@ export const top50 = {
             name: "Jesier",
             smashggID: "48c81598",
             ranking: 19,
-            char: "ori",
+            char: "absa",
             blurb: "Jesier has been on the rise this year after he switched from being a long-time Wrastor main to focus on Ori and Sein. It's safe to say the swap has paid off for him as our panelists have voted him the top solo Ori main in the game. With consistent top 32 finishes all year, and a huge 3rd place finish in December with wins over Penguin, TheFailWhale, and Dynla he's safely solidified himself among the top 20. This massive jump of over 20 ranks from last year certainly shows his growth as a player, and his recent qualification for the Mentality League is a good sign that it's not stopping this year either.",
         },
         {
@@ -503,7 +503,7 @@ export const top50 = {
             name: "SBS",
             smashggID: "03d90749",
             ranking: 22,
-            char: "clairen",
+            char: "forsburn",
             blurb: "SBS has grown leaps and bounds this year with the help of the amazing scene that he's grown from scratch in Arizona. Most recently, his 5th place finish at GT-X and 17th at G5 have made people sit up and take notice. Relatively unknown players are starting to come out of AZ and put up strong finishes like it's a hyperbolic chamber, so their region is certainly one to look out for. Now that he's become a part of TwistedSin we expect to see much more of him at even greater heights in season 3!",
         },
         {
@@ -531,7 +531,7 @@ export const top50 = {
             name: "Risky",
             smashggID: "dd93b11f",
             ranking: 26,
-            char: "etalus",
+            char: "forsburn",
             blurb: "Risky is an old school player who has a way with games. In addition to his skill in Rivals, he's also been invited to AGDQ multiple times to show off speedruns in his favorite titles. His passion in Rivals falls to unique characters where he finds joy in making rarely used characters shine. His Forsburn and Etalus play are dangerous to underestimate as shown by his 7th place finish at Shine, where he upset AZCards after coming off of a hiatus.",
         },
         {
@@ -552,7 +552,7 @@ export const top50 = {
             name: "SisterEden",
             smashggID: "70557ea3",
             ranking: 29,
-            char: "kragg",
+            char: "ori",
             blurb: "The final write-in on the list, SisterEden was recognized by our panelists for her outstanding Ori play. Her potential is high and though she's not very battle-tested in official events, she has plenty of wins and experience in the community to be prominent. Her tricky Ori play continues to advance the character even though it's one of the rarer Rivals, and we hope to see her more in the future.",
         },
         {
@@ -601,7 +601,7 @@ export const top50 = {
             name: "Sparx21",
             smashggID: "86af97b8",
             ranking: 36,
-            char: "elliana",
+            char: "kragg",
             blurb: "Sparx21 is on the rise right now and was just recently picked up by Ice Storm Gaming. He spent most of last season honing his talent and has recently started to break through with great Kragg finishes and creative Elliana play. With a strong showing at Frostbite during the offseason and a first place at Push More Buttons 2018, the future is bright for Sparx21 this year.",
         },
         {
@@ -629,7 +629,7 @@ export const top50 = {
             name: "Seggo",
             smashggID: "6af8830a",
             ranking: 40,
-            char: "random",
+            char: "kragg",
             blurb: "ManDown's Seggo is an up-and-coming Kragg with great potential. Originally getting his start on the Xbox version of Rivals, he eventually moved over to PC where he started entering tournaments seriously towards the end of last year. His skill shone through in online events as he secured himself a top 8 and took games off of some of the best like DolphinBrick and MrLz. The only thing holding Seggo back from placing higher on the list was the fact that due to his late start he ran out of events to prove himself at! He has a bright future and we're looking forward to how he continues to break into competitive Rivals in season 3.",
         },
         {
@@ -685,7 +685,7 @@ export const top50 = {
             name: "yesdefinitely",
             smashggID: "3a356ccc",
             ranking: 48,
-            char: "orcane",
+            char: "wrastor",
             blurb: "With probably a dominant showing over #49, Yesdefinitely clocks in on the list at 48th. He's a strong Wrastor player with dedication to a character that's quite risky to play at the top level. While he's made some notable upsets in the past, yesdefinitely hasn't quite gotten the consistency needed to beat those players with regularity. You can still be sure to see him rising through the bracket at events and even take some big names if he can get past a few roadblocks.",
         },
         {
@@ -849,7 +849,7 @@ export const top50 = {
             smashggID: "7b7747df",
             ranking: 21,
             char: "zetterburn",
-            blurb: "",
+            blurb: "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah ",
         },
         {
             name: "Adi",
@@ -897,7 +897,7 @@ export const top50 = {
             name: "Tapscott",
             smashggID: "2e2294f9",
             ranking: 28,
-            char: "wrastor",
+            char: "orcane",
             blurb: "Tapscott is another player who made massive strides during season 3. Now arguably the best tournament Orcane outside of DolphinBrick, he was able to take sets from the likes of AZCards, FullStream, Protagify and more throughout the season while capping things off with a 17th place finish at Genesis 6. He seemed to be focusing on a breakout event, and with his skill we expect to see it pay off if he continues to play in season 4.",
         },
         {
@@ -967,7 +967,7 @@ export const top50 = {
             name: "Nero",
             smashggID: "1499e750",
             ranking: 38,
-            char: "???",
+            char: "absa",
             blurb: "Nero is another player making a strong case for the growing strength of Midwest Rivals as a region. Though he was absent from the list last year due to lack of significant participation, he made it out enough in season 3 to get the recognition he deserves. His solo Absa is a real threat and his results this year prove it with him securing a strong 9th place finish at Super Smash Con 2018.",
         },
         {
@@ -1158,21 +1158,21 @@ export const top50 = {
             name: "Bagel",
             smashggID: "22b3b716",
             ranking: 15,
-            char: "etalus",
+            char: "zetterburn",
             blurb: "Canada's top representative of “The Glacier's Might” has recently been working to become a truly threatening Zetterburn main. While his heavy handed upsets of Season 3 weren't present this year, Bagel remained devastatingly consistent with placements in and around Top 8 at six of his seven events, with the outlier being 33rd at Genesis 7. Bagel's early season includes wins on some of the best Rivals players to ever do it; including MSB, Chompers, Corkxx, and many more. While his late season may have faltered a tad, Lord Bagel still poses a looming threat to any player's bracket run, even with his new main, nearly taking down Sparx21 in our offseason event.",
         },
         {
             name: "Tapscott",
             smashggID: "2e2294f9",
             ranking: 16,
-            char: "wrastor",
+            char: "orcane",
             blurb: "When it comes to reaching the top, Tapscott may be the most devoted player in the scene. His improvement over the last few Seasons has been astronomical, while his hunger for competition brought him to six of our Season 4 events, of which Tapscott missed Top 8 at just two. Hailing from Alabama, Tapscott has jumped up by 16 total spots in the Top 50 rankings this year, inching closer to the top with every event. We are excited for his potential burst into top 10 come Season 5!",
         },
         {
             name: "LBO",
             smashggID: "d51e7bc6",
             ranking: 17,
-            char: "zetterburn",
+            char: "shovel knight",
             blurb: "Another old school tyrant, LBO continued his expedition in shovelry this year, attending EVO 2019 and Heat Wave 3. While LBO may have just fallen short of top 8 at EVO, he took an astonishing 5th place at Heat Wave 3 with wins on Tapscott, ZeeBee, and seemingly unstoppable Penguin. As a former top 5 Rivals player, LBO may enter events sparingly; however, he is never to be slept on. As a head of fan favorite, Tuxedo Esports, LBO certainly is the classiest Shovel Knight to ever dig it!",
         },
         {
@@ -1186,7 +1186,7 @@ export const top50 = {
             name: "FullStream",
             smashggID: "aa68b2cf",
             ranking: 19,
-            char: "random",
+            char: "etalus",
             blurb: "The Genesis 6 Champion and the second ranked player in Season 3, Panda Global's FullStream spent his year focusing primarily on Smash Ultimate. While he may have dropped a few spots from last year, FullStream remained stunningly consistent; placing 9th at Smash N Splash 5, Glitch 7, and Genesis 7. FullStream was also able to snag top 8 twice this year at EVO 2019 and Big House 9. FullStream's late season included a grind to return to rivals. He streamed practice sessions and restored some of his former glory with a fantastic 9th place at the Season finale. FullStream has continued the grind with a top 8 at Frostbite 2020 and promises to be a deadly threat once again in Season 5.",
         },
         {
@@ -1200,7 +1200,7 @@ export const top50 = {
             name: "Seggo",
             smashggID: "6af8830a",
             ranking: 21,
-            char: "random",
+            char: "kragg",
             blurb: "Seggo may not have many events under his belt this season; however, his local appearance at Smash N Splash 5 sported victories over several upper echelon players. Seggo was able to topple Forrest, ZeeBee, and MSB to place 5th at the first RCS event of the year. Rounding out his incredible run at Smash N Splash, Seggo placed 9th in the July online RCS with victories over TurtleBox and Penguin. Seggo has been dominant as of late in his local scene, utilizing an arsenal of characters to secure 1st on the Wisconsin/Illinois PR.",
         },
         {
@@ -1354,7 +1354,7 @@ export const top50 = {
             name: "AZCards",
             smashggID: "0e08d8b7",
             ranking: 43,
-            char: "kragg",
+            char: "sylvanos",
             blurb: "It's hard to keep an old school legend off of the Top 50, even if they happen to be retired. AZCards placed third in the July Online RCS and made his way out to EVO and CREST, placing 9th at both and proving that fundamentals don't die easily. AZ's shift in focus makes seeing him, and his now trademark Sylvanos, at events even more special. We wish him the best and sincerely hope to spend some time at future events with one of the most kind players in the community.",
         },
         {
@@ -1382,7 +1382,7 @@ export const top50 = {
             name: "Junuh",
             smashggID: "46b4eadc",
             ranking: 47,
-            char: "kragg",
+            char: "wrastor",
             blurb: "Another newcomer to our top 50 players, Junuh is an Arizona Wrastor/Kragg co-main who has proven his ability to thrive in high stress environments. Junuh collected a few outstanding wins over Chompers at Overgrown and Kruz at Heat Wave 3. Junuh placed 25th at Heat Wave and has proven that he can take down any player when the time is right.",
         },
         {
@@ -1433,7 +1433,7 @@ export const top50 = {
             name: "Seggo",
             smashggID: "6af8830a",
             ranking: 4,
-            char: "random",
+            char: "elliana",
             blurb: "Kusi makes his first ever appearance on the Rivals Top 50 with an astonishing Top 3 ranking. Kusi first picked up Rivals as a Kragg main around the release of Ori & Sein in 2017. It was not until April of 2020 that Kusi first used his Ori secondary in bracket which, as fate would have it, would become the first bracket Kusi had ever won. Taking this as a sign, Kusi began grinding the game and improving exponentially while more than tripling his previous 1,000 hours spent in Rivals during 2020. Kusi entered all six Season 5 events, never missing Top 8 a single time and placing 2nd in each of the final two events. His overall consistency during Season 5 and skyrocketing improvement has earned him nearly everything a player can only dream of. We suspect that Kusi will be taking home the first place trophy in Majors on the not too distant horizon.",
         },
         {
@@ -1580,7 +1580,7 @@ export const top50 = {
             name: "Mentos",
             smashggID: "b4f2cfe3",
             ranking: 25,
-            char: "shovel knight",
+            char: "forsburn",
             blurb: "Windows is a former Florida tyrant who recently moved to Wisconsin between RCS seasons. Windows aimed to ramp up his stream during lockdown by keeping a consistent schedule and making sure each of his tournament runs were played live for his viewers. Keeping his focus on content creation, Windows rarely brought out his famous Wrastor to accompany his main for the season, Kragg. Despite the shift in focus, Windows placed Top 32 in all three of his events, making a surprisingly strong losers run in the RCS Finals to earn his best placement of 9th.",
         },
         {
@@ -1594,7 +1594,7 @@ export const top50 = {
             name: "FullStream",
             smashggID: "aa68b2cf",
             ranking: 27,
-            char: "random",
+            char: "etalus",
             blurb: "Kobra is a former Xbox player that found solace in cheering on and performing against his friends during Season 5. Kobra's Wrastor continues to impress, placing Top 32 in five of six events and earning 9th place at RCS Fire. His flashy punish game and consistently impressive results after his breakout performance at the latest Super Smash Con signal a lasting presence in the top of the Rivals meta-game.",
         },
         {
@@ -1623,7 +1623,7 @@ export const top50 = {
             smashggID: "22b3b716",
             ranking: 31,
             char: "etalus",
-            blurb: "31. Bagel\nBagel is known for his fearsome Etalus that has, in a past season, gone so far as to beat the best player in the world. As of late Bagel has been whipping his Zetterburn into shape, putting a heavy focus on the task during Season 5. While his Etalus may be taking a bit of a back seat, it still has the ability to strike fear into his opponents when called upon, leading Bagel to a stellar 9th place at RCS Water. Outside of the game itself, Bagel has taken up a leadership role and has been working on his local scene by hosting region-locked tournaments to build up his community.",
+            blurb: "Bagel is known for his fearsome Etalus that has, in a past season, gone so far as to beat the best player in the world. As of late Bagel has been whipping his Zetterburn into shape, putting a heavy focus on the task during Season 5. While his Etalus may be taking a bit of a back seat, it still has the ability to strike fear into his opponents when called upon, leading Bagel to a stellar 9th place at RCS Water. Outside of the game itself, Bagel has taken up a leadership role and has been working on his local scene by hosting region-locked tournaments to build up his community.",
         },
         {
             name: "Nbad",
@@ -1692,7 +1692,7 @@ export const top50 = {
             name: "Tapscott",
             smashggID: "2e2294f9",
             ranking: 41,
-            char: "wrastor",
+            char: "orcane",
             blurb: "CRSDCrusader is the head of the Texas Rivals of Aether scene, organizing several online tournaments for the region and even creating a Power Ranking system for Texas. CRSDCrusader started to see dramatic growth this year, placing consistently in the Top 2 of the Official Rivals of Aether Discord Weeklies and 13th in RCS Earth.",
         },
         {
@@ -1806,7 +1806,7 @@ export const top50 = {
             name: "Seggo",
             smashggID: "6af8830a",
             ranking: 7,
-            char: "random",
+            char: "shovel knight",
             blurb: "Seggo is a wildcard from Wisconsin and master pilot of some of the most distinct characters Rivals has to offer.  His season 6 got off to a powerful start with a 4th place Riptide finish where he defeated Adi, ZeeBee, and soulrifle211. He's also been enjoying being a multi-game threat this year, as seen on stage for both Rivals and NASB at Genesis 8. Seggo is looking forward to Olympia being tournament legal in season 7, and aims to become the best Olympia in the game. With what we've seen from him so far, we don't doubt it!  Seggo is also incredibly appreciative of his sponsor Sprecher and has said that because of them, “The amount of opportunities that have opened up to me have me feeling incredibly blessed.”  Seggo wants to give a shout out to the NASB community for being ultra homies, and super shout outs to all the Zimmers: Endy, Despot, Smuckables, Tuscuu, Mj, Revilo, Lucian, Eternal, and Kobazco.",
         },
         {
@@ -1946,7 +1946,7 @@ export const top50 = {
             name: "SBS",
             smashggID: "03d90749",
             ranking: 27,
-            char: "clairen",
+            char: "wrastor",
             blurb: "Hey everyone, time to break narration for a minute and speak directly with you. This is my first active RCS Season since quitting my job as a Geologist and taking a dream job as a member of the Rivals Dev Team. My performance this year was a fun one, with a balance of Ori, Clairen, and Wrastor while wearing my TO hat at the two largest majors we've ever had. I've recently made a full swap to Wrastor and had a blast at Low Tide City, placing 3rd with my first all solo bird run (flight?). On the home-front, I could not be more proud of the Arizona community, stepping up to share responsibilities as a team has lifted our scene to unimaginable heights. There are too many people to thank, but I want every one of you to know that your drive, dedication, and friendship has meant the world to me. Outside of the game I've picked back up Ultimate Frisbee and have been pretty heavily focused on my improvement in that. My first ever Club season kicks off this June with our team, Instant Karma. I'm looking forward to balancing my love of Rivals while reigniting an old passion. See everyone in Season 7!",
         },
         {
