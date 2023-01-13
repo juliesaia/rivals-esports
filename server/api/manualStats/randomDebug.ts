@@ -1,34 +1,36 @@
 import { prisma } from "../../prisma";
+import { top50 } from "~~/server/lists/top50";
 
 export default defineEventHandler(async (event) => {
-    const toReturn = await prisma.league.findMany({
-        where: {
-            shortName: "RCS",
-        },
-        select: {
-            season: true,
-            tournaments: {
-                select: {
-                    startAt: true,
-                    endAt: true,
-                },
-            },
-        },
-    });
+    const uniqueIDs = [
+        ...new Set(
+            Object.values(top50)
+                .flat()
+                .map((x) => x.smashggID)
+        ),
+    ];
+    const toReturn = [];
 
-    const leagues = [];
-
-    for (const season of toReturn) {
-        const sorted = season.tournaments.sort((a, b) => a.startAt - b.startAt);
-
-        leagues.push({
-            season: season.season,
-            start: sorted[0].startAt,
-            end: sorted.pop().endAt,
+    for (const id of uniqueIDs) {
+        const playerName = Object.values(top50)
+            .flat()
+            .reverse()
+            .find((x) => x.smashggID === id).name;
+        const allRankings = Object.values(top50)
+            .flat()
+            .filter((x) => x.smashggID === id)
+            .map((x) => x.ranking);
+        toReturn.push({
+            name: playerName,
+            smashggID: id,
+            rankings: allRankings,
+            timesRanked: allRankings.length,
+            averageRank:
+                allRankings.reduce((a, b) => a + b) / allRankings.length,
         });
     }
 
-    return leagues;
+    return toReturn.sort((a, b) => a.averageRank - b.averageRank);
 });
 
 const playerList = [

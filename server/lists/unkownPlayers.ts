@@ -1,9 +1,5 @@
 export const unknownPlayers = [
     {
-        tag: "LBO",
-        startggID: "d51e7bc6",
-    },
-    {
         tag: "That_0ne_Guy",
         startggID: "78483bd4",
     },

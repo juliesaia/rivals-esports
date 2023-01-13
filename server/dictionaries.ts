@@ -24,3 +24,12 @@ export const character_dict = {
     1922: "Pomme",
     1923: "Olympia",
 };
+
+export const rcsFinales = {
+    1: "tournament/genesis-4",
+    2: "tournament/genesis-5",
+    3: "tournament/genesis-6",
+    4: "tournament/genesis-7-1",
+    5: "tournament/na-rcs-finals",
+    6: "tournament/genesis-8",
+};

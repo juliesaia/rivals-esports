@@ -47,6 +47,7 @@ model Tournament {
   startAt Int?
   endAt Int?
   timezone String?
+  rankingPeriod Int?
 }
 
 model Standing {
@@ -76,6 +77,7 @@ model Set {
   loserGameCount Int
   phase String?
   fullRoundText String?
+  completedAt Int
 }
 
 model Game {

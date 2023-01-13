@@ -1,11 +1,12 @@
 import { debugConsoleLogs } from "../constants";
-import { seasons_dict } from "../dictionaries";
-import { rcsTimestamps } from "../lists/rcsTimestamps";
+import { seasons_dict, rcsFinales } from "../dictionaries";
 import { top50 } from "../lists/top50";
 import { prisma } from "../prisma";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
+
+    const seasonFinales = Object.values(rcsFinales);
 
     const playerName = Array.isArray(query.player)
         ? query.player[0]
@@ -51,6 +52,7 @@ export default defineEventHandler(async (event) => {
                             name: true,
                             slug: true,
                             startAt: true,
+                            rankingPeriod: true,
                             sets: {
                                 where: {
                                     OR: [
@@ -199,16 +201,12 @@ export default defineEventHandler(async (event) => {
             }
 
             // Top 50 win checks
-            const relevantSeason = rcsTimestamps.find(
-                (x) =>
-                    x.start <= standing.tournament.startAt &&
-                    x.end >= standing.tournament.startAt
-            );
+            const relevantSeason = standing.tournament.rankingPeriod;
 
             if (relevantSeason && set.winnerid === playerID) {
-                const loserTop50 = top50[
-                    `season${relevantSeason.season}`
-                ]?.find((x) => x.smashggID === set.loser.smashggid);
+                const loserTop50 = top50[`season${relevantSeason}`]?.find(
+                    (x) => x.smashggID === set.loser.smashggid
+                );
 
                 if (loserTop50) {
                     const index = top50Achievements.barriers.findIndex(
@@ -545,17 +543,8 @@ const rocsSlugs = [
     "tournament/na-rocs-finals",
 ];
 
-const seasonFinales = [
-    "tournament/genesis-4",
-    "tournament/genesis-5",
-    "tournament/genesis-6",
-    "tournament/genesis-7-1",
-    "tournament/na-rcs-finals",
-    "tournament/genesis-8",
-];
-
 const top50Achievements = {
-    title: "Top-_x_ win",
+    title: "Top _x_ win",
     description: "Beat a player where they would go on to be ranked top _x_",
     rarities: ["master", "diamond", "platinum", "gold", "silver", "bronze"],
     barriers: [5, 10, 20, 30, 40, 50],
@@ -563,12 +552,12 @@ const top50Achievements = {
 
 /*
 Achievements:
-    Top-5 win (master): Beat a player where they would go on to be top 5
-    Top-10 win (diamond)
-    Top-20 win (platinum)
-    Top-30 win (gold)
-    Top-40 win (silver)
-    Top-50 win (bronze)
+    **Top-5 win (master): Beat a player where they would go on to be top 5
+    **Top-10 win (diamond)
+    **Top-20 win (platinum)
+    **Top-30 win (gold)
+    **Top-40 win (silver)
+    **Top-50 win (bronze)
 
     **Flawless Run (master): Win a tournament without dropping a game
     **Perfect Run (diamond): Win a tournament without dropping a set
