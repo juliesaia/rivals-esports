@@ -1,1 +1,1 @@
-export const debugConsoleLogs = false;
+export const debugConsoleLogs = true;

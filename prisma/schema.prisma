@@ -2,118 +2,140 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 model Player {
-  id Int @id @default(autoincrement())
-  name String 
-  smashggid String @unique
-  pronouns String?
-  socials Social[]
-  rankings Ranking[]
-  tournaments Tournament[]
-  sets Set[]
-  wins Set[] @relation("wins")
-  losses Set[] @relation("losses")
-  games Game[]
-  gameWins Game[] @relation("gameWins")
-  gameLosses Game[] @relation("gameLosses")
-  standings Standing[]
+  id                Int          @id @default(autoincrement())
+  name              String
+  smashggid         String       @unique
+  pronouns          String?
+  socials           Social[]
+  rankings          Ranking[]
+  tournaments       Tournament[]
+  sets              Set[]
+  wins              Set[]        @relation("wins")
+  losses            Set[]        @relation("losses")
+  games             Game[]
+  gameWins          Game[]       @relation("gameWins")
+  gameLosses        Game[]       @relation("gameLosses")
+  standings         Standing[]
   favoriteCharacter String?
+  accolades         Accolade[]   @relation("accoladeOwner")
+  accoladeLosses    Accolade[]   @relation("accoladeLosses")
 }
 
 model Ranking {
-  id Int @id @default(autoincrement())
-  rank Int
-  top50 Int?
-  points Int
-  player Player @relation(fields: [playerid], references: [id])
+  id       Int    @id @default(autoincrement())
+  rank     Int
+  top50    Int?
+  points   Int
+  player   Player @relation(fields: [playerid], references: [id])
   playerid Int
-  league League @relation(fields: [leagueid], references: [id])
+  league   League @relation(fields: [leagueid], references: [id])
   leagueid Int
 }
 
 model Tournament {
-  id Int @id @default(autoincrement())
-  entrants Player[]
-  sets Set[]
-  standings Standing[]
-  leagues League[]
-  slug String @unique
-  eventSlug String @unique
-  name String @unique
-  online Boolean
-  state String?
-  city String?
-  profileImage String?
-  bannerImage String?
-  startAt Int?
-  endAt Int?
-  timezone String?
+  id            Int        @id @default(autoincrement())
+  entrants      Player[]
+  sets          Set[]
+  standings     Standing[]
+  leagues       League[]
+  slug          String     @unique
+  eventSlug     String     @unique
+  name          String     @unique
+  online        Boolean
+  state         String?
+  city          String?
+  profileImage  String?
+  bannerImage   String?
+  startAt       Int?
+  endAt         Int?
+  timezone      String?
   rankingPeriod Int?
+  accolades     Accolade[]
 }
 
 model Standing {
-  id Int @id @default(autoincrement())
-  placement Int?
-  seed Int?
-  player Player @relation(fields: [playerid], references: [id])
-  playerid Int
-  tournament Tournament @relation(fields: [tournamentid], references: [id])
+  id           Int        @id @default(autoincrement())
+  placement    Int?
+  seed         Int?
+  player       Player     @relation(fields: [playerid], references: [id])
+  playerid     Int
+  tournament   Tournament @relation(fields: [tournamentid], references: [id])
   tournamentid Int
 }
 
 model Set {
-  id Int @id @default(autoincrement())
-  smashggid Int @unique
-  players Player[]
-  games Game[]
-  winner Player @relation("wins", fields: [winnerid], references: [id])
-  winnerid Int
-  loser Player @relation("losses", fields: [loserid], references: [id])
-  loserid Int
-  tournament Tournament @relation(fields: [tournamentid], references: [id])
-  tournamentid Int
-  order Int
-  uf Int
+  id              Int        @id @default(autoincrement())
+  smashggid       Int        @unique
+  players         Player[]
+  games           Game[]
+  winner          Player     @relation("wins", fields: [winnerid], references: [id])
+  winnerid        Int
+  loser           Player     @relation("losses", fields: [loserid], references: [id])
+  loserid         Int
+  tournament      Tournament @relation(fields: [tournamentid], references: [id])
+  tournamentid    Int
+  order           Int
+  uf              Int
   winnerGameCount Int
-  loserGameCount Int
-  phase String?
-  fullRoundText String?
-  completedAt Int
+  loserGameCount  Int
+  phase           String?
+  fullRoundText   String?
+  completedAt     Int
 }
 
 model Game {
-  id Int @id @default(autoincrement())
-  players Player[]
-  winner Player @relation("gameWins", fields: [winnerid], references: [id])
-  winnerid Int
-  loser Player @relation("gameLosses", fields: [loserid], references: [id])
-  loserid Int
-  set Set @relation(fields: [setid], references: [id])
-  setid Int
+  id         Int      @id @default(autoincrement())
+  players    Player[]
+  winner     Player   @relation("gameWins", fields: [winnerid], references: [id])
+  winnerid   Int
+  loser      Player   @relation("gameLosses", fields: [loserid], references: [id])
+  loserid    Int
+  set        Set      @relation(fields: [setid], references: [id])
+  setid      Int
   gameNumber Int
   winnerChar String?
-  loserChar String?
+  loserChar  String?
 }
 
 model Social {
-  id Int @id @default(autoincrement())
-  player Player @relation(fields: [playerid], references: [id])
-  type String
+  id               Int     @id @default(autoincrement())
+  player           Player  @relation(fields: [playerid], references: [id])
+  type             String
   externalUsername String?
-  playerid Int
+  playerid         Int
 }
 
 model League {
-  id Int @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   tournaments Tournament[]
-  name String
-  shortName String
-  iconImage String
-  season Int
-  rankings Ranking[]
+  name        String
+  shortName   String
+  iconImage   String
+  season      Int
+  rankings    Ranking[]
+  accolades   Accolade[]
+}
+
+model Accolade {
+  id           Int         @id @default(autoincrement())
+  type         String
+  shortName    String
+  title        String
+  description  String
+  rarity       String
+  player       Player      @relation("accoladeOwner", fields: [playerid], references: [id])
+  playerid     Int
+  tournament   Tournament? @relation(fields: [tournamentid], references: [id])
+  tournamentid Int?
+  opponent     Player?     @relation("accoladeLosses", fields: [opponentid], references: [id])
+  opponentid   Int?
+  league       League?     @relation(fields: [leagueid], references: [id])
+  leagueid     Int?
+  count        Int?
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["clientExtensions", "filteredRelationCount"]
 }
 

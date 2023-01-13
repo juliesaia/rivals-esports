@@ -2,35 +2,25 @@ import { prisma } from "../../prisma";
 import { top50 } from "~~/server/lists/top50";
 
 export default defineEventHandler(async (event) => {
-    const uniqueIDs = [
-        ...new Set(
-            Object.values(top50)
-                .flat()
-                .map((x) => x.smashggID)
-        ),
-    ];
-    const toReturn = [];
+    const reversals = (
+        await prisma.player.findMany({
+            select: {
+                name: true,
+                id: true,
+                _count: {
+                    select: {
+                        accoladeLosses: {
+                            where: {
+                                shortName: "reverse30",
+                            },
+                        },
+                    },
+                },
+            },
+        })
+    ).sort((a, b) => b._count.accoladeLosses - a._count.accoladeLosses);
 
-    for (const id of uniqueIDs) {
-        const playerName = Object.values(top50)
-            .flat()
-            .reverse()
-            .find((x) => x.smashggID === id).name;
-        const allRankings = Object.values(top50)
-            .flat()
-            .filter((x) => x.smashggID === id)
-            .map((x) => x.ranking);
-        toReturn.push({
-            name: playerName,
-            smashggID: id,
-            rankings: allRankings,
-            timesRanked: allRankings.length,
-            averageRank:
-                allRankings.reduce((a, b) => a + b) / allRankings.length,
-        });
-    }
-
-    return toReturn.sort((a, b) => a.averageRank - b.averageRank);
+    return reversals;
 });
 
 const playerList = [
