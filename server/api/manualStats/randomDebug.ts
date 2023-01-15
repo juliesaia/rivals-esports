@@ -1,5 +1,6 @@
 import { prisma } from "../../prisma";
 import { top50 } from "~~/server/lists/top50";
+import { transformDocument } from "@prisma/client/runtime";
 
 export default defineEventHandler(async (event) => {
     const reversals = (
@@ -12,6 +13,18 @@ export default defineEventHandler(async (event) => {
                         accoladeLosses: {
                             where: {
                                 shortName: "reverse30",
+                            },
+                        },
+                    },
+                },
+                accoladeLosses: {
+                    where: {
+                        shortName: "reverse30",
+                    },
+                    select: {
+                        tournament: {
+                            select: {
+                                name: true,
                             },
                         },
                     },

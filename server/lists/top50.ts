@@ -849,7 +849,7 @@ export const top50 = {
             smashggID: "7b7747df",
             ranking: 21,
             char: "zetterburn",
-            blurb: "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah ",
+            blurb: "",
         },
         {
             name: "Adi",

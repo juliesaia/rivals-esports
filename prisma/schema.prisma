@@ -81,6 +81,7 @@ model Set {
   phase           String?
   fullRoundText   String?
   completedAt     Int
+  Accolade        Accolade[]
 }
 
 model Game {
@@ -131,6 +132,8 @@ model Accolade {
   opponentid   Int?
   league       League?     @relation(fields: [leagueid], references: [id])
   leagueid     Int?
+  set          Set?        @relation(fields: [setid], references: [id])
+  setid        Int?
   count        Int?
 }
 

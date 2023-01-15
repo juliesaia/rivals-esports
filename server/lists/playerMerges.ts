@@ -1,6 +1,8 @@
 export const playerMerges = [
     // Adi
     ["8db116a5", "fake-930506", "fake-1066460"],
+    // Adam Carra
+    ["a565d5d7", "fake-321909"],
     // Cluf
     [
         "fake-312100",
@@ -65,6 +67,8 @@ export const playerMerges = [
     ["fake-968640", "fake-2011666"],
     // Jeng kie arcade
     ["fake-671966", "fake-676021"],
+    // LBO
+    ["d51e7bc6", "fake-377221", "fake-1064538", "fake-2038936", "fake-319771"],
     // LunaNick
     ["fake-917429", "fake-1146582"],
     // Mag

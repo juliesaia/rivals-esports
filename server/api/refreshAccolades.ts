@@ -8,6 +8,7 @@ import { top50 } from "../lists/top50";
 import { debugConsoleLogs } from "../constants";
 
 export default defineEventHandler(async (_event) => {
+    await prisma.accolade.deleteMany({});
     if (debugConsoleLogs) {
         console.time();
     }
@@ -40,6 +41,7 @@ export default defineEventHandler(async (_event) => {
             name: true,
             sets: {
                 select: {
+                    id: true,
                     games: {
                         select: {
                             gameNumber: true,
@@ -215,6 +217,7 @@ export default defineEventHandler(async (_event) => {
                         getQuery(accolades.reverse30, playerID, {
                             tournamentid: set.tournamentid,
                             opponentid: set.loserid,
+                            setid: set.id,
                         })
                     );
                 }
@@ -256,6 +259,7 @@ export default defineEventHandler(async (_event) => {
                         getQuery(accolades.top50win, playerID, {
                             tournamentid: set.tournamentid,
                             opponentid: set.loserid,
+                            setid: set.id,
                             number: loserRanking,
                         })
                     );
@@ -415,6 +419,13 @@ function getQuery(accolade: any, playerid: number, options?: any) {
                 ? {
                       connect: {
                           id: options.leagueid,
+                      },
+                  }
+                : undefined,
+            set: options?.setid
+                ? {
+                      connect: {
+                          id: options.setid,
                       },
                   }
                 : undefined,
