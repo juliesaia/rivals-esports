@@ -22,14 +22,15 @@ model Player {
 }
 
 model Ranking {
-  id       Int    @id @default(autoincrement())
-  rank     Int
-  top50    Int?
-  points   Int
-  player   Player @relation(fields: [playerid], references: [id])
-  playerid Int
-  league   League @relation(fields: [leagueid], references: [id])
-  leagueid Int
+  id            Int     @id @default(autoincrement())
+  type          String
+  ranking       Int
+  rankingPeriod Int?
+  points        Int?
+  player        Player? @relation(fields: [playerid], references: [id])
+  playerid      Int?
+  league        League? @relation(fields: [leagueid], references: [id])
+  leagueid      Int?
 }
 
 model Tournament {
