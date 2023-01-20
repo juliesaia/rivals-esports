@@ -153,7 +153,7 @@ export default defineEventHandler(async (_event) => {
 
     const favorite_character_dict = {};
 
-    for (const tourney of allTournaments) {
+    for (const tourney of allTournaments.reverse()) {
         const url = tourney.url;
         console.log(`Getting data from ${url}`);
 
@@ -839,9 +839,9 @@ export default defineEventHandler(async (_event) => {
 
     console.log("Favorite characters done!");
 
-    console.log("Getting rankings TODO");
+    console.log("Getting rankings");
 
-    // TODO
+    // my api explorer exploded and honestly nobody really cares about rcs points anyway
     // const [standings] = await get_startgg(
     //     /* GraphQL */
     //     `
@@ -873,38 +873,38 @@ export default defineEventHandler(async (_event) => {
     //     [["league", "standings"]]
     // );
 
-    // queries = [];
+    queries = [];
 
-    // for (const standing of standings) {
-    //     const player = standing.player;
-    //     const user = player.user;
+    for (const standing of standings) {
+        const player = standing.player;
+        const user = player.user;
 
-    //     queries.push(
-    //         prisma.ranking.create({
-    //             data: {
-    //                 season: 7,
-    //                 rank: standing.placement,
-    //                 player: {
-    //                     connectOrCreate: {
-    //                         where: {
-    //                             smashggid: user.discriminator,
-    //                         },
-    //                         create: {
-    //                             name: player.gamerTag,
-    //                             smashggid: user.discriminator,
-    //                             pronouns: user.genderPronoun,
-    //                             socials: {
-    //                                 create: user.authorizations,
-    //                             },
-    //                         },
-    //                     },
-    //                 },
-    //             },
-    //         })
-    //     );
-    // }
+        queries.push(
+            prisma.ranking.create({
+                data: {
+                    season: 7,
+                    rank: standing.placement,
+                    player: {
+                        connectOrCreate: {
+                            where: {
+                                smashggid: user.discriminator,
+                            },
+                            create: {
+                                name: player.gamerTag,
+                                smashggid: user.discriminator,
+                                pronouns: user.genderPronoun,
+                                socials: {
+                                    create: user.authorizations,
+                                },
+                            },
+                        },
+                    },
+                },
+            })
+        );
+    }
 
-    // await prisma.$transaction(queries);
+    await prisma.$transaction(queries);
 
     console.log("Everything done!");
     console.timeEnd();

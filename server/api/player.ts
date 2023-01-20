@@ -268,6 +268,7 @@ export default defineEventHandler(async (event) => {
         return { sets, path: pathstring };
     }
 
+    console.timeEnd();
     console.time();
 
     const result = await prisma.player.findFirstOrThrow({

@@ -148,11 +148,16 @@ const { data: compressed_data } = $(
 // data.player = decompress_one(compressed_data);
 data.player = compressed_data;
 
-console.log(data.player);
+// console.log(data.player);
 
 const filtered_tournaments = $computed(() =>
     data.player.tournaments.filter(
         (el) =>
+            el.sets.filter(
+                (el2) =>
+                    el2.loserGameCount < 0 &&
+                    el2.loser.name === data.player.name
+            ).length < 2 &&
             (filters.online || el.online === false) &&
             (filters.offseason || el.leagues.length > 0) &&
             (el.leagues.length === 0 ||
@@ -202,7 +207,25 @@ const characters = $computed(() => {
     // @ts-ignore
     characters_list.sort(([, a], [, b]) => b - a);
 
-    return characters_list;
+    const output = [];
+
+    let total = 0;
+
+    for (const [character, count] of characters_list) {
+        if (character !== "null") {
+            total += count;
+        }
+    }
+    for (const [character, count] of characters_list) {
+        if (count / total > 0.1) {
+            output.push([
+                character,
+                Math.round((count / total) * 100).toString() + "%",
+            ]);
+        }
+    }
+
+    return output;
 });
 
 const { data: allPlayers } = $(

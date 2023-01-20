@@ -25,3 +25,5 @@ using a builtin prisma thing isnt worth it because making our own
 lets us cache the compression
 
 TODO: send filter data with h2h and armadaNumber queries
+
+include online, include offseason -> separate checkboxes for online offline offseason
