@@ -1,12 +1,10 @@
 import { rounds_from_victory, sleep } from "../utils";
-import {
-    character_dict,
-    allTournaments,
-    unknownPlayers,
-    debugConsoleLogs,
-    accountMerges,
-    allLeagues,
-} from "../constants";
+import { debugConsoleLogs } from "../constants";
+import { character_dict } from "../dictionaries";
+import { unknownPlayers } from "../lists/unkownPlayers";
+import { allLeagues } from "../lists/allLeagues";
+import { allTournaments } from "../lists/allTournaments";
+import { playerMerges as accountMerges } from "../lists/playerMerges";
 import { prisma } from "../prisma";
 
 async function get_startgg_basic(query: string) {
@@ -210,6 +208,7 @@ export default defineEventHandler(async (_event) => {
                     event.tournament.images[0].type === "banner"
                         ? event.tournament.images[0]?.url
                         : event.tournament.images[1]?.url,
+                rankingPeriod: tourney.rankingPeriod,
             },
         });
 
@@ -284,6 +283,7 @@ export default defineEventHandler(async (_event) => {
                             }
                             nodes {
                                 id
+                                completedAt
                                 slots {
                                     entrant {
                                         id
@@ -670,6 +670,7 @@ export default defineEventHandler(async (_event) => {
                         loserGameCount,
                         // smashggid: set.id,
                         smashggid: scuffedid,
+                        completedAt: set.completedAt,
                         fullRoundText: set.fullRoundText,
                         phase: set?.phaseGroup?.phase?.name,
                         uf:
