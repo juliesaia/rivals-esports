@@ -32,4 +32,5 @@ export const rcsFinales = {
     4: "tournament/genesis-7-1",
     5: "tournament/na-rcs-finals",
     6: "tournament/genesis-8",
+    7: "tournament/genesis-9-1",
 };

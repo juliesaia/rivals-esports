@@ -1122,4 +1122,15 @@ export const allTournaments = [
         rankingPeriod: 7,
         createdAt: 1671310800,
     },
+    {
+        url: "tournament/genesis-9-1/event/rivals-of-aether-singles",
+        leagues: [
+            {
+                shortName: "RCS",
+                season: 7,
+            },
+        ],
+        rankingPeriod: 7,
+        createdAt: 1671310900,
+    },
 ];

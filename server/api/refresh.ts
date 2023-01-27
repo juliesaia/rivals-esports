@@ -840,7 +840,7 @@ export default defineEventHandler(async (_event) => {
 
     console.log("Favorite characters done!");
 
-    console.log("Getting rankings");
+    // console.log("Getting rankings");
 
     // my api explorer exploded and honestly nobody really cares about rcs points anyway
     // const [standings] = await get_startgg(
