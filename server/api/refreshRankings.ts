@@ -44,8 +44,8 @@ export default defineEventHandler(async (_event) => {
             completedAt: "asc",
         },
         where: {
-            loserGameCount: {
-                not: -1,
+            NOT: {
+                loserGameCount: -1,
             },
         },
         select: {
@@ -53,12 +53,14 @@ export default defineEventHandler(async (_event) => {
                 select: {
                     smashggid: true,
                     name: true,
+                    id: true,
                 },
             },
             loser: {
                 select: {
                     smashggid: true,
                     name: true,
+                    id: true,
                 },
             },
             winnerGameCount: true,
@@ -69,11 +71,7 @@ export default defineEventHandler(async (_event) => {
     const overallELO: ELOHandler = new ELOHandler();
 
     for (const set of sets) {
-        overallELO.runMatch(
-            set.winner.smashggid,
-            set.loser.smashggid,
-            set.winner.smashggid
-        );
+        overallELO.runMatch(set.winner.id, set.loser.id);
     }
 
     const sortedPlayers = overallELO.players.sort(
@@ -91,7 +89,7 @@ export default defineEventHandler(async (_event) => {
                     points: sortedPlayers[i].points,
                     player: {
                         connect: {
-                            smashggid: sortedPlayers[i].id,
+                            id: sortedPlayers[i].id,
                         },
                     },
                 },

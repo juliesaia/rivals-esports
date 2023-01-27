@@ -1,8 +1,8 @@
 class PlayerHandler {
-    id: string;
+    id: number;
     points: number;
 
-    constructor(id: string, initialPoints?: number) {
+    constructor(id: number, initialPoints?: number) {
         this.id = id;
         this.points = initialPoints;
     }
@@ -16,15 +16,15 @@ export class ELOHandler {
 
     constructor(options?: any) {
         this.k = options?.k || 32;
-        this.scaleFactor = options?.scaleFactor || 32;
+        this.scaleFactor = options?.scaleFactor || 400;
         this.initialPoints = options?.initialPoints || 1000;
     }
 
-    getRating(playerid: string): number {
+    getRating(playerid: number): number {
         return this.players.find((x) => x.id === playerid).points;
     }
 
-    setRating(playerid: string, newRating: number): void {
+    setRating(playerid: number, newRating: number): void {
         for (let i = 0; i < this.players.length; i++) {
             if (this.players[i].id === playerid) {
                 this.players[i].points = newRating;
@@ -33,7 +33,7 @@ export class ELOHandler {
         }
     }
 
-    runMatch(player1id: string, player2id: string, winnerid: string) {
+    runMatch(player1id: number, player2id: number) {
         // Initialize player 1 if not already in list
         if (!this.players.find((x) => x.id === player1id)) {
             this.players.push(new PlayerHandler(player1id, this.initialPoints));
@@ -61,24 +61,14 @@ export class ELOHandler {
                     (player1Rating - player2Rating) / this.scaleFactor
                 ));
 
-        let newPlayer1Rating;
-        let newPlayer2Rating;
+        const newPlayer1Rating =
+            player1Rating + this.k * (1 - player1ExpectedScore);
+        const newPlayer2Rating =
+            player2Rating + this.k * (0 - player2ExpectedScore);
 
-        if (player1id === winnerid) {
-            // player1 win
-
-            newPlayer1Rating =
-                player1Rating + this.k * (1 - player1ExpectedScore);
-            newPlayer2Rating =
-                player2Rating + this.k * (0 - player2ExpectedScore);
-        } else {
-            // player2 win
-
-            newPlayer1Rating =
-                player1Rating + this.k * (1 - player1ExpectedScore);
-            newPlayer2Rating =
-                player2Rating + this.k * (0 - player2ExpectedScore);
-        }
+        console.log(
+            `${player1id} > ${player2id}\n${player1Rating} -> ${newPlayer1Rating}\n${player2Rating} -> ${newPlayer2Rating}`
+        );
 
         this.setRating(player1id, newPlayer1Rating);
         this.setRating(player2id, newPlayer2Rating);
