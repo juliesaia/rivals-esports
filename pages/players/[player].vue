@@ -150,9 +150,10 @@ data.player = compressed_data;
 
 // console.log(data.player);
 
-const filtered_tournaments = $computed(() =>
-    data.player.tournaments.filter(
-        (el) =>
+const filtered_tournaments = $computed(() => {
+    // data.player.tournaments.map(
+    for (const el of data.player.tournaments) {
+        if (
             el.sets.filter(
                 (el2) =>
                     el2.loserGameCount < 0 &&
@@ -164,8 +165,14 @@ const filtered_tournaments = $computed(() =>
                 el.leagues.some((el2) =>
                     filters.leagues[el2.shortName].includes(el2.season)
                 ))
-    )
-);
+        ) {
+            el.hidden = false;
+        } else {
+            el.hidden = true;
+        }
+    }
+    return data.player.tournaments;
+});
 
 const wins = $computed(
     () =>
