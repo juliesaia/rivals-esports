@@ -14,8 +14,7 @@ const { data: compressed_data } = $(await useFetch("/api/players"));
 const data = decompress(compressed_data);
 
 const headers = [
-    { name: "Player", width: "w-60" },
-    { name: "Rank", width: "w-20" },
+    { name: "Player", width: "w-80" },
     { name: "Winrate", width: "w-30" },
     { name: "Last Tournament", width: "w-60" },
 ];

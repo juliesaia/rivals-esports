@@ -27,15 +27,6 @@ export default defineEventHandler(async (event) => {
             name: true,
             favoriteCharacter: true,
             id: true,
-            rankings: {
-                select: {
-                    rank: true,
-                },
-                take: 1,
-                // orderBy: {
-                //     season: "desc",
-                // },
-            },
             _count: {
                 select: {
                     sets: true,

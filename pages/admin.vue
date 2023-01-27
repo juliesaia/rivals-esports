@@ -1,6 +1,7 @@
 <template>
     <button @click="refresh">[Refresh database]</button>
     <button @click="refreshAccolades">[Refresh accolades]</button>
+    <button @click="refreshRankings">[Refresh rankings]</button>
     <button @click="manualMerge">[Apply manual changes]</button>
     <div>{{ debug }}</div>
 </template>
@@ -22,6 +23,12 @@ async function refreshAccolades() {
 
 async function manualMerge() {
     const { data } = $(await useFetch("/api/manualChanges"));
+
+    debug = data;
+}
+
+async function refreshRankings() {
+    const { data } = $(await useFetch("/api/refreshRankings"));
 
     debug = data;
 }

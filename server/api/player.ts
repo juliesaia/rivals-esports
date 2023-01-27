@@ -282,12 +282,6 @@ export default defineEventHandler(async (event) => {
             smashggid: true,
             pronouns: true,
             favoriteCharacter: true,
-            rankings: {
-                select: {
-                    rank: true,
-                    // season: true,
-                },
-            },
             socials: {
                 select: {
                     type: true,

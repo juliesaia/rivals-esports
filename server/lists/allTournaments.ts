@@ -1131,6 +1131,6 @@ export const allTournaments = [
             },
         ],
         rankingPeriod: 7,
-        createdAt: 1671310801,
+        createdAt: 1671310900,
     },
 ];

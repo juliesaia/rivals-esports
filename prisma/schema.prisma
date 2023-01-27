@@ -31,6 +31,8 @@ model Ranking {
   playerid      Int?
   league        League? @relation(fields: [leagueid], references: [id])
   leagueid      Int?
+  extraInfo     String?
+  character     String?
 }
 
 model Tournament {
