@@ -44,7 +44,9 @@
                                     </div>
                                 </div>
                                 <div class="$ flex-grow" />
-                                <div class="$ flex flex-col text-end">
+                                <div
+                                    class="$ flex flex-col text-end whitespace-nowrap"
+                                >
                                     <div
                                         v-if="
                                             tournament.standings[0].seed != null

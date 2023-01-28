@@ -63,11 +63,26 @@ export function decompress(data) {
 }
 
 export function compress_one(data) {
-    return compressjson(data);
+    // const copy = structuredClone(data);
+    const copy = JSON.parse(JSON.stringify(data));
+    for (const key in copy) {
+        if (Array.isArray(copy[key])) {
+            copy[key] = JSONH.pack(copy[key]);
+        }
+    }
+    return compressjson(copy);
 }
 
 export function decompress_one(data) {
-    return decompressjson(data);
+    // const copy = structuredClone(data);
+    const copy = JSON.parse(JSON.stringify(data));
+    const decompressed = decompressjson(copy);
+    for (const key in decompressed) {
+        if (Array.isArray(decompressed[key])) {
+            decompressed[key] = JSONH.unpack(decompressed[key]);
+        }
+    }
+    return decompressed;
 }
 
 export function resizeSGG(raw_url, width, height) {

@@ -42,29 +42,52 @@
             Winrate:
             {{ winrate(wins, wins + losses) }}
         </h3>
+        <div class="flex">
+            <div
+                v-for="accolade in grouped_accolades"
+                :key="accolade.shortName"
+                v-tooltip="
+                    `${accolade.title}${
+                        accolade.count > 1 ? ` ${accolade.count}x` : ''
+                    }`
+                "
+                class="text-2xl"
+                :class="{
+                    'i-bx-trophy': accolade.type === 'trophy',
+                    'i-bx-medal': accolade.type === 'achievement',
+                    'text-[#acffbd]':
+                        accolade.rarity.split('-').at(-1) === 'master',
+                    'text-[#d2d2f0]':
+                        accolade.rarity.split('-').at(-1) === 'platinum',
+                    'text-[#ffcc00]':
+                        accolade.rarity.split('-').at(-1) === 'gold',
+                    'text-[#c8c8c8]':
+                        accolade.rarity.split('-').at(-1) === 'silver',
+                    'text-[#ff9966]':
+                        accolade.rarity.split('-').at(-1) === 'bronze',
+                }"
+            />
+        </div>
         <div
             v-for="character in characters.filter((el) => el[0] !== 'null')"
             :key="character.name"
-            class="$ flex items-center"
+            class="$ flex items-center my-2"
         >
             <div :class="character[0]" />
             <h3>: {{ character[1] }}</h3>
         </div>
 
-        <Tournament :data="filtered_tournaments" />
+        <Tournament :data="hidden_tournaments" />
 
         <div
             class="fixed top-50% right-0 border-2 border-purple-900 border-r-transparent rounded-l-xl p-8 flex flex-col"
             style="transform: translateY(-50%)"
         >
-            <ACheckbox
-                v-model="filters.online"
-                label="Include Online"
-                class="mb-4"
-            />
+            <ACheckbox v-model="filters.offline" label="Offline" class="mb-4" />
+            <ACheckbox v-model="filters.online" label="Online" class="mb-4" />
             <ACheckbox
                 v-model="filters.offseason"
-                label="Include Offseason"
+                label="Offseason"
                 class="mb-4"
             />
             <div class="flex">
@@ -107,7 +130,7 @@
 <script setup>
 import Tournament from "../components/Tournament.vue";
 import SetList from "../components/SetList.vue";
-import { /* decompress_one, */ winrate } from "~~/server/utils";
+import { winrate } from "~~/server/utils";
 import { seasons_dict } from "~~/server/dictionaries";
 
 const route = useRoute();
@@ -119,6 +142,7 @@ const data = $ref({
 });
 
 const filters = $ref({
+    offline: true,
     online: true,
     offseason: true,
 });
@@ -141,16 +165,15 @@ watchEffect(() => {
     }
 });
 
-const { data: compressed_data } = $(
+const { data: player_data } = $(
     await useFetch("/api/player", { query: { name: route.params.player } })
 );
 
-// data.player = decompress_one(compressed_data);
-data.player = compressed_data;
+data.player = player_data;
 
-// console.log(data.player);
+console.log(data.player);
 
-const filtered_tournaments = $computed(() => {
+const hidden_tournaments = $computed(() => {
     // data.player.tournaments.map(
     for (const el of data.player.tournaments) {
         if (
@@ -159,6 +182,7 @@ const filtered_tournaments = $computed(() => {
                     el2.loserGameCount < 0 &&
                     el2.loser.name === data.player.name
             ).length < 2 &&
+            (filters.offline || el.online === true) &&
             (filters.online || el.online === false) &&
             (filters.offseason || el.leagues.length > 0) &&
             (el.leagues.length === 0 ||
@@ -173,6 +197,10 @@ const filtered_tournaments = $computed(() => {
     }
     return data.player.tournaments;
 });
+
+const filtered_tournaments = $computed(() =>
+    hidden_tournaments.filter((el) => !el.hidden)
+);
 
 const wins = $computed(
     () =>
@@ -241,4 +269,36 @@ const { data: allPlayers } = $(
 
 provide("allPlayers", allPlayers);
 provide("filters", filters);
+
+const grouped_accolades = $computed(() => {
+    const accolades = {};
+    for (const accolade of data.player.accolades) {
+        if (
+            (filters.offline || accolade.online[0] === true) &&
+            (filters.online || accolade.online[0] === false) &&
+            (filters.offseason || accolade.leagues.length > 0) &&
+            ((accolade.leagues?.length ?? 0) === 0 ||
+                accolade.leagues.some((el2) =>
+                    filters.leagues[el2.shortName].includes(el2.season)
+                ))
+        ) {
+            const shortName = accolade.shortName;
+            if (!(shortName in accolades)) {
+                accolade.count = 1;
+                accolades[shortName] = accolade;
+            } else {
+                accolades[shortName].count += 1;
+                accolades[shortName].leagues = accolades[
+                    shortName
+                ].leagues.concat(accolade.leagues);
+                accolades[shortName].online = accolades[
+                    shortName
+                ].online.concat(accolade.online);
+            }
+        }
+    }
+    return accolades;
+});
+
+console.log(grouped_accolades);
 </script>

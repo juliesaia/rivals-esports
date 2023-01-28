@@ -2,7 +2,7 @@ import { prisma } from "../prisma";
 import { DirectedGraph } from "../graphTheory/graphs/DirectedGraph";
 import { Edge, Node } from "../graphTheory/elements/AllElements";
 import { debugConsoleLogs } from "../constants";
-// import { compress_one } from "../utils";
+import { compress_one } from "../utils";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
@@ -391,13 +391,75 @@ export default defineEventHandler(async (event) => {
                     startAt: "desc",
                 },
             },
+            accolades: {
+                include: {
+                    set: {
+                        select: {
+                            tournament: {
+                                select: {
+                                    leagues: {
+                                        select: {
+                                            season: true,
+                                            shortName: true,
+                                        },
+                                    },
+                                    online: true,
+                                },
+                            },
+                        },
+                    },
+                    tournament: {
+                        select: {
+                            leagues: {
+                                select: {
+                                    season: true,
+                                    shortName: true,
+                                },
+                            },
+                            online: true,
+                        },
+                    },
+                    league: {
+                        select: {
+                            season: true,
+                            shortName: true,
+                            tournaments: {
+                                select: {
+                                    online: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
         },
     });
 
+    for (const accolade of result.accolades) {
+        if (accolade.set != null) {
+            accolade.online = [accolade.set.tournament.online];
+            accolade.leagues = accolade.set.tournament.leagues;
+            accolade.set = null;
+        } else if (accolade.tournament != null) {
+            accolade.online = [accolade.tournament.online];
+            accolade.leagues = accolade.tournament.leagues;
+            accolade.tournament = null;
+        } else if (accolade.league != null) {
+            accolade.online = [
+                accolade.league.tournaments.every((el) => el.online),
+            ];
+            accolade.leagues = [accolade.league];
+            accolade.league = null;
+        }
+    }
+
     console.timeEnd();
-
+    // console.time();
     // console.log(JSON.stringify(result).length);
-    // console.log(JSON.stringify(compress(result)).length);
+    // console.log(JSON.stringify(compress_one(result)).length);
 
+    // console.timeEnd();
+
+    // FUTURE JULIE DO NOT USE COMPRESSION THIS IS WHY SSR EXISTS!!!
     return result;
 });
