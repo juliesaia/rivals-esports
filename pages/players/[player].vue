@@ -274,13 +274,14 @@ const grouped_accolades = $computed(() => {
     const accolades = {};
     for (const accolade of data.player.accolades) {
         if (
-            (filters.offline || accolade.online[0] === true) &&
-            (filters.online || accolade.online[0] === false) &&
-            (filters.offseason || accolade.leagues.length > 0) &&
-            ((accolade.leagues?.length ?? 0) === 0 ||
-                accolade.leagues.some((el2) =>
-                    filters.leagues[el2.shortName].includes(el2.season)
-                ))
+            (accolade.online == null && accolade.leagues == null) ||
+            ((filters.offline || accolade.online[0] === true) &&
+                (filters.online || accolade.online[0] === false) &&
+                (filters.offseason || accolade.leagues.length > 0) &&
+                ((accolade.leagues?.length ?? 0) === 0 ||
+                    accolade.leagues.some((el2) =>
+                        filters.leagues[el2.shortName].includes(el2.season)
+                    )))
         ) {
             const shortName = accolade.shortName;
             if (!(shortName in accolades)) {
