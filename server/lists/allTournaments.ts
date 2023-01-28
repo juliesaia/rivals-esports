@@ -1123,6 +1123,18 @@ export const allTournaments = [
         createdAt: 1671310800,
     },
     {
+        url: "tournament/the-kingpin-10-season-finale/event/rivals-singles",
+        leagues: [],
+        rankingPeriod: 7,
+        createdAt: 1671310900,
+    },
+    {
+        url: "tournament/pisspooper-showdown/event/pisspooper-showdown",
+        leagues: [],
+        rankingPeriod: 7,
+        createdAt: 1671310900,
+    },
+    {
         url: "tournament/genesis-9-1/event/rivals-of-aether-singles",
         leagues: [
             {
