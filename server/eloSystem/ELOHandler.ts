@@ -4,7 +4,11 @@ export class ELOHandler {
     initialPoints: number;
     players: Map<number, number>;
 
-    constructor(options?: any) {
+    constructor(options?: {
+        k: number;
+        scaleFactor: number;
+        initialPoints: number;
+    }) {
         this.k = options?.k || 32;
         this.scaleFactor = options?.scaleFactor || 400;
         this.initialPoints = options?.initialPoints || 1000;
