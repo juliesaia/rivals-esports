@@ -71,13 +71,10 @@ export default defineEventHandler(async (_event) => {
     const overallELO: ELOHandler = new ELOHandler();
 
     for (const set of sets) {
-        overallELO.runMatch(set.winner.id, set.loser.id);
+        overallELO.runMatch(set.winner.id, set.loser.id, 1);
     }
 
-    const sortedPlayers = overallELO.players.sort(
-        (a, b) => b.points - a.points
-    );
-
+    const sortedPlayers = overallELO.getSortedPlayers();
     queries = [];
 
     for (let i = 0; i < sortedPlayers.length; i++) {
@@ -86,7 +83,7 @@ export default defineEventHandler(async (_event) => {
                 data: {
                     type: "elo",
                     ranking: i + 1,
-                    points: sortedPlayers[i].points,
+                    points: Math.round(sortedPlayers[i].points),
                     player: {
                         connect: {
                             id: sortedPlayers[i].id,

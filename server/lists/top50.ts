@@ -1427,7 +1427,7 @@ export const top50 = {
             smashggID: "ef75520d",
             ranking: 3,
             char: "Ori",
-            blurb: "Penguin takes the 2nd place ranking for the second year in a row after a truly electrifying Season 5.  Collecting two 1st place finishes this season, Penguin finally overcame his curse and took home the gold at our Finals event. He has beaten each of the nine Top 10 players that he has faced, with perfect records on seven of them. On top of his head-to-head wins, Penguin has placed in the Top 4 at five of the six Majors this season. He first started playing the game at Super Smash Con 2016 with FullStream as his mentor, CakeAssault as his practice partner, and Zeke as his coach to help cement him where he is today. As with seasons past, Penguin remains an immovable object to nearly every competitor and is a stone cold killer that requires near perfection to best in bracket.",
+            blurb: "Penguin takes the 2nd place ranking for the second year in a row after a truly electrifying Season 5. Collecting two 1st place finishes this season, Penguin finally overcame his curse and took home the gold at our Finals event. He has beaten each of the nine Top 10 players that he has faced, with perfect records on seven of them. On top of his head-to-head wins, Penguin has placed in the Top 4 at five of the six Majors this season. He first started playing the game at Super Smash Con 2016 with FullStream as his mentor, CakeAssault as his practice partner, and Zeke as his coach to help cement him where he is today. As with seasons past, Penguin remains an immovable object to nearly every competitor and is a stone cold killer that requires near perfection to best in bracket.",
         },
         {
             name: "Seggo",
