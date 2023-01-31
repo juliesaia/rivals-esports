@@ -71,7 +71,7 @@
                             <div v-else class="$ h-32px w-32px" />
                             <NuxtLink
                                 class="$ pl-2 whitespace-nowrap hover:underline"
-                                :to="`/players/${item.name}/`"
+                                :to="`/players/${item.name}/?id=${item.id}`"
                             >
                                 {{ item.name }}
                             </NuxtLink>

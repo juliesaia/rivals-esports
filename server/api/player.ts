@@ -111,6 +111,12 @@ export default defineEventHandler(async (event) => {
                     },
                 },
             },
+            orderBy: {
+                sets: {
+                    _count: "desc",
+                },
+            },
+            take: 1,
         });
 
         return result;
@@ -155,6 +161,12 @@ export default defineEventHandler(async (event) => {
             select: {
                 id: true,
             },
+            orderBy: {
+                sets: {
+                    _count: "desc",
+                },
+            },
+            take: 1,
         });
 
         const player2 = await prisma.player.findFirstOrThrow({
@@ -166,6 +178,12 @@ export default defineEventHandler(async (event) => {
             select: {
                 id: true,
             },
+            orderBy: {
+                sets: {
+                    _count: "desc",
+                },
+            },
+            take: 1,
         });
 
         const p1id = player1?.id;
@@ -273,9 +291,8 @@ export default defineEventHandler(async (event) => {
 
     const result = await prisma.player.findFirstOrThrow({
         where: {
-            name: {
-                equals: query.name.toString(),
-            },
+            name: query.name.toString(),
+            id: query.id ? parseInt(query.id as string) : undefined,
         },
         select: {
             name: true,
@@ -433,6 +450,12 @@ export default defineEventHandler(async (event) => {
                 },
             },
         },
+        orderBy: {
+            sets: {
+                _count: "desc",
+            },
+        },
+        take: 1,
     });
 
     for (const accolade of result.accolades) {

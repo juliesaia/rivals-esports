@@ -166,7 +166,9 @@ watchEffect(() => {
 });
 
 const { data: player_data } = $(
-    await useFetch("/api/player", { query: { name: route.params.player } })
+    await useFetch("/api/player", {
+        query: { name: route.params.player, id: route.query?.id },
+    })
 );
 
 data.player = player_data;
