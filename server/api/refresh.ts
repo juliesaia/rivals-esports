@@ -6,6 +6,7 @@ import { allLeagues } from "../lists/allLeagues";
 import { allTournaments } from "../lists/allTournaments";
 import { playerMerges as accountMerges } from "../lists/playerMerges";
 import { prisma } from "../prisma";
+import { disallowedPhaseWords } from "../lists/disallowedPhaseWords";
 
 async function get_startgg_basic(query: string) {
     let fetchRequest;
@@ -454,6 +455,13 @@ export default defineEventHandler(async (_event) => {
         queries = [];
 
         for (const set of sets) {
+            if (
+                disallowedPhaseWords.find((x) =>
+                    set?.phaseGroup?.phase?.name.toLowerCase().includes(x)
+                )
+            ) {
+                continue;
+            }
             const winner_id = set.winnerId;
             const player1 = set.slots[0].entrant;
             const player2 = set.slots[1].entrant;
