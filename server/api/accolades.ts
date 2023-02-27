@@ -386,12 +386,12 @@ function getAchievement(
 
 const achievementsList = {
     flawlessRun: {
-        title: "Flawless run",
+        title: "Flawless Run",
         description: "Win a tournament without losing a single game.",
         rarity: "master",
     },
     perfectRun: {
-        title: "Perfect run",
+        title: "Perfect Run",
         description: "Win a tournament without losing a single set.",
         rarity: "diamond",
     },
@@ -401,22 +401,22 @@ const achievementsList = {
         rarity: "silver",
     },
     masterOfMany: {
-        title: "Master of many",
+        title: "Master of Many",
         description: "Win a set while playing 5 different characters.",
         rarity: "master",
     },
     allROCS: {
-        title: "Social distancing enthusiast",
+        title: "Social Distancing Enthusiast",
         description: "Compete in every ROCS tournamnent.",
         rarity: "platinum",
     },
     everyRCSSeason: {
-        title: "Lifetime competitor",
+        title: "Lifetime Competitor",
         description: "Compete in every RCS season.",
         rarity: "master",
     },
     rcsPrologue: {
-        title: "Before it was cool",
+        title: "Before it was Cool",
         description: "Play in the RCS: Prologue tournament.",
         rarity: "silver",
     },
@@ -424,7 +424,7 @@ const achievementsList = {
         description: "Attend at least _x_ offline tournament(s).",
         titlesAndRarities: [
             {
-                title: "Born for the crowd",
+                title: "Born for the Crowd",
                 rarity: "master",
             },
             {
@@ -432,19 +432,19 @@ const achievementsList = {
                 rarity: "diamond",
             },
             {
-                title: "LAN enthusiast",
+                title: "LAN Enthusiast",
                 rarity: "platinum",
             },
             {
-                title: "Familiar face",
+                title: "Familiar Face",
                 rarity: "gold",
             },
             {
-                title: "Offline competitor",
+                title: "Offline Competitor",
                 rarity: "silver",
             },
             {
-                title: "First steps",
+                title: "First Steps",
                 rarity: "bronze",
             },
         ],
@@ -459,11 +459,11 @@ const achievementsList = {
                 rarity: "master",
             },
             {
-                title: "Frequent flyer",
+                title: "Frequent Flyer",
                 rarity: "diamond",
             },
             {
-                title: "Roadtrip enjoyer",
+                title: "Roadtrip Enjoyer",
                 rarity: "platinum",
             },
             {
@@ -477,7 +477,7 @@ const achievementsList = {
         description: "Attend _x_ RCS events in a single season.",
         titlesAndRarities: [
             {
-                title: "Perfect attendance",
+                title: "Perfect Attendance",
                 rarity: "master",
             },
             {
@@ -485,15 +485,15 @@ const achievementsList = {
                 rarity: "platinum",
             },
             {
-                title: "Serial competitor",
+                title: "Serial Competitor",
                 rarity: "gold",
             },
             {
-                title: "Rivals enthusiast",
+                title: "Rivals Enthusiast",
                 rarity: "silver",
             },
             {
-                title: "Seasonal competitor",
+                title: "Seasonal Competitor",
                 rarity: "bronze",
             },
         ],
@@ -545,7 +545,7 @@ const rocsSlugs = [
 ];
 
 const top50Achievements = {
-    title: "Top _x_ win",
+    title: "Top _x_ Win",
     description: "Beat a player where they would go on to be ranked top _x_",
     rarities: ["master", "diamond", "platinum", "gold", "silver", "bronze"],
     barriers: [5, 10, 20, 30, 40, 50],

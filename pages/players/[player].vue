@@ -49,14 +49,17 @@
                 v-tooltip="
                     `${accolade.title}${
                         accolade.count > 1 ? ` ${accolade.count}x` : ''
-                    }`
+                    }: ${accolade.description}`
                 "
                 class="text-2xl"
                 :class="{
                     'i-bx-trophy': accolade.type === 'trophy',
                     'i-bx-medal': accolade.type === 'achievement',
                     'text-[#acffbd]':
-                        accolade.rarity.split('-').at(-1) === 'master',
+                        accolade.rarity.split('-').at(-1) === 'master' ||
+                        accolade.rarity.split('-').at(-1) === 'jeweled',
+                    'text-[#acffff]':
+                        accolade.rarity.split('-').at(-1) === 'diamond',
                     'text-[#d2d2f0]':
                         accolade.rarity.split('-').at(-1) === 'platinum',
                     'text-[#ffcc00]':
@@ -273,7 +276,7 @@ provide("allPlayers", allPlayers);
 provide("filters", filters);
 
 const grouped_accolades = $computed(() => {
-    const accolades = {};
+    let accolades = {};
     for (const accolade of data.player.accolades) {
         if (
             (accolade.online == null && accolade.leagues == null) ||
@@ -300,8 +303,43 @@ const grouped_accolades = $computed(() => {
             }
         }
     }
-    return accolades;
-});
 
-console.log(grouped_accolades);
+    accolades = Object.values(accolades);
+    console.log(accolades);
+
+    const rarities = [
+        "jeweled",
+        "master",
+        "diamond",
+        "platinum",
+        "gold",
+        "silver",
+        "bronze",
+        "8",
+        "32",
+    ];
+    let trophies = [];
+    let achievements = [];
+
+    for (const rarity of rarities) {
+        trophies = [
+            ...trophies,
+            ...accolades.filter(
+                (el) =>
+                    el.rarity.split("-").at(-1) === rarity &&
+                    el.type === "trophy"
+            ),
+        ];
+        achievements = [
+            ...achievements,
+            ...accolades.filter(
+                (el) =>
+                    el.rarity.split("-").at(-1) === rarity &&
+                    el.type === "achievement"
+            ),
+        ];
+    }
+
+    return [...trophies, ...achievements];
+});
 </script>

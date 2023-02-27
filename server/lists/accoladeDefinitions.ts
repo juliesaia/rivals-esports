@@ -2,13 +2,13 @@ export const accoladeDefinitions = {
     // Achievements
     flawlessRun: {
         shortName: "flawlessRun",
-        title: "Flawless run",
+        title: "Flawless Run",
         description: "Win a tournament without losing a single game.",
         rarity: "master",
     },
     perfectRun: {
         shortName: "perfectRun",
-        title: "Perfect run",
+        title: "Perfect Run",
         description: "Win a tournament without losing a single set.",
         rarity: "diamond",
     },
@@ -20,25 +20,25 @@ export const accoladeDefinitions = {
     },
     masterOfMany: {
         shortName: "masterOfMany",
-        title: "Master of many",
+        title: "Master of Many",
         description: "Win a set while playing 5 different characters.",
         rarity: "master",
     },
     allROCS: {
         shortName: "allROCS",
-        title: "Social distancing enthusiast",
+        title: "Social Distancing Enthusiast",
         description: "Compete in every ROCS tournamnent.",
         rarity: "platinum",
     },
     everyRCSSeason: {
         shortName: "everyRCSSeason",
-        title: "Lifetime competitor",
+        title: "Lifetime Competitor",
         description: "Compete in every RCS season.",
         rarity: "master",
     },
     rcsPrologue: {
         shortName: "rcsPrologue",
-        title: "Before it was cool",
+        title: "Before it was Cool",
         description: "Play in the RCS: Prologue tournament.",
         rarity: "silver",
     },
@@ -47,7 +47,7 @@ export const accoladeDefinitions = {
         description: "Attend at least _x_ offline tournament(s).",
         titlesAndRarities: [
             {
-                title: "Born for the crowd",
+                title: "Born for the Crowd",
                 rarity: "master",
             },
             {
@@ -55,19 +55,19 @@ export const accoladeDefinitions = {
                 rarity: "diamond",
             },
             {
-                title: "LAN enthusiast",
+                title: "LAN Enthusiast",
                 rarity: "platinum",
             },
             {
-                title: "Familiar face",
+                title: "Familiar Face",
                 rarity: "gold",
             },
             {
-                title: "Offline competitor",
+                title: "Offline Competitor",
                 rarity: "silver",
             },
             {
-                title: "First steps",
+                title: "First Steps",
                 rarity: "bronze",
             },
         ],
@@ -83,11 +83,11 @@ export const accoladeDefinitions = {
                 rarity: "master",
             },
             {
-                title: "Frequent flyer",
+                title: "Frequent Flyer",
                 rarity: "diamond",
             },
             {
-                title: "Roadtrip enjoyer",
+                title: "Roadtrip Enjoyer",
                 rarity: "platinum",
             },
             {
@@ -102,7 +102,7 @@ export const accoladeDefinitions = {
         description: "Attend _x_ RCS events in a single season.",
         titlesAndRarities: [
             {
-                title: "Perfect attendance",
+                title: "Perfect Attendance",
                 rarity: "master",
             },
             {
@@ -110,15 +110,15 @@ export const accoladeDefinitions = {
                 rarity: "platinum",
             },
             {
-                title: "Serial competitor",
+                title: "Serial Competitor",
                 rarity: "gold",
             },
             {
-                title: "Rivals enthusiast",
+                title: "Rivals Enthusiast",
                 rarity: "silver",
             },
             {
-                title: "Seasonal competitor",
+                title: "Seasonal Competitor",
                 rarity: "bronze",
             },
         ],
@@ -130,27 +130,27 @@ export const accoladeDefinitions = {
             "Beat a player where they would go on to be ranked top _x_",
         titlesAndRarities: [
             {
-                title: "Top 5 win",
+                title: "Top 5 Win",
                 rarity: "master",
             },
             {
-                title: "Top 10 win",
+                title: "Top 10 Win",
                 rarity: "diamond",
             },
             {
-                title: "Top 20 win",
+                title: "Top 20 Win",
                 rarity: "platinum",
             },
             {
-                title: "Top 30 win",
+                title: "Top 30 Win",
                 rarity: "gold",
             },
             {
-                title: "Top 40 win",
+                title: "Top 40 Win",
                 rarity: "silver",
             },
             {
-                title: "Top 50 win",
+                title: "Top 50 Win",
                 rarity: "bronze",
             },
         ],
