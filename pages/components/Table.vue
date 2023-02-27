@@ -134,6 +134,9 @@
                         <div v-if="header.name === 'SPR'">
                             {{ item.spr }}
                         </div>
+                        <div v-if="header.name === 'Sets'">
+                            {{ item._count.sets }}
+                        </div>
                         <div
                             v-if="header.name === 'Losses'"
                             class="$ flex flex-col"
@@ -236,8 +239,8 @@ const perPage = 8;
 const sort = $ref(
     type === "players"
         ? {
-              type: headers[1].name,
-              order: "asc",
+              type: "Sets",
+              order: "desc",
           }
         : {
               type: "Date",
@@ -365,6 +368,16 @@ const sorted = $computed(() => {
                 sort.order === "asc"
                     ? (a.startAt ?? Infinity) - (b.startAt ?? Infinity)
                     : (b.startAt ?? Infinity) - (a.startAt ?? Infinity)
+            )
+            .slice((page - 1) * perPage, page * perPage);
+    }
+
+    if (sort.type === "Sets") {
+        return filtered
+            .sort((a, b) =>
+                sort.order === "asc"
+                    ? (a._count.sets ?? Infinity) - (b._count.sets ?? Infinity)
+                    : (b._count.sets ?? Infinity) - (a._count.sets ?? Infinity)
             )
             .slice((page - 1) * perPage, page * perPage);
     }

@@ -1,4 +1,3 @@
-import { compress } from "../utils";
 import { prisma } from "../prisma";
 
 export default defineEventHandler(async (event) => {
@@ -53,11 +52,5 @@ export default defineEventHandler(async (event) => {
 
     console.timeEnd();
 
-    console.time("compress");
-
-    const output = compress(result);
-
-    console.timeEnd("compress");
-
-    return output;
+    return result;
 });

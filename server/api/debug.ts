@@ -5,24 +5,53 @@ import { prisma } from "../prisma";
 export default defineEventHandler(async (_event) => {
     const result = await prisma.player.findMany({
         select: {
-            standings: {
+            name: true,
+            favoriteCharacter: true,
+            id: true,
+            _count: {
                 select: {
-                    spr: true,
-                    tournament: {
-                        select: {
-                            name: true,
-                        },
-                    },
-                },
-                where: {
-                    tournament: {
-                        online: false,
-                    },
+                    sets: true,
+                    wins: true,
                 },
             },
-            name: true,
+            tournaments: {
+                take: 1,
+                orderBy: {
+                    id: "desc",
+                },
+                select: {
+                    name: true,
+                    shortSlug: true,
+                },
+            },
+        },
+        orderBy: {
+            sets: {
+                _count: "desc",
+            },
         },
     });
+
+    // const result = await prisma.player.findMany({
+    //     select: {
+    //         standings: {
+    //             select: {
+    //                 spr: true,
+    //                 tournament: {
+    //                     select: {
+    //                         name: true,
+    //                     },
+    //                 },
+    //             },
+    //             where: {
+    //                 tournament: {
+    //                     online: false,
+    //                 },
+    //             },
+    //         },
+    //         name: true,
+    //     },
+    // });
 
     // const result = await prisma.player.findMany({
     //     select: {
