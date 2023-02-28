@@ -78,6 +78,7 @@ export default defineEventHandler(async (_event) => {
             },
             select: {
                 name: true,
+                id: true,
                 smashggid: true,
                 pronouns: true,
                 favoriteCharacter: true,
@@ -258,7 +259,7 @@ export default defineEventHandler(async (_event) => {
                 accolade.league = null;
             }
         }
-        cache.player[`${player_name}-${player_id}`] = result;
+        cache.player[player_name] = result;
     }
 
     fs.writeFile("server/cache.json", JSON.stringify(cache), (err) =>

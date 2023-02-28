@@ -289,30 +289,11 @@ export default defineEventHandler(async (event) => {
         return { sets, path: pathstring };
     }
 
-    // const pre_result = await prisma.player.findFirstOrThrow({
-    //     where: {
-    //         name: query.name.toString(),
-    //         id: query.id ? parseInt(query.id as string) : undefined,
-    //     },
-    //     select: {
-    //         name: true,
-    //         id: true,
-    //     },
-    //     orderBy: {
-    //         sets: {
-    //             _count: "desc",
-    //         },
-    //     },
-    // });
-
-    // const cache = JSON.parse(
-    //     await fs.promises.readFile("server/cache.json", "utf8")
-    // );
-
     const cache = await cache_promise;
-    const cache_result = cache.player[`${query.name}-${query.id}`];
 
-    if (cache_result) {
+    const cache_result = cache.player[query.name as string];
+
+    if (cache_result && (!query.id || cache_result.id == query.id)) {
         console.log("Cache hit");
         console.timeEnd();
         return cache_result;
