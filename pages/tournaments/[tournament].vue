@@ -40,7 +40,10 @@
             }}
         </div>
         <div class="$ text-2xl mt-4">Standings</div>
-        <Table :data="tournament.standings" :headers="headers" type="players" />
+        <Table
+            v-bind="{ data: tournament.standings, headers, defaultSort }"
+            type="players"
+        />
 
         <!-- <nuxt-img v-if="data.bannerImage" :src="data.bannerImage" /> -->
     </main>
@@ -74,4 +77,9 @@ const headers = [
     { name: "SPR", width: "w-20" },
     { name: "Losses", width: "w-60", unsortable: true },
 ];
+
+const defaultSort = {
+    type: "Placement",
+    order: "asc",
+};
 </script>

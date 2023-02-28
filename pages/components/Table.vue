@@ -226,27 +226,18 @@ dayjs.extend(utc);
 // eslint-disable-next-line import/no-named-as-default-member
 dayjs.extend(timezone);
 
-const { data, headers, type } = defineProps<{
+const { data, headers, type, defaultSort } = defineProps<{
     data: any;
     headers: any[];
     type: string;
+    defaultSort: any;
 }>();
 
 const router = useRouter();
 
 const perPage = 8;
 
-const sort = $ref(
-    type === "players"
-        ? {
-              type: "Sets",
-              order: "desc",
-          }
-        : {
-              type: "Date",
-              order: "desc",
-          }
-);
+const sort = $ref(defaultSort);
 
 let page = $ref(1);
 
@@ -372,15 +363,15 @@ const sorted = $computed(() => {
             .slice((page - 1) * perPage, page * perPage);
     }
 
-    if (sort.type === "Sets") {
-        return filtered
-            .sort((a, b) =>
-                sort.order === "asc"
-                    ? (a._count.sets ?? Infinity) - (b._count.sets ?? Infinity)
-                    : (b._count.sets ?? Infinity) - (a._count.sets ?? Infinity)
-            )
-            .slice((page - 1) * perPage, page * perPage);
-    }
+    // if (sort.type === "Sets") {
+    //     return filtered
+    //         .sort((a, b) =>
+    //             sort.order === "asc"
+    //                 ? (a._count.sets ?? Infinity) - (b._count.sets ?? Infinity)
+    //                 : (b._count.sets ?? Infinity) - (a._count.sets ?? Infinity)
+    //         )
+    //         .slice((page - 1) * perPage, page * perPage);
+    // }
     return filtered.slice((page - 1) * perPage, page * perPage);
 });
 

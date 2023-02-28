@@ -3,6 +3,7 @@
     <button @click="refreshAccolades">[Refresh accolades]</button>
     <button @click="refreshRankings">[Refresh rankings]</button>
     <button @click="manualMerge">[Apply manual changes]</button>
+    <button @click="setCache">[Set "cache"]</button>
     <div>{{ debug }}</div>
 </template>
 
@@ -29,6 +30,12 @@ async function manualMerge() {
 
 async function refreshRankings() {
     const { data } = $(await useFetch("/api/refreshRankings"));
+
+    debug = data;
+}
+
+async function setCache() {
+    const { data } = $(await useFetch("/api/cache"));
 
     debug = data;
 }

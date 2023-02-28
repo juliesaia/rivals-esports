@@ -176,8 +176,6 @@ const { data: player_data } = $(
 
 data.player = player_data;
 
-console.log(data.player);
-
 const hidden_tournaments = $computed(() => {
     // data.player.tournaments.map(
     for (const el of data.player.tournaments) {
@@ -305,7 +303,6 @@ const grouped_accolades = $computed(() => {
     }
 
     accolades = Object.values(accolades);
-    console.log(accolades);
 
     const rarities = [
         "jeweled",

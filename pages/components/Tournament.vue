@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col items-center">
-        <h1 class="$ mt-8">Tournaments</h1>
-        <Accordion class="$ w-160 py-4">
+        <h1 class="$ my-8">Tournaments</h1>
+        <Accordion class="$ w-160 max-h-200 overflow-y-auto">
             <div v-for="tournament in tournaments" :key="tournament.id">
                 <div v-show="!tournament.hidden">
                     <AccordionItem>

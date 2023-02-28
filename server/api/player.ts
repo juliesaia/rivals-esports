@@ -1,10 +1,13 @@
+// import fs from "fs";
 import { prisma } from "../prisma";
 import { DirectedGraph } from "../graphTheory/graphs/DirectedGraph";
 import { Edge, Node } from "../graphTheory/elements/AllElements";
 import { debugConsoleLogs } from "../constants";
-import { compress_one } from "../utils";
+import { cache_promise } from "./cache";
 
 export default defineEventHandler(async (event) => {
+    console.timeEnd();
+    console.time();
     const query = getQuery(event);
 
     if (!query.name) {
@@ -286,8 +289,34 @@ export default defineEventHandler(async (event) => {
         return { sets, path: pathstring };
     }
 
-    console.timeEnd();
-    console.time();
+    // const pre_result = await prisma.player.findFirstOrThrow({
+    //     where: {
+    //         name: query.name.toString(),
+    //         id: query.id ? parseInt(query.id as string) : undefined,
+    //     },
+    //     select: {
+    //         name: true,
+    //         id: true,
+    //     },
+    //     orderBy: {
+    //         sets: {
+    //             _count: "desc",
+    //         },
+    //     },
+    // });
+
+    // const cache = JSON.parse(
+    //     await fs.promises.readFile("server/cache.json", "utf8")
+    // );
+
+    const cache = await cache_promise;
+    const cache_result = cache.player[`${query.name}-${query.id}`];
+
+    if (cache_result) {
+        console.log("Cache hit");
+        console.timeEnd();
+        return cache_result;
+    }
 
     const result = await prisma.player.findFirstOrThrow({
         where: {
@@ -476,6 +505,7 @@ export default defineEventHandler(async (event) => {
         }
     }
 
+    console.log("Cache miss");
     console.timeEnd();
     // console.time();
     // console.log(JSON.stringify(result).length);
