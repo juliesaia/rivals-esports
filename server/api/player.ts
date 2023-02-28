@@ -293,7 +293,10 @@ export default defineEventHandler(async (event) => {
 
     const cache_result = cache.player[query.name as string];
 
-    if (cache_result && (!query.id || cache_result.id == query.id)) {
+    if (
+        cache_result &&
+        (!query.id || cache_result.id.toString() === query.id)
+    ) {
         console.log("Cache hit");
         console.timeEnd();
         return cache_result;
