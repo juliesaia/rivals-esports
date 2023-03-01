@@ -1,32 +1,34 @@
 <template>
-    <li class="$ m-3 mb-0 shadow-lg rounded-lg border border-gray-900">
-        <div class="$ flex">
-            <div class="$ flex-grow">
-                <!-- This slot will handle the title/header of the accordion-->
-                <slot name="accordion-header" />
+    <div class="p-3 pb-1">
+        <li class="$ mb-0 shadow-lg rounded-lg border border-gray-900">
+            <div class="$ flex">
+                <div class="$ flex-grow">
+                    <!-- This slot will handle the title/header of the accordion-->
+                    <slot name="accordion-header" />
+                </div>
+                <div
+                    class="$ i-bx-chevron-down my-auto text-4xl cursor-pointer"
+                    @click="toggle"
+                />
             </div>
-            <div
-                class="$ i-bx-chevron-down my-auto text-4xl cursor-pointer"
-                @click="toggle"
-            />
-        </div>
-        <transition
-            name="accordion"
-            @enter="start"
-            @leave="end"
-            @before-enter="end"
-        >
-            <div
-                v-show="visible"
-                class="$ overflow-hidden transition-all duration-500"
+            <transition
+                name="accordion"
+                @enter="start"
+                @leave="end"
+                @before-enter="end"
             >
-                <ul>
-                    <!-- This slot will handle all the content that is passed to the accordion -->
-                    <slot name="accordion-content" />
-                </ul>
-            </div>
-        </transition>
-    </li>
+                <div
+                    v-show="visible"
+                    class="$ overflow-hidden transition-all duration-500"
+                >
+                    <ul>
+                        <!-- This slot will handle all the content that is passed to the accordion -->
+                        <slot name="accordion-content" />
+                    </ul>
+                </div>
+            </transition>
+        </li>
+    </div>
 </template>
 
 <script setup>

@@ -1,76 +1,99 @@
 <template>
     <div class="flex flex-col items-center">
         <h1 class="$ my-8">Tournaments</h1>
-        <Accordion class="$ w-160 max-h-200 overflow-y-auto">
-            <div v-for="tournament in tournaments" :key="tournament.id">
-                <div v-show="!tournament.hidden">
-                    <AccordionItem>
-                        <!-- This slot will handle the title/header of the accordion and is the part you click on -->
-
-                        <template #accordion-header>
-                            <h3 class="$ flex items-center p-3">
-                                <nuxt-img
-                                    :src="
-                                        resizeSGG(
-                                            tournament.profileImage,
-                                            40,
-                                            40
-                                        )
-                                    "
-                                    height="40"
-                                    width="40"
-                                    class="$ mr-2"
-                                />
-                                <div class="$ flex flex-col">
-                                    <NuxtLink
-                                        class="$ hover:underline"
-                                        :to="`/tournaments/${tournament.shortSlug}`"
-                                    >
-                                        {{ tournament.name }}
-                                    </NuxtLink>
-                                    <div
-                                        v-if="
-                                            tournament.standings[0].placement !=
-                                            null
-                                        "
-                                    >
-                                        {{
-                                            int_to_ord(
-                                                tournament.standings[0]
-                                                    .placement
-                                            )
-                                        }}
-                                        place
-                                    </div>
-                                </div>
-                                <div class="$ flex-grow" />
-                                <div
-                                    class="$ flex flex-col text-end whitespace-nowrap"
-                                >
-                                    <div
-                                        v-if="
-                                            tournament.standings[0].seed != null
-                                        "
-                                    >
-                                        Seed: {{ tournament.standings[0].seed }}
-                                    </div>
-                                    <div
-                                        v-if="
-                                            tournament.standings[0].spr != null
-                                        "
-                                    >
-                                        SPR: {{ tournament.standings[0].spr }}
-                                    </div>
-                                </div>
-                            </h3>
-                        </template>
-                        <!-- This slot will handle all the content that is passed to the accordion -->
-                        <template #accordion-content>
-                            <Set :data="tournament.sets" />
-                        </template>
-                    </AccordionItem>
-                </div>
-            </div>
+        <Accordion class="$ w-160 overflow-y-auto">
+            <!-- <div v-for="tournament in tournaments" :key="tournament.id"> -->
+            <DynamicScroller
+                :items="tournaments"
+                :min-item-size="74"
+                :prerender="10"
+                class="max-h-120"
+            >
+                <template #default="{ item: tournament, index, active }">
+                    <DynamicScrollerItem
+                        :item="tournament"
+                        :active="active"
+                        :size-dependencies="tournament"
+                        :data-index="index"
+                    >
+                        <div v-if="active">
+                            <AccordionItem>
+                                <!-- This slot will handle the title/header of the accordion and is the part you click on -->
+                                <template #accordion-header>
+                                    <h3 class="$ flex items-center p-3">
+                                        <nuxt-img
+                                            :src="
+                                                resizeSGG(
+                                                    tournament.profileImage,
+                                                    40,
+                                                    40
+                                                )
+                                            "
+                                            height="40"
+                                            width="40"
+                                            class="$ mr-2"
+                                        />
+                                        <div class="$ flex flex-col">
+                                            <NuxtLink
+                                                class="$ hover:underline"
+                                                :to="`/tournaments/${tournament.shortSlug}`"
+                                            >
+                                                {{ tournament.name }}
+                                            </NuxtLink>
+                                            <div
+                                                v-if="
+                                                    tournament.standings[0]
+                                                        .placement != null
+                                                "
+                                            >
+                                                {{
+                                                    int_to_ord(
+                                                        tournament.standings[0]
+                                                            .placement
+                                                    )
+                                                }}
+                                                place
+                                            </div>
+                                        </div>
+                                        <div class="$ flex-grow" />
+                                        <div
+                                            class="$ flex flex-col text-end whitespace-nowrap"
+                                        >
+                                            <div
+                                                v-if="
+                                                    tournament.standings[0]
+                                                        .seed != null
+                                                "
+                                            >
+                                                Seed:
+                                                {{
+                                                    tournament.standings[0].seed
+                                                }}
+                                            </div>
+                                            <div
+                                                v-if="
+                                                    tournament.standings[0]
+                                                        .spr != null
+                                                "
+                                            >
+                                                SPR:
+                                                {{
+                                                    tournament.standings[0].spr
+                                                }}
+                                            </div>
+                                        </div>
+                                    </h3>
+                                </template>
+                                <!-- This slot will handle all the content that is passed to the accordion -->
+                                <template #accordion-content>
+                                    <Set :data="tournament.sets" />
+                                </template>
+                            </AccordionItem>
+                        </div>
+                    </DynamicScrollerItem>
+                </template>
+                <!-- </div> -->
+            </DynamicScroller>
         </Accordion>
     </div>
 </template>

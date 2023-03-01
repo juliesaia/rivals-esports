@@ -2,7 +2,7 @@ import fs from "fs";
 import { prisma } from "../prisma";
 
 export default defineEventHandler(async (_event) => {
-    const cache = { players: [], tournaments: [], player: {} };
+    const cache = { players: [], players_min: [], tournaments: [], player: {} };
 
     const players_result = await prisma.player.findMany({
         select: {
@@ -34,6 +34,19 @@ export default defineEventHandler(async (_event) => {
     });
 
     cache.players = players_result;
+
+    const players_min_result = await prisma.player.findMany({
+        select: {
+            name: true,
+        },
+        orderBy: {
+            sets: {
+                _count: "desc", // sort by "relevance"
+            },
+        },
+    });
+
+    cache.players_min = players_min_result.map((player) => player.name);
 
     const tournaments_result = await prisma.tournament.findMany({
         select: {

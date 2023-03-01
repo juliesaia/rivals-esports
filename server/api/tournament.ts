@@ -35,6 +35,7 @@ export default defineEventHandler(async (event) => {
                         player: {
                             select: {
                                 name: true,
+                                id: true,
                                 favoriteCharacter: true,
                                 losses: {
                                     take: 2,

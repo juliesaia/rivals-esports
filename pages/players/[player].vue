@@ -151,6 +151,7 @@ const filters = $ref({
 });
 
 filters.leagues = structuredClone(seasons_dict); // sometimes its too reactive...
+// filters.leagues = { RCS: [7], GRL: [], ROCS: [] };
 
 const all = $ref({});
 
@@ -177,6 +178,7 @@ const { data: player_data } = $(
 data.player = player_data;
 
 const hidden_tournaments = $computed(() => {
+    const output = [];
     // data.player.tournaments.map(
     for (const el of data.player.tournaments) {
         if (
@@ -193,12 +195,15 @@ const hidden_tournaments = $computed(() => {
                     filters.leagues[el2.shortName].includes(el2.season)
                 ))
         ) {
-            el.hidden = false;
-        } else {
-            el.hidden = true;
+            // el.hidden = false;
+            output.push(el);
         }
+        // else {
+        //     el.hidden = true;
+        // }
     }
-    return data.player.tournaments;
+    // return data.player.tournaments;
+    return output;
 });
 
 const filtered_tournaments = $computed(() =>
