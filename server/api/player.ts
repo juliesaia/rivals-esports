@@ -21,7 +21,10 @@ export default defineEventHandler(async (event) => {
     if (query.h2h) {
         const result = await prisma.player.findFirstOrThrow({
             where: {
-                name: query.name.toString(),
+                name: {
+                    equals: query.name.toString(),
+                    mode: "insensitive",
+                },
             },
             select: {
                 sets: {
@@ -81,7 +84,10 @@ export default defineEventHandler(async (event) => {
                     where: {
                         players: {
                             some: {
-                                name: query.h2h.toString(),
+                                name: {
+                                    equals: query.h2h.toString(),
+                                    mode: "insensitive",
+                                },
                             },
                         },
                     },
@@ -97,7 +103,10 @@ export default defineEventHandler(async (event) => {
                             where: {
                                 loser: {
                                     is: {
-                                        name: query.h2h.toString(),
+                                        name: {
+                                            equals: query.h2h.toString(),
+                                            mode: "insensitive",
+                                        },
                                     },
                                 },
                             },
@@ -106,7 +115,10 @@ export default defineEventHandler(async (event) => {
                             where: {
                                 winner: {
                                     is: {
-                                        name: query.h2h.toString(),
+                                        name: {
+                                            equals: query.h2h.toString(),
+                                            mode: "insensitive",
+                                        },
                                     },
                                 },
                             },
@@ -159,6 +171,7 @@ export default defineEventHandler(async (event) => {
             where: {
                 name: {
                     equals: query.name.toString(),
+                    mode: "insensitive",
                 },
             },
             select: {
@@ -176,6 +189,7 @@ export default defineEventHandler(async (event) => {
             where: {
                 name: {
                     equals: query.armadaNumber.toString(),
+                    mode: "insensitive",
                 },
             },
             select: {
@@ -289,22 +303,16 @@ export default defineEventHandler(async (event) => {
         return { sets, path: pathstring };
     }
 
-    const cache = await cache_promise;
-
-    const cache_result = cache.player[query.name as string];
-
-    if (
-        cache_result &&
-        (!query.id || cache_result.id.toString() === query.id)
-    ) {
-        console.log("Cache hit");
-        console.timeEnd();
-        return cache_result;
+    if (getPlayer(query.name, query.id)) {
+        return getPlayer(query.name, query.id);
     }
 
     const result = await prisma.player.findFirstOrThrow({
         where: {
-            name: query.name.toString(),
+            name: {
+                equals: query.name.toString(),
+                mode: "insensitive",
+            },
             id: query.id ? parseInt(query.id as string) : undefined,
         },
         select: {
@@ -346,7 +354,13 @@ export default defineEventHandler(async (event) => {
                     standings: {
                         where: {
                             player: {
-                                name: query.name.toString(),
+                                name: {
+                                    equals: query.name.toString(),
+                                    mode: "insensitive",
+                                },
+                                id: query.id
+                                    ? parseInt(query.id as string)
+                                    : undefined,
                             },
                         },
                         select: {
@@ -400,7 +414,13 @@ export default defineEventHandler(async (event) => {
                         where: {
                             players: {
                                 some: {
-                                    name: query.name.toString(),
+                                    name: {
+                                        equals: query.name.toString(),
+                                        mode: "insensitive",
+                                    },
+                                    id: query.id
+                                        ? parseInt(query.id as string)
+                                        : undefined,
                                 },
                             },
                         },
@@ -411,7 +431,10 @@ export default defineEventHandler(async (event) => {
                         some: {
                             players: {
                                 some: {
-                                    name: query.name.toString(),
+                                    name: {
+                                        equals: query.name.toString(),
+                                        mode: "insensitive",
+                                    },
                                 },
                             },
                         },
@@ -500,3 +523,24 @@ export default defineEventHandler(async (event) => {
     // FUTURE JULIE DO NOT USE COMPRESSION THIS IS WHY SSR EXISTS!!!
     return result;
 });
+
+async function getPlayer(name, id) {
+    const cache = await cache_promise;
+
+    const cache_result = cache.player[(name as string).toLowerCase()];
+
+    if (cache_result) {
+        console.log("Cache hit");
+        console.timeEnd();
+        if (!id) {
+            return cache_result[0];
+        }
+
+        for (const player of cache_result) {
+            // eslint-disable-next-line eqeqeq
+            if (player.id == id) {
+                return player;
+            }
+        }
+    }
+}

@@ -18,6 +18,7 @@ specifiers:
   jsonh: ^0.0.6
   nuxt: ^3.2.3
   nuxt-viewport: ^2.0.3
+  ofetch: ^1.0.1
   prisma: ^4.11.0
   typescript: ^4.9.5
   unocss: ^0.50.3
@@ -32,6 +33,7 @@ dependencies:
   dayjs: 1.11.7
   floating-vue: 2.0.0-beta.20
   jsonh: 0.0.6
+  ofetch: 1.0.1
   vue-virtual-scroller: 2.0.0-beta.8
 
 devDependencies:
@@ -5653,7 +5655,6 @@ packages:
       destr: 1.2.2
       node-fetch-native: 1.0.2
       ufo: 1.1.1
-    dev: true
 
   /ohash/1.0.0:
     resolution: {integrity: sha512-kxSyzq6tt+6EE/xCnD1XaFhCCjUNUaz3X30rJp6mnjGLXAAvuPFqohMdv0aScWzajR45C29HyBaXZ8jXBwnh9A==}

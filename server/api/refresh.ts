@@ -125,6 +125,7 @@ async function get_startgg(
     return output;
 }
 
+// export default defineEventHandler(async (_event) => {
 export default defineEventHandler(async (_event) => {
     if (process.env.NODE_ENV !== "development") {
         return;

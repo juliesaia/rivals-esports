@@ -31,3 +31,6 @@ include online, include offseason -> separate checkboxes for online offline offs
 not sure i like the accordion dropdown with the tournament scrollbar... maybe show details off to the side?
 
 deployment: vercel and supabase both have free tiers
+
+sudo service postgresql start
+sudo -u postgres psql

@@ -154,11 +154,12 @@ model OnlineTournament {
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["clientExtensions", "filteredRelationCount"]
+  engineType      = "binary" // add this
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:/home/cheesypotato/rivals-esports/prisma/dev.db"
-  // provider = "mysql"
-  // url      = env("DATABASE_URL")
+  // provider = "sqlite"
+  // url      = "file:/home/cheesypotato/rivals-esports/prisma/dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }

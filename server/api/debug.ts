@@ -7,7 +7,6 @@ export default defineEventHandler(async (_event) => {
         return;
     }
 
-    
     const result = await prisma.player.findMany({
         select: {
             name: true,

@@ -5,7 +5,13 @@ export default defineEventHandler(async (_event) => {
     if (process.env.NODE_ENV !== "development") {
         return;
     }
-    const cache = { players: [], players_min: [], tournaments: [], player: {} };
+    const cache = {
+        players: [],
+        players_min: [],
+        tournaments: [],
+        player: {},
+        tournament: {},
+    };
 
     const players_result = await prisma.player.findMany({
         select: {
@@ -86,16 +92,29 @@ export default defineEventHandler(async (_event) => {
     }
 
     cache.tournaments = tournaments_result;
+    console.log(tournaments_result);
+    let misses = 0;
 
-    for (let i = 0; i < 100; i++) {
-        const player_name = cache.players[i].name;
+    for (let i = 0; i < cache.players.length; i++) {
+        const player_name = cache.players[i].name.toLowerCase();
         const player_id = cache.players[i].id;
 
         console.log(`Caching ${player_name}`);
 
-        const result = await prisma.player.findFirstOrThrow({
+        if (!(player_name in cache.player)) {
+            cache.player[player_name] = [];
+        }
+
+        if (player_name.includes("\\")) {
+            continue;
+        }
+
+        const result = await prisma.player.findFirst({
             where: {
-                name: player_name,
+                name: {
+                    equals: player_name,
+                    mode: "insensitive",
+                },
                 id: player_id,
             },
             select: {
@@ -138,7 +157,11 @@ export default defineEventHandler(async (_event) => {
                         standings: {
                             where: {
                                 player: {
-                                    name: player_name,
+                                    name: {
+                                        equals: player_name,
+                                        mode: "insensitive",
+                                    },
+                                    id: player_id,
                                 },
                             },
                             select: {
@@ -192,7 +215,11 @@ export default defineEventHandler(async (_event) => {
                             where: {
                                 players: {
                                     some: {
-                                        name: player_name,
+                                        name: {
+                                            equals: player_name,
+                                            mode: "insensitive",
+                                        },
+                                        id: player_id,
                                     },
                                 },
                             },
@@ -203,7 +230,10 @@ export default defineEventHandler(async (_event) => {
                             some: {
                                 players: {
                                     some: {
-                                        name: player_name,
+                                        name: {
+                                            equals: player_name,
+                                            mode: "insensitive",
+                                        },
                                     },
                                 },
                             },
@@ -263,6 +293,11 @@ export default defineEventHandler(async (_event) => {
             take: 1,
         });
 
+        if (!result) {
+            misses++;
+            continue;
+        }
+
         // @ts-ignore
         for (const accolade of result.accolades) {
             if (accolade.set != null) {
@@ -281,12 +316,108 @@ export default defineEventHandler(async (_event) => {
                 accolade.league = null;
             }
         }
-        cache.player[player_name] = result;
+        cache.player[player_name].push(result);
     }
 
-    fs.writeFile("server/cache.json", JSON.stringify(cache), (err) =>
-        console.log(err)
-    );
+    console.log(`misses: ${misses}`);
+
+    for (const tournament of tournaments_result) {
+        const tournament_name = tournament.name.toLowerCase();
+        const tournament_slug = tournament.shortSlug.toLowerCase();
+        const tournament_result = await prisma.tournament.findFirst({
+            select: {
+                name: true,
+                // season: true,
+                slug: true,
+                shortSlug: true,
+                state: true,
+                city: true,
+                profileImage: true,
+                bannerImage: true,
+                startAt: true,
+                endAt: true,
+                timezone: true,
+                online: true,
+                leagues: {
+                    select: {
+                        shortName: true,
+                        season: true,
+                    },
+                },
+                standings: {
+                    select: {
+                        placement: true,
+                        seed: true,
+                        spr: true,
+                        player: {
+                            select: {
+                                name: true,
+                                id: true,
+                                favoriteCharacter: true,
+                                losses: {
+                                    take: 2,
+                                    select: {
+                                        id: true,
+                                        winner: {
+                                            select: {
+                                                name: true,
+                                                id: true,
+                                                favoriteCharacter: true,
+                                            },
+                                        },
+                                    },
+                                    where: {
+                                        OR: [
+                                            {
+                                                tournament: {
+                                                    name: {
+                                                        equals: tournament_name,
+                                                        mode: "insensitive",
+                                                    },
+                                                },
+                                            },
+                                            {
+                                                tournament: {
+                                                    slug: {
+                                                        equals: tournament_slug, // shortSlug
+                                                        mode: "insensitive",
+                                                    },
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            where: {
+                OR: [
+                    {
+                        name: {
+                            equals: tournament_name,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        slug: {
+                            equals: tournament_slug, // shortSlug
+                            mode: "insensitive",
+                        },
+                    },
+                ],
+            },
+        });
+
+        cache.tournament[tournament_name] = tournament_result;
+        cache.tournament[tournament_slug] = tournament_result;
+    }
+
+    fs.writeFile("server/cache.json", JSON.stringify(cache), (err) => {
+        console.log(err);
+        console.log("dont forget to restart nitro!");
+    });
 });
 
 export const cache_promise = (async () =>
