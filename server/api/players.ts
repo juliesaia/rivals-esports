@@ -1,17 +1,28 @@
-import { cache_promise } from "./cache";
+// import { cache_promise } from "./cache";
+import path from "path";
+import fs from "fs";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
 
     console.time();
 
-    if (query.min) {
-        const cache = await cache_promise;
-        const result = cache.players_min;
-        return result;
-    }
+    // if (query.min) {
+    //     const cache = await cache_promise;
+    //     const result = cache.players_min;
+    //     return result;
+    // }
 
-    const cache = await cache_promise;
+    // const cache = await cache_promise;
+    // const result = cache.players;
+
+    const cache = JSON.parse(
+        await fs.promises.readFile(
+            path.join(process.cwd(), "json") + "/cache.json",
+            "utf8"
+        )
+    );
+
     const result = cache.players;
 
     console.timeEnd();
