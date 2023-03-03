@@ -104,12 +104,12 @@
                         </div>
                         <div
                             v-if="header.name === 'Leagues'"
-                            class="flex flex-col"
+                            class="$ flex flex-col"
                         >
                             <div
                                 v-for="league in item.leagues"
                                 :key="league.shortName"
-                                class="whitespace-nowrap"
+                                class="$ whitespace-nowrap"
                             >
                                 {{ league.shortName }}: S{{ league.season }}
                             </div>

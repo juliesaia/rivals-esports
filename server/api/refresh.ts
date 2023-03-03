@@ -126,7 +126,9 @@ async function get_startgg(
 }
 
 export default defineEventHandler(async (_event) => {
-    console.log("hi");
+    if (process.env.NODE_ENV !== "development") {
+        return;
+    }
     console.time();
     await prisma.league.deleteMany({});
     await prisma.social.deleteMany({});

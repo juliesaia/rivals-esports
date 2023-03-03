@@ -4,6 +4,9 @@ import { debugConsoleLogs } from "../constants";
 import { ELOHandler } from "../eloSystem/ELOHandler";
 
 export default defineEventHandler(async (_event) => {
+    if (process.env.NODE_ENV !== "development") {
+        return;
+    }
     await prisma.ranking.deleteMany({});
     let queries = [];
 

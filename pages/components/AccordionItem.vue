@@ -1,5 +1,5 @@
 <template>
-    <div class="p-3 pb-1">
+    <div class="$ p-3 pb-1">
         <li class="$ mb-0 shadow-lg rounded-lg border border-gray-900">
             <div class="$ flex">
                 <div class="$ flex-grow">

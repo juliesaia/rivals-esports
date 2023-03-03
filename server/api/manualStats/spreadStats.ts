@@ -1,6 +1,9 @@
 import { prisma } from "../../prisma";
 
 export default defineEventHandler(async (event) => {
+    if (process.env.NODE_ENV !== "development") {
+        return;
+    }
     const query = getQuery(event);
 
     if (Array.isArray(query.min)) {

@@ -3,6 +3,9 @@ import { DirectedGraph } from "~~/server/graphTheory/graphs/DirectedGraph";
 import { Edge, Node } from "~~/server/graphTheory/elements/AllElements";
 
 export default defineEventHandler(async (event) => {
+    if (process.env.NODE_ENV !== "development") {
+        return;
+    }
     const query = getQuery(event);
 
     if (!query.source) {

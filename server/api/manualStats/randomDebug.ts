@@ -3,6 +3,9 @@ import { top50 } from "~~/server/lists/top50";
 import { transformDocument } from "@prisma/client/runtime";
 
 export default defineEventHandler(async (event) => {
+    if (process.env.NODE_ENV !== "development") {
+        return;
+    }
     const reversals = (
         await prisma.player.findMany({
             select: {

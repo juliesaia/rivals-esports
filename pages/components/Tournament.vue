@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center">
+    <div class="$ flex flex-col items-center">
         <h1 class="$ my-4">Tournaments</h1>
         <Accordion
             class="$ w-80vw md:w-160 overflow-y-auto border border-2 rounded-xl shadow-lg"
@@ -9,7 +9,7 @@
                 :items="tournaments"
                 :min-item-size="74"
                 :prerender="10"
-                class="max-h-200"
+                class="$ max-h-200"
             >
                 <template #default="{ item: tournament, index, active }">
                     <DynamicScrollerItem

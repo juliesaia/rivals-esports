@@ -1,8 +1,25 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 
+// import fs from "fs";
+
+// const cache_promise = (async () =>
+//     JSON.parse(await fs.promises.readFile("server/cache.json", "utf8")))();
+
+// const cache = await cache_promise;
+
+// for (const player in cache.player) {
+//     routes.push(`/players/${player}`);
+// }
+
+// for (const tournament of cache.tournaments) {
+//     routes.push(`/tournaments/${tournament.shortSlug}`);
+// }
 export default defineNuxtConfig({
     nitro: {
         compressPublicAssets: true,
+        prerender: {
+            routes: ["/", "/tournaments", "/players"],
+        },
     },
     vite: {
         vue: {
@@ -52,4 +69,5 @@ export default defineNuxtConfig({
     experimental: {
         componentIslands: true,
     },
+    ignore: ["pages/dev/**"],
 });

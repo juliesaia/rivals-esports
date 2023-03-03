@@ -8,6 +8,9 @@ import { top50 } from "../lists/top50";
 import { debugConsoleLogs } from "../constants";
 
 export default defineEventHandler(async (_event) => {
+    if (process.env.NODE_ENV !== "development") {
+        return;
+    }
     await prisma.accolade.deleteMany({});
     if (debugConsoleLogs) {
         console.time();

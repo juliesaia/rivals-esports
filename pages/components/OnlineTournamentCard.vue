@@ -1,31 +1,31 @@
 <template>
     <div
-        class="shadow-lg p-4 rounded-xl border-2 flex flex-col items-center h-full w-full"
+        class="$ shadow-lg p-4 rounded-xl border-2 flex flex-col items-center h-full w-full"
     >
-        <div class="mb-2">{{ tournament.name }}</div>
+        <div class="$ mb-2">{{ tournament.name }}</div>
         <div
             v-if="fixTimestamp(tournament).isSame(dayjs(), 'day')"
-            class="mb-2"
+            class="$ mb-2"
         >
             {{ fixTimestamp(tournament).format("MMMM D, h:mm A") }}
         </div>
-        <div v-else-if="tournament.repeats === 'weekly'" class="mb-2">
+        <div v-else-if="tournament.repeats === 'weekly'" class="$ mb-2">
             Every {{ fixTimestamp(tournament).format("dddd") }} at
             {{ fixTimestamp(tournament).format("h:mm A") }}
         </div>
-        <div v-else class="mb-2">
+        <div v-else class="$ mb-2">
             {{ fixTimestamp(tournament).format("MMMM D, h:mm A") }}
         </div>
         <NuxtLink
             :to="tournament.discordUrl"
-            class="text-blue-500 hover:underline mb-2 break-all"
+            class="$ text-blue-500 hover:underline mb-2 break-all"
         >
             {{ tournament.discordUrl }}
         </NuxtLink>
-        <div v-if="tournament.prize" class="mb-2">
+        <div v-if="tournament.prize" class="$ mb-2">
             {{ tournament.prize }}
         </div>
-        <!-- <div v-if="tournament.repeats === 'monthly'" class="mb-2">
+        <!-- <div v-if="tournament.repeats === 'monthly'" class="$  mb-2">
             Every {{ int_to_ord(weekmonth) }}
             {{ fixTimestamp(tournament).format("dddd") }} at
             {{ fixTimestamp(tournament).format("h:mm A") }}
@@ -34,7 +34,7 @@
             :src="tournament.imageUrl"
             height="100"
             width="100"
-            class="mb-4"
+            class="$ mb-4"
         />
     </div>
 </template>

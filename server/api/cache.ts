@@ -2,6 +2,9 @@ import fs from "fs";
 import { prisma } from "../prisma";
 
 export default defineEventHandler(async (_event) => {
+    if (process.env.NODE_ENV !== "development") {
+        return;
+    }
     const cache = { players: [], players_min: [], tournaments: [], player: {} };
 
     const players_result = await prisma.player.findMany({

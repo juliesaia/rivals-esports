@@ -15,7 +15,7 @@
             </h3>
         </div>
         <div class="$ flex flex-wrap items-center">
-            <div class="py-4">
+            <div class="$ py-4">
                 <div class="$ flex font-bold">
                     <div
                         class="$ mr-2"

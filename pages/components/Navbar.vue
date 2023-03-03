@@ -18,6 +18,6 @@
         >
             Tournaments
         </NuxtLink>
-        <!-- <div class="$ py-4 px-2">Wiki</div> -->
+        <!-- <div class="$   py-4 px-2">Wiki</div> -->
     </nav>
 </template>

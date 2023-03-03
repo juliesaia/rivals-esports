@@ -8,6 +8,9 @@ const nameChanges = [
 ];
 
 export default defineEventHandler(async () => {
+    if (process.env.NODE_ENV !== "development") {
+        return;
+    }
     const queries = [];
 
     // Apply all name changes

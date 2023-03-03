@@ -42,7 +42,7 @@
             Winrate:
             {{ winrate(wins, wins + losses) }}
         </h3>
-        <div class="flex flex-wrap mb-4">
+        <div class="$ flex flex-wrap mb-4">
             <div
                 v-for="accolade in grouped_accolades"
                 :key="accolade.shortName"
@@ -51,7 +51,7 @@
                         accolade.count > 1 ? ` ${accolade.count}x` : ''
                     }: ${accolade.description}`
                 "
-                class="text-2xl"
+                class="$ text-2xl"
                 :class="{
                     'i-bx-trophy': accolade.type === 'trophy',
                     'i-bx-medal': accolade.type === 'achievement',
@@ -71,14 +71,14 @@
                 }"
             />
         </div>
-        <div class="flex">
+        <div class="$ flex">
             <div
                 v-for="character in characters.filter((el) => el[0] !== 'null')"
                 :key="character.name"
                 class="$ flex items-center m-2"
             >
                 <div :class="character[0]" />
-                <h3 class="whitespace-nowrap">: {{ character[1] }}</h3>
+                <h3 class="$ whitespace-nowrap">: {{ character[1] }}</h3>
             </div>
         </div>
 
@@ -86,21 +86,25 @@
 
         <div
             v-if="isGreaterOrEquals('lg')"
-            class="fixed top-50% right-0 border-2 border-purple-900 border-r-transparent rounded-l-xl p-8 flex flex-col"
+            class="$ fixed top-50% right-0 border-2 border-purple-900 border-r-transparent rounded-l-xl p-8 flex flex-col"
             style="transform: translateY(-50%)"
         >
-            <ACheckbox v-model="filters.offline" label="Offline" class="mb-4" />
-            <ACheckbox v-model="filters.online" label="Online" class="mb-4" />
+            <ACheckbox
+                v-model="filters.offline"
+                label="Offline"
+                class="$ mb-4"
+            />
+            <ACheckbox v-model="filters.online" label="Online" class="$ mb-4" />
             <ACheckbox
                 v-model="filters.offseason"
                 label="Offseason"
-                class="mb-4"
+                class="$ mb-4"
             />
-            <div class="flex">
+            <div class="$ flex">
                 <div
                     v-for="(seasons, league) in seasons_dict"
                     :key="league"
-                    class="flex flex-col items-evenly mr-4"
+                    class="$ flex flex-col items-evenly mr-4"
                 >
                     <div>{{ league }}</div>
                     <ACheckbox

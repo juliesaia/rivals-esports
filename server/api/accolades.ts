@@ -4,6 +4,9 @@ import { top50 } from "../lists/top50";
 import { prisma } from "../prisma";
 
 export default defineEventHandler(async (event) => {
+    if (process.env.NODE_ENV !== "development") {
+        return;
+    }
     const query = getQuery(event);
 
     const seasonFinales = Object.values(rcsFinales);

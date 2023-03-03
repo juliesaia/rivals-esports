@@ -1,50 +1,50 @@
 <template>
-    <main class="flex flex-col items-center mt-16 text-center">
-        <h1 class="text-6xl my-2 mx-2">Rivals Esports</h1>
-        <div class="text-2xl my-6 mx-2">
+    <main class="$ flex flex-col items-center mt-16 text-center">
+        <h1 class="$ text-6xl my-2 mx-2">Rivals Esports</h1>
+        <div class="$ text-2xl my-6 mx-2">
             Stats Database for Rivals of Aether
         </div>
-        <div class="flex my-4 mb-12">
+        <div class="$ flex my-4 mb-12">
             <NuxtLink to="/players">
-                <ABtn class="mx-4">Players</ABtn>
+                <ABtn class="$ mx-4">Players</ABtn>
             </NuxtLink>
             <NuxtLink to="/tournaments">
-                <ABtn class="mx-4">Tournaments</ABtn>
+                <ABtn class="$ mx-4">Tournaments</ABtn>
             </NuxtLink>
         </div>
-        <h1 class="text-4xl my-2">Upcoming Online Tournaments</h1>
-        <div class="mb-4">(All times in your local timezone)</div>
-        <h3 class="text-2xl my-4">Today</h3>
+        <h1 class="$ text-4xl my-2">Upcoming Online Tournaments</h1>
+        <div class="$ mb-4">(All times in your local timezone)</div>
+        <h3 class="$ text-2xl my-4">Today</h3>
         <!-- doesnt work with spa routing... smh -->
-        <!-- class="grid mb-8"
+        <!-- class="$ grid mb-8"
             :style="{
                 'grid-template-columns': `repeat(${today.length}, minmax(0, 1fr));`,
             }" -->
-        <div class="grid" :style="fixStyle(today)">
+        <div class="$ grid" :style="fixStyle(today)">
             <div
                 v-for="tournament in today"
                 :key="tournament.id"
-                class="mx-4 mb-4"
+                class="$ mx-4 mb-4"
             >
                 <OnlineTournamentCard v-bind="{ tournament }" />
             </div>
         </div>
-        <h3 class="text-2xl my-4">This Week</h3>
-        <div class="grid" :style="fixStyle(thisWeek)">
+        <h3 class="$ text-2xl my-4">This Week</h3>
+        <div class="$ grid" :style="fixStyle(thisWeek)">
             <div
                 v-for="tournament in thisWeek"
                 :key="tournament.id"
-                class="mx-4 mb-4"
+                class="$ mx-4 mb-4"
             >
                 <OnlineTournamentCard v-bind="{ tournament }" />
             </div>
         </div>
-        <h3 class="text-2xl my-4">Announced</h3>
-        <div class="grid" :style="fixStyle(announced)">
+        <h3 class="$ text-2xl my-4">Announced</h3>
+        <div class="$ grid" :style="fixStyle(announced)">
             <div
                 v-for="tournament in announced"
                 :key="tournament.id"
-                class="mx-4"
+                class="$ mx-4"
             >
                 <OnlineTournamentCard v-bind="{ tournament }" />
             </div>

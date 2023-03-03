@@ -28,6 +28,4 @@ const defaultSort = {
     type: "Date",
     order: "desc",
 };
-
-console.log(data);
 </script>

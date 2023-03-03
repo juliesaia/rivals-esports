@@ -1,30 +1,30 @@
 <template>
-    <div class="w-120 text-center">
-        <h1 class="mt-8 mb-4">Player 1</h1>
+    <div class="$ w-120 text-center">
+        <h1 class="$ mt-8 mb-4">Player 1</h1>
         <!-- <v-autocomplete /> -->
-        <form class="flex flex-col items-center">
-            <div class="w-40 mb-4">
+        <form class="$ flex flex-col items-center">
+            <div class="$ w-40 mb-4">
                 <AInput v-model="player1" type="text" />
             </div>
         </form>
-        <h1 class="mt-8 mb-4">Player 2</h1>
+        <h1 class="$ mt-8 mb-4">Player 2</h1>
         <!-- <v-autocomplete /> -->
         <form
-            class="flex flex-col items-center"
+            class="$ flex flex-col items-center"
             @submit.prevent="getArmadaNumber"
         >
-            <div class="w-40 mb-4">
+            <div class="$ w-40 mb-4">
                 <AInput v-model="player2" type="text" />
             </div>
-            <ABtn class="mb-4" type="submit">Submit</ABtn>
+            <ABtn class="$ mb-4" type="submit">Submit</ABtn>
         </form>
 
-        <h2 v-if="data.player1" class="mb-2">
+        <h2 v-if="data.player1" class="$ mb-2">
             Players: {{ data.player1 }} vs
             {{ data.player2 }}
         </h2>
 
-        <h2 v-if="data.armadaNumber" class="mb-2">
+        <h2 v-if="data.armadaNumber" class="$ mb-2">
             {{ data.armadaNumber }}
         </h2>
     </div>

@@ -39,11 +39,11 @@
                     .format("MMMM D, YYYY")}`
             }}
         </div>
-        <div class="my-4">
+        <div class="$ my-4">
             <div
                 v-for="league in tournament.leagues"
                 :key="league.shortName"
-                class="my-1"
+                class="$ my-1"
             >
                 {{ league.shortName }} S{{ league.season }}
             </div>
