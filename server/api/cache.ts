@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 import { prisma } from "../prisma";
 
 export default defineEventHandler(async (_event) => {
@@ -421,4 +422,9 @@ export default defineEventHandler(async (_event) => {
 });
 
 export const cache_promise = (async () =>
-    JSON.parse(await fs.promises.readFile("server/cache.json", "utf8")))();
+    JSON.parse(
+        await fs.promises.readFile(
+            path.join(process.cwd(), "server/cache.json"),
+            "utf8"
+        )
+    ))();

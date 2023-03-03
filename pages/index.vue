@@ -4,7 +4,6 @@
         <div class="$ text-2xl my-6 mx-2">
             Stats Database for Rivals of Aether
         </div>
-        {{ debug }}
         <div class="$ flex my-4 mb-12">
             <NuxtLink to="/players">
                 <ABtn class="$ mx-4">Players</ABtn>
@@ -59,8 +58,6 @@ import { fixTimestamp } from "../server/utils";
 import OnlineTournamentCard from "./components/OnlineTournamentCard.vue";
 
 const { isGreaterThan } = $(useViewport());
-
-const debug = process.cwd();
 
 const { data: onlineTournaments } = $(await useFetch("/api/onlineTournaments"));
 
