@@ -140,6 +140,17 @@ model Accolade {
   count        Int?
 }
 
+model OnlineTournament {
+  id         Int     @id @default(autoincrement())
+  name       String?
+  imageUrl   String?
+  startAtISO String
+  repeats    String?
+  prize      String?
+  discordUrl String
+  region     String?
+}
+
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["clientExtensions", "filteredRelationCount"]

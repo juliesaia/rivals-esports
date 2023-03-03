@@ -1,8 +1,16 @@
+/* eslint-disable import/no-named-as-default-member */
+import { OnlineTournament } from "@prisma/client";
 import {
     compress as compressjson,
     decompress as decompressjson,
 } from "compress-json";
 import JSONH from "jsonh";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export function rounds_from_victory(x: number) {
     if (x === 1) {
@@ -97,4 +105,37 @@ export function resizeSGG(raw_url, width, height) {
     return `https://www.bing.com/th?pid=Sgg&qlt=100&u=${encodeURIComponent(
         href
     )}&ehk=${encodeURIComponent(ehk)}&w=${width}&h=${height}`;
+}
+
+export function fixTimestamp(tournament: OnlineTournament) {
+    if (tournament.repeats === "weekly") {
+        if (dayjs().day() === dayjs(tournament.startAtISO).day()) {
+            return dayjs()
+                .hour(dayjs(tournament.startAtISO).hour())
+                .minute(dayjs(tournament.startAtISO).minute());
+        } else {
+            return dayjs()
+                .hour(dayjs(tournament.startAtISO).hour())
+                .minute(dayjs(tournament.startAtISO).minute())
+                .day(dayjs(tournament.startAtISO).day())
+                .add(1, "week");
+        }
+    }
+    return dayjs.tz(tournament.startAtISO, "America/New_York");
+    // i give up ill just manually add it every month
+    // we must abolish time
+    //
+    // else if (tournament.repeats === "monthly") {
+    //     if (dayjs().date() === dayjs(tournament.startAtISO).date()) {
+    //         return dayjs()
+    //             .hour(dayjs(tournament.startAtISO).hour())
+    //             .minute(dayjs(tournament.startAtISO).minute());
+    //     } else {
+    //         return dayjs()
+    //             .hour(dayjs(tournament.startAtISO).hour())
+    //             .minute(dayjs(tournament.startAtISO).minute())
+    //             .date(dayjs(tournament.startAtISO).date())
+    //             .add(1, "month");
+    //     }
+    // }
 }

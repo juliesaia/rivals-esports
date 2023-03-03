@@ -90,7 +90,11 @@
                             <div v-else class="$ h-32px w-32px" />
                             <NuxtLink
                                 class="$ pl-2 hover:underline text-left"
-                                :to="`/tournaments/${item.name}/`"
+                                :to="`/tournaments/${
+                                    item.shortSlug.includes('road-to-shine')
+                                        ? item.name
+                                        : item.shortSlug
+                                }/`"
                             >
                                 {{ item.name }}
                             </NuxtLink>
@@ -98,8 +102,17 @@
                         <div v-if="header.name === 'Rank'">
                             {{ item.rankings[0]?.rank }}
                         </div>
-                        <div v-if="header.name === 'Season'">
-                            {{ item.season }}
+                        <div
+                            v-if="header.name === 'Leagues'"
+                            class="flex flex-col"
+                        >
+                            <div
+                                v-for="league in item.leagues"
+                                :key="league.shortName"
+                                class="whitespace-nowrap"
+                            >
+                                {{ league.shortName }}: S{{ league.season }}
+                            </div>
                         </div>
                         <div v-if="header.name === 'Winrate'">
                             {{ winrate(item._count.wins, item._count.sets) }}
@@ -153,7 +166,7 @@
                                 <div v-else class="$ h-32px w-32px" />
                                 <NuxtLink
                                     class="$ pl-2 whitespace-nowrap hover:underline"
-                                    :to="`/players/${loss.winner.name}/`"
+                                    :to="`/players/${loss.winner.name}/?id=${loss.winner.id}`"
                                 >
                                     {{ loss.winner.name }}
                                 </NuxtLink>
@@ -181,7 +194,7 @@
             }"
             @click="page > 1 ? page-- : (page = 1)"
         />
-        <div class="$ flex justify-evenly w-120">
+        <div class="$ flex justify-evenly w-40 md:w-120">
             <div
                 v-for="index in pages"
                 :key="index"
@@ -234,8 +247,10 @@ const { data, headers, type, defaultSort } = defineProps<{
 }>();
 
 const router = useRouter();
+const { isGreaterOrEquals } = $(useViewport());
 
 const perPage = 8;
+const numPagesShown = $computed(() => (isGreaterOrEquals("md") ? 8 : 4));
 
 const sort = $ref(defaultSort);
 
@@ -363,15 +378,15 @@ const sorted = $computed(() => {
             .slice((page - 1) * perPage, page * perPage);
     }
 
-    // if (sort.type === "Sets") {
-    //     return filtered
-    //         .sort((a, b) =>
-    //             sort.order === "asc"
-    //                 ? (a._count.sets ?? Infinity) - (b._count.sets ?? Infinity)
-    //                 : (b._count.sets ?? Infinity) - (a._count.sets ?? Infinity)
-    //         )
-    //         .slice((page - 1) * perPage, page * perPage);
-    // }
+    if (sort.type === "Sets") {
+        return filtered
+            .sort((a, b) =>
+                sort.order === "asc"
+                    ? (a._count.sets ?? Infinity) - (b._count.sets ?? Infinity)
+                    : (b._count.sets ?? Infinity) - (a._count.sets ?? Infinity)
+            )
+            .slice((page - 1) * perPage, page * perPage);
+    }
     return filtered.slice((page - 1) * perPage, page * perPage);
 });
 
@@ -380,15 +395,19 @@ const totalPages = $computed(() => Math.ceil(filtered.length / perPage));
 const pages = $computed(() => {
     if (page === 1) {
         const output = [];
-        for (let i = page; i < page + perPage && i <= totalPages; i++) {
+        for (let i = page; i < page + numPagesShown && i <= totalPages; i++) {
             output.push(i);
         }
         return output;
         // @ts-ignore
     } else if (page === totalPages) {
         const output = [];
-        // for (let i = totalPages - perPage + 1; i <= totalPages; i++) {
-        for (let i = totalPages; i >= totalPages - perPage + 1 && i >= 1; i--) {
+        // for (let i = totalPages - numPagesShown + 1; i <= totalPages; i++) {
+        for (
+            let i = totalPages;
+            i >= totalPages - numPagesShown + 1 && i >= 1;
+            i--
+        ) {
             output.unshift(i);
         }
         return output;

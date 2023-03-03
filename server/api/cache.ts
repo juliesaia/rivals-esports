@@ -59,6 +59,12 @@ export default defineEventHandler(async (_event) => {
             city: true,
             state: true,
             timezone: true,
+            leagues: {
+                select: {
+                    shortName: true,
+                    season: true,
+                },
+            },
             _count: {
                 select: {
                     entrants: true,

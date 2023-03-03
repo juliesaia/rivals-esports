@@ -1,5 +1,4 @@
 import { prisma } from "../prisma";
-import { compress } from "../utils";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
@@ -27,6 +26,12 @@ export default defineEventHandler(async (event) => {
                 endAt: true,
                 timezone: true,
                 online: true,
+                leagues: {
+                    select: {
+                        shortName: true,
+                        season: true,
+                    },
+                },
                 standings: {
                     select: {
                         placement: true,
@@ -44,6 +49,7 @@ export default defineEventHandler(async (event) => {
                                         winner: {
                                             select: {
                                                 name: true,
+                                                id: true,
                                                 favoriteCharacter: true,
                                             },
                                         },

@@ -7,9 +7,11 @@
         <NuxtLayout>
             <Navbar />
             <NuxtPage />
+            <Footer />
         </NuxtLayout>
     </div>
 </template>
 <script setup>
 import Navbar from "./pages/components/Navbar.vue";
+import Footer from "./pages/components/Footer.vue";
 </script>

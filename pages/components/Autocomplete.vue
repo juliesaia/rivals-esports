@@ -28,7 +28,7 @@
                     placeholder="Search..."
                     type="text"
                     class="$ mb-4"
-                    @keydown.down="
+                    @keydown.down.prevent="
                         async () => {
                             selected >= autocomplete.length - 1
                                 ? (selected = autocomplete.length - 1)
@@ -47,7 +47,7 @@
                             });
                         }
                     "
-                    @keydown.up="
+                    @keydown.up.prevent="
                         async () => {
                             selected <= 0 ? (selected = 0) : selected--;
                             if (
@@ -73,7 +73,7 @@
                 <template #popper>
                     <div
                         ref="autocompleteref"
-                        class="$ max-h-50"
+                        class="$ max-h-50 overflow-x-hidden"
                         :class="{ 'w-40': horizontal }"
                     >
                         <div

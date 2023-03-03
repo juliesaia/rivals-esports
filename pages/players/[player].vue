@@ -42,7 +42,7 @@
             Winrate:
             {{ winrate(wins, wins + losses) }}
         </h3>
-        <div class="flex">
+        <div class="flex flex-wrap mb-4">
             <div
                 v-for="accolade in grouped_accolades"
                 :key="accolade.shortName"
@@ -71,18 +71,21 @@
                 }"
             />
         </div>
-        <div
-            v-for="character in characters.filter((el) => el[0] !== 'null')"
-            :key="character.name"
-            class="$ flex items-center my-2"
-        >
-            <div :class="character[0]" />
-            <h3>: {{ character[1] }}</h3>
+        <div class="flex">
+            <div
+                v-for="character in characters.filter((el) => el[0] !== 'null')"
+                :key="character.name"
+                class="$ flex items-center m-2"
+            >
+                <div :class="character[0]" />
+                <h3 class="whitespace-nowrap">: {{ character[1] }}</h3>
+            </div>
         </div>
 
         <Tournament :data="hidden_tournaments" />
 
         <div
+            v-if="isGreaterOrEquals('lg')"
             class="fixed top-50% right-0 border-2 border-purple-900 border-r-transparent rounded-l-xl p-8 flex flex-col"
             style="transform: translateY(-50%)"
         >
@@ -127,7 +130,6 @@
 
         <SetList type="armadaNumber" title="Degrees of Winning" />
     </main>
-    <div class="$ h-80" />
 </template>
 
 <script setup>
@@ -137,6 +139,7 @@ import { winrate } from "~~/server/utils";
 import { seasons_dict } from "~~/server/dictionaries";
 
 const route = useRoute();
+const { isGreaterOrEquals } = $(useViewport());
 
 const data = $ref({
     player: null,
@@ -195,11 +198,11 @@ const hidden_tournaments = $computed(() => {
                     filters.leagues[el2.shortName].includes(el2.season)
                 ))
         ) {
-            // el.hidden = false;
+            // el.size = 74;
             output.push(el);
         }
         // else {
-        //     el.hidden = true;
+        //     el.size = 0;
         // }
     }
     // return data.player.tournaments;

@@ -8,18 +8,26 @@
 <script setup lang="ts">
 import Table from "../components/Table.vue";
 
+const { isGreaterOrEquals } = $(useViewport());
+
 const { data } = $(await useFetch("/api/tournaments"));
 
-const headers = [
-    { name: "Tournament", width: "w-60" },
-    { name: "Season", width: "w-20" },
-    { name: "Entrants", width: "w-30" },
-    { name: "Date", width: "w-40" },
-    { name: "Location", width: "w-40", unsortable: true },
-];
+const headers = $computed(() =>
+    isGreaterOrEquals("md")
+        ? [
+              { name: "Tournament", width: "w-60" },
+              { name: "Leagues", width: "w-20", unsortable: true },
+              { name: "Entrants", width: "w-30" },
+              { name: "Date", width: "w-40" },
+              { name: "Location", width: "w-40", unsortable: true },
+          ]
+        : [{ name: "Tournament", width: "w-60" }]
+);
 
 const defaultSort = {
     type: "Date",
     order: "desc",
 };
+
+console.log(data);
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="$ w-160 text-center">
+    <div class="$ text-center">
         <h1 class="$ mt-8 mb-4">{{ title }}</h1>
         <!-- <v-autocomplete /> -->
 

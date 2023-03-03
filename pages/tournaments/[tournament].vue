@@ -1,5 +1,5 @@
 <template>
-    <main class="$ flex flex-col items-center">
+    <main class="$ flex flex-col items-center text-center">
         <nuxt-img
             :src="resizeSGG(tournament.profileImage, 120, 120)"
             height="120"
@@ -39,6 +39,15 @@
                     .format("MMMM D, YYYY")}`
             }}
         </div>
+        <div class="my-4">
+            <div
+                v-for="league in tournament.leagues"
+                :key="league.shortName"
+                class="my-1"
+            >
+                {{ league.shortName }} S{{ league.season }}
+            </div>
+        </div>
         <div class="$ text-2xl mt-4">Standings</div>
         <Table
             v-bind="{ data: tournament.standings, headers, defaultSort }"
@@ -47,7 +56,6 @@
 
         <!-- <nuxt-img v-if="data.bannerImage" :src="data.bannerImage" /> -->
     </main>
-    <div class="$ h-80" />
 </template>
 <script setup lang="ts">
 import dayjs from "dayjs";
@@ -62,6 +70,7 @@ dayjs.extend(utc);
 // eslint-disable-next-line import/no-named-as-default-member
 dayjs.extend(timezone);
 
+const { isGreaterOrEquals } = $(useViewport());
 const route = useRoute();
 
 const { data: tournament } = $(
@@ -70,13 +79,20 @@ const { data: tournament } = $(
     })
 );
 
-const headers = [
-    { name: "Player", width: "w-60" },
-    { name: "Placement", width: "w-30" },
-    { name: "Seed", width: "w-20" },
-    { name: "SPR", width: "w-20" },
-    { name: "Losses", width: "w-60", unsortable: true },
-];
+const headers = $computed(() =>
+    isGreaterOrEquals("md")
+        ? [
+              { name: "Player", width: "w-60" },
+              { name: "Placement", width: "w-30" },
+              { name: "Seed", width: "w-20" },
+              { name: "SPR", width: "w-20" },
+              { name: "Losses", width: "w-60", unsortable: true },
+          ]
+        : [
+              { name: "Player", width: "w-50" },
+              { name: "Placement", width: "w-30" },
+          ]
+);
 
 const defaultSort = {
     type: "Placement",
