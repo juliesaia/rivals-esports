@@ -76,7 +76,7 @@ const route = useRoute();
 const { data: tournament, error } = $(
     await useFetch("/api/tournament", {
         query: { name: route.params.tournament },
-        headers: { "Cache-Control": "max-age=604800" },
+        headers: { "Cache-Control": "max-age=604800", Pragma: "" },
     })
 );
 

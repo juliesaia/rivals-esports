@@ -12,7 +12,7 @@ const { isGreaterOrEquals } = $(useViewport());
 
 const { data } = $(
     await useFetch("/api/tournaments", {
-        headers: { "Cache-Control": "max-age=604800" },
+        headers: { "Cache-Control": "max-age=604800", Pragma: "" },
     })
 );
 
