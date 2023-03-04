@@ -3,7 +3,6 @@ import { prisma } from "../prisma";
 import { DirectedGraph } from "../graphTheory/graphs/DirectedGraph";
 import { Edge, Node } from "../graphTheory/elements/AllElements";
 import { debugConsoleLogs } from "../constants";
-import { cache_promise } from "./cache";
 
 export default defineEventHandler(async (event) => {
     console.timeEnd();
@@ -42,7 +41,8 @@ export default defineEventHandler(async (event) => {
                         tournament: {
                             select: {
                                 name: true,
-                                shortSlug: true,
+                                slug: true,
+                                // shortSlug: true,
                                 profileImage: true,
                                 leagues: {
                                     select: {
@@ -335,7 +335,7 @@ export default defineEventHandler(async (event) => {
                     id: true,
                     // season: true,
                     slug: true,
-                    shortSlug: true,
+                    // shortSlug: true,
                     name: true,
                     profileImage: true,
                     online: true,
@@ -361,7 +361,7 @@ export default defineEventHandler(async (event) => {
                         },
                         select: {
                             seed: true,
-                            spr: true,
+                            // spr: true,
                             placement: true,
                         },
                     },

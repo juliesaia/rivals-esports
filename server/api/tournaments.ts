@@ -7,7 +7,8 @@ export default defineEventHandler(async (_event) => {
         select: {
             name: true,
             // season: true,
-            shortSlug: true,
+            slug: true,
+            // shortSlug: true,
             online: true,
             profileImage: true,
             startAt: true,

@@ -84,14 +84,20 @@
                                             </div>
                                             <div
                                                 v-if="
-                                                    tournament.standings.at(-1)
-                                                        .spr != null
+                                                    spr(
+                                                        tournament.standings.at(
+                                                            -1
+                                                        )
+                                                    ) != null
                                                 "
                                             >
                                                 SPR:
                                                 {{
-                                                    tournament.standings.at(-1)
-                                                        .spr
+                                                    spr(
+                                                        tournament.standings.at(
+                                                            -1
+                                                        )
+                                                    )
                                                 }}
                                             </div>
                                         </div>
@@ -116,7 +122,7 @@ import { DynamicScroller, DynamicScrollerItem } from "vue-virtual-scroller";
 import Accordion from "./Accordion.vue";
 import AccordionItem from "./AccordionItem.vue";
 import Set from "./Set.vue";
-import { int_to_ord, resizeSGG } from "~~/server/utils";
+import { int_to_ord, resizeSGG, spr } from "~~/server/utils";
 
 defineEmits(["toggle"]);
 

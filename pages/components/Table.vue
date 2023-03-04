@@ -91,9 +91,9 @@
                             <NuxtLink
                                 class="$ pl-2 hover:underline text-left"
                                 :to="`/tournaments/${
-                                    item.shortSlug.includes('road-to-shine')
+                                    shortSlug(item).includes('road-to-shine')
                                         ? item.name
-                                        : item.shortSlug
+                                        : shortSlug(item)
                                 }/`"
                             >
                                 {{ item.name }}
@@ -134,7 +134,9 @@
                         <NuxtLink
                             v-if="header.name === 'Last Tournament'"
                             class="$ hover:underline"
-                            :to="`/tournaments/${item.tournaments[0]?.shortSlug}`"
+                            :to="`/tournaments/${shortSlug(
+                                item.tournaments[0]
+                            )}`"
                         >
                             {{ item.tournaments[0]?.name }}
                         </NuxtLink>
@@ -145,7 +147,7 @@
                             {{ item.seed }}
                         </div>
                         <div v-if="header.name === 'SPR'">
-                            {{ item.spr }}
+                            {{ spr(item) }}
                         </div>
                         <div v-if="header.name === 'Sets'">
                             {{ item._count.sets }}
@@ -232,7 +234,13 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone"; // dependent on utc plugin
 import Autocomplete from "../components/Autocomplete.vue";
 import Location from "./mini/Location.vue";
-import { int_to_ord, winrate, resizeSGG } from "~~/server/utils";
+import {
+    int_to_ord,
+    winrate,
+    resizeSGG,
+    spr,
+    shortSlug,
+} from "~~/server/utils";
 
 // eslint-disable-next-line import/no-named-as-default-member
 dayjs.extend(utc);
@@ -343,8 +351,8 @@ const sorted = $computed(() => {
         return filtered
             .sort((a, b) =>
                 sort.order === "asc"
-                    ? (a.spr ?? Infinity) - (b.spr ?? Infinity)
-                    : (b.spr ?? Infinity) - (a.spr ?? Infinity)
+                    ? (spr(a) ?? Infinity) - (spr(b) ?? Infinity)
+                    : (spr(b) ?? Infinity) - (spr(a) ?? Infinity)
             )
             .slice((page - 1) * perPage, page * perPage);
     }

@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
             name: true,
             // season: true,
             slug: true,
-            shortSlug: true,
+            // shortSlug: true,
             state: true,
             city: true,
             profileImage: true,
@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
                 select: {
                     placement: true,
                     seed: true,
-                    spr: true,
+                    // spr: true,
                     player: {
                         select: {
                             name: true,

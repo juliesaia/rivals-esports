@@ -29,6 +29,7 @@
         "@nathanchase/nuxt-dayjs-module": "^1.0.11",
         "@prisma/client": "^4.11.0",
         "anu-vue": "^0.12.0",
+        "cached-prisma": "^1.2.1",
         "compress-json": "^2.1.2",
         "dayjs": "^1.11.7",
         "floating-vue": "2.0.0-beta.20",

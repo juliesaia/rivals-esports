@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    return await prisma.player.findMany({
+    const result = await prisma.player.findMany({
         select: {
             name: true,
             favoriteCharacter: true,
@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
                 },
                 select: {
                     name: true,
-                    shortSlug: true,
+                    slug: true,
                 },
             },
         },
@@ -45,5 +45,8 @@ export default defineEventHandler(async (event) => {
                 _count: "desc",
             },
         },
+        // take: 10,
     });
+    console.timeEnd();
+    return result;
 });

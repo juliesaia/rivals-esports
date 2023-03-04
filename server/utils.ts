@@ -139,3 +139,14 @@ export function fixTimestamp(tournament: OnlineTournament) {
     //     }
     // }
 }
+
+export function spr(standing) {
+    return (
+        rounds_from_victory(standing.seed ?? 0) -
+        rounds_from_victory(standing.placement ?? 0)
+    );
+}
+
+export function shortSlug(tournament) {
+    return tournament.slug.split("tournament/")[1];
+}
