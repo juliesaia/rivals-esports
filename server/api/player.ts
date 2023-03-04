@@ -1,5 +1,5 @@
 // import fs from "fs";
-import { prisma } from "../prisma";
+// import { prisma } from "../prisma";
 import { DirectedGraph } from "../graphTheory/graphs/DirectedGraph";
 import { Edge, Node } from "../graphTheory/elements/AllElements";
 import { debugConsoleLogs } from "../constants";
@@ -7,6 +7,7 @@ import { debugConsoleLogs } from "../constants";
 export default defineEventHandler(async (event) => {
     console.log(process.env.DATABASE_URL);
     console.log(globalThis.EdgeRuntime);
+    return;
 
     console.timeEnd();
     console.time();
