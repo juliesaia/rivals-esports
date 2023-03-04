@@ -1,29 +1,49 @@
-// import { cache_promise } from "./cache";
-import path from "path";
-import { readFileSync } from "fs";
+import { prisma } from "../prisma";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
 
     console.time();
 
-    // if (query.min) {
-    //     const cache = await cache_promise;
-    //     const result = cache.players_min;
-    //     return result;
-    // }
+    if (query.min) {
+        return await prisma.player.findMany({
+            select: {
+                name: true,
+            },
+            orderBy: {
+                sets: {
+                    _count: "desc", // sort by "relevance"
+                },
+            },
+        });
+    }
 
-    // const cache = await cache_promise;
-    // const result = cache.players;
-
-    // const cache = JSON.parse(
-    //     await fs.promises.readFile(
-    //         path.join(process.cwd(), "cache.json"),
-    //         "utf8"
-    //     )
-    // );
-
-    // console.timeEnd();
-
-    // return result;
+    return await prisma.player.findMany({
+        select: {
+            name: true,
+            favoriteCharacter: true,
+            id: true,
+            _count: {
+                select: {
+                    sets: true,
+                    wins: true,
+                },
+            },
+            tournaments: {
+                take: 1,
+                orderBy: {
+                    id: "asc",
+                },
+                select: {
+                    name: true,
+                    shortSlug: true,
+                },
+            },
+        },
+        orderBy: {
+            sets: {
+                _count: "desc",
+            },
+        },
+    });
 });

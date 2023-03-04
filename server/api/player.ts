@@ -303,10 +303,6 @@ export default defineEventHandler(async (event) => {
         return { sets, path: pathstring };
     }
 
-    if (getPlayer(query.name, query.id)) {
-        return getPlayer(query.name, query.id);
-    }
-
     const result = await prisma.player.findFirstOrThrow({
         where: {
             name: {
@@ -511,8 +507,6 @@ export default defineEventHandler(async (event) => {
             accolade.league = null;
         }
     }
-
-    console.log("Cache miss");
     console.timeEnd();
     // console.time();
     // console.log(JSON.stringify(result).length);
@@ -523,24 +517,3 @@ export default defineEventHandler(async (event) => {
     // FUTURE JULIE DO NOT USE COMPRESSION THIS IS WHY SSR EXISTS!!!
     return result;
 });
-
-async function getPlayer(name, id) {
-    const cache = await cache_promise;
-
-    const cache_result = cache.player[(name as string).toLowerCase()];
-
-    if (cache_result) {
-        console.log("Cache hit");
-        console.timeEnd();
-        if (!id) {
-            return cache_result[0];
-        }
-
-        for (const player of cache_result) {
-            // eslint-disable-next-line eqeqeq
-            if (player.id == id) {
-                return player;
-            }
-        }
-    }
-}

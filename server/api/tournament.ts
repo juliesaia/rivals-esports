@@ -1,4 +1,4 @@
-import { cache_promise } from "./cache";
+import { prisma } from "../prisma";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
@@ -13,8 +13,91 @@ export default defineEventHandler(async (event) => {
 
     // for (const tournament_name of tournament_names) {
 
-    const cache = await cache_promise;
-    const tournament = cache.tournament[tournament_name];
+    const tournament = await prisma.tournament.findFirst({
+        select: {
+            name: true,
+            // season: true,
+            slug: true,
+            shortSlug: true,
+            state: true,
+            city: true,
+            profileImage: true,
+            bannerImage: true,
+            startAt: true,
+            endAt: true,
+            timezone: true,
+            online: true,
+            leagues: {
+                select: {
+                    shortName: true,
+                    season: true,
+                },
+            },
+            standings: {
+                select: {
+                    placement: true,
+                    seed: true,
+                    spr: true,
+                    player: {
+                        select: {
+                            name: true,
+                            id: true,
+                            favoriteCharacter: true,
+                            losses: {
+                                take: 2,
+                                select: {
+                                    id: true,
+                                    winner: {
+                                        select: {
+                                            name: true,
+                                            id: true,
+                                            favoriteCharacter: true,
+                                        },
+                                    },
+                                },
+                                where: {
+                                    OR: [
+                                        {
+                                            tournament: {
+                                                name: {
+                                                    equals: tournament_name,
+                                                    mode: "insensitive",
+                                                },
+                                            },
+                                        },
+                                        {
+                                            tournament: {
+                                                slug: {
+                                                    equals: `tournament/${tournament_name}`, // shortSlug
+                                                    mode: "insensitive",
+                                                },
+                                            },
+                                        },
+                                    ],
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        where: {
+            OR: [
+                {
+                    name: {
+                        equals: tournament_name,
+                        mode: "insensitive",
+                    },
+                },
+                {
+                    slug: {
+                        equals: `tournament/${tournament_name}`, // shortSlug
+                        mode: "insensitive",
+                    },
+                },
+            ],
+        },
+    });
 
     if (tournament) {
         for (const standing of tournament.standings) {
