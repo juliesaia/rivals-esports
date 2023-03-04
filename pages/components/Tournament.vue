@@ -23,19 +23,25 @@
                                 <!-- This slot will handle the title/header of the accordion and is the part you click on -->
                                 <template #accordion-header>
                                     <div class="$ flex items-center p-3">
-                                        <nuxt-img
-                                            :src="
-                                                resizeSGG(
-                                                    tournament.profileImage,
-                                                    40,
-                                                    40
-                                                )
-                                            "
-                                            height="40"
-                                            width="40"
-                                            class="$ mr-2"
-                                            :alt="`${tournament.name} Icon`"
-                                        />
+                                        <NuxtLink
+                                            :to="`/tournaments/${shortSlug(
+                                                tournament
+                                            )}`"
+                                        >
+                                            <nuxt-img
+                                                :src="
+                                                    resizeSGG(
+                                                        tournament.profileImage,
+                                                        40,
+                                                        40
+                                                    )
+                                                "
+                                                height="40"
+                                                width="40"
+                                                class="$ mr-2"
+                                                :alt="`${tournament.name} Icon`"
+                                            />
+                                        </NuxtLink>
                                         <div class="$ flex flex-col">
                                             <NuxtLink
                                                 class="$ hover:underline"

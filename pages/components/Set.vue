@@ -4,16 +4,21 @@
             v-if="set?.tournament"
             class="$ flex justify-center items-center mb-4"
         >
-            <nuxt-img
-                :src="resizeSGG(set.tournament.profileImage, 40, 40)"
-                height="40"
-                width="40"
-                class="$ mr-2"
-                :alt="`${set.tournament.name} Icon`"
-            />
-            <h3>
+            <NuxtLink :to="`/tournaments/${shortSlug(set.tournament)}`">
+                <nuxt-img
+                    :src="resizeSGG(set.tournament.profileImage, 40, 40)"
+                    height="40"
+                    width="40"
+                    class="$ mr-2"
+                    :alt="`${set.tournament.name} Icon`"
+                />
+            </NuxtLink>
+            <NuxtLink
+                class="$ hover:underline"
+                :to="`/tournaments/${shortSlug(set.tournament)}`"
+            >
                 {{ set.tournament.name }}
-            </h3>
+            </NuxtLink>
         </div>
         <div class="$ flex flex-wrap items-center">
             <div class="$ py-4">
@@ -110,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-import { resizeSGG } from "~~/server/utils";
+import { resizeSGG, shortSlug } from "~~/server/utils";
 
 const { data: sets } = defineProps<{
     data: Array<any>;

@@ -27,8 +27,20 @@ export default defineEventHandler(async (event) => {
             id: true,
             _count: {
                 select: {
-                    sets: true,
-                    wins: true,
+                    sets: {
+                        where: {
+                            loserGameCount: {
+                                not: -1,
+                            },
+                        },
+                    },
+                    wins: {
+                        where: {
+                            loserGameCount: {
+                                not: -1,
+                            },
+                        },
+                    },
                 },
             },
             tournaments: {

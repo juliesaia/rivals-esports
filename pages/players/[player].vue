@@ -5,9 +5,13 @@
                 v-if="data.player.favoriteCharacter"
                 :class="data.player.favoriteCharacter"
             />
-            <h2 class="$ ml-2">
+            <NuxtLink
+                class="$ ml-2 hover:underline"
+                target="_blank"
+                :to="`https://www.start.gg/user/${data.player.smashggid}`"
+            >
                 {{ data.player.name }}
-            </h2>
+            </NuxtLink>
             <div
                 v-for="social in data.player.socials.sort((a, b) =>
                     (a.type ?? Infinity) > (b.type ?? Infinity) ? 1 : -1
@@ -229,7 +233,11 @@ const wins = $computed(
         filtered_tournaments
             .map((el) => el.sets)
             .flat()
-            .filter((el) => el.winner.name === data.player.name).length
+            .filter(
+                (el) =>
+                    el.winner.name === data.player.name &&
+                    el.loserGameCount !== -1
+            ).length
 );
 
 const losses = $computed(
@@ -237,7 +245,11 @@ const losses = $computed(
         filtered_tournaments
             .map((el) => el.sets)
             .flat()
-            .filter((el) => el.loser.name === data.player.name).length
+            .filter(
+                (el) =>
+                    el.loser.name === data.player.name &&
+                    el.loserGameCount !== -1
+            ).length
 );
 
 const characters = $computed(() => {

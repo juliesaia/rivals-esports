@@ -10,22 +10,11 @@ export default defineEventHandler(async (_event) => {
     const result = await prisma.player.findMany({
         select: {
             name: true,
-            favoriteCharacter: true,
-            id: true,
             _count: {
                 select: {
-                    sets: true,
                     wins: true,
-                },
-            },
-            tournaments: {
-                take: 1,
-                orderBy: {
-                    id: "desc",
-                },
-                select: {
-                    name: true,
-                    shortSlug: true,
+                    losses: true,
+                    sets: true,
                 },
             },
         },
@@ -35,6 +24,11 @@ export default defineEventHandler(async (_event) => {
             },
         },
     });
+
+    return result.filter(
+        (player) =>
+            player._count.wins + player._count.losses !== player._count.sets
+    );
 
     // const result = await prisma.player.findMany({
     //     select: {

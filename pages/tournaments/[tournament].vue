@@ -9,6 +9,7 @@
         />
         <NuxtLink
             class="$ text-2xl hover:underline"
+            target="_blank"
             :to="`https://start.gg/${tournament.slug}`"
         >
             {{ tournament.name }}</NuxtLink

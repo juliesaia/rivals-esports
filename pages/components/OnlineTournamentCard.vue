@@ -18,6 +18,7 @@
         </div>
         <NuxtLink
             :to="tournament.discordUrl"
+            target="_blank"
             class="$ text-blue-500 hover:underline mb-2 break-all"
         >
             {{ tournament.discordUrl }}
