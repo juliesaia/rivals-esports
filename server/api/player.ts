@@ -515,5 +515,10 @@ export default defineEventHandler(async (event) => {
     // console.timeEnd();
 
     // FUTURE JULIE DO NOT USE COMPRESSION THIS IS WHY SSR EXISTS!!!
+
+    if (!result) {
+        throw createError({ statusCode: 404, message: "Player not found." });
+    }
+
     return result;
 });

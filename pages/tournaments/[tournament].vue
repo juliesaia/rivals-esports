@@ -73,11 +73,15 @@ dayjs.extend(timezone);
 const { isGreaterOrEquals } = $(useViewport());
 const route = useRoute();
 
-const { data: tournament } = $(
+const { data: tournament, error } = $(
     await useFetch("/api/tournament", {
         query: { name: route.params.tournament },
     })
 );
+
+if (error) {
+    throw createError({ statusCode: 404, message: "Tournament not found." });
+}
 
 const headers = $computed(() =>
     isGreaterOrEquals("md")

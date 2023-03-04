@@ -20,6 +20,11 @@ export default defineNuxtConfig({
         prerender: {
             routes: ["/", "/tournaments", "/players"],
         },
+        esbuild: {
+            options: {
+                target: "esnext",
+            },
+        },
     },
     vite: {
         vue: {

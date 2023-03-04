@@ -176,11 +176,15 @@ watchEffect(() => {
     }
 });
 
-const { data: player_data } = $(
+const { data: player_data, error } = $(
     await useFetch("/api/player", {
         query: { name: route.params.player, id: route.query?.id },
     })
 );
+
+if (error) {
+    throw createError({ statusCode: 404, message: "Player not found." });
+}
 
 data.player = player_data;
 
