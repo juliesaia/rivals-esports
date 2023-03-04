@@ -424,7 +424,7 @@ export default defineEventHandler(async (_event) => {
 export const cache_promise = (async () =>
     JSON.parse(
         await fs.promises.readFile(
-            path.join(process.cwd(), "json") + "/cache.json",
+            path.join(process.cwd(), "cache.json"),
             "utf8"
         )
     ))();

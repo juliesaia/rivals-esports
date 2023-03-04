@@ -23,12 +23,7 @@ export default defineEventHandler(async (event) => {
     //     )
     // );
 
-    const file = path.join(process.cwd(), "cache.json");
-    const stringified = readFileSync(file, "utf8");
+    // console.timeEnd();
 
-    const result = JSON.parse(stringified).players;
-
-    console.timeEnd();
-
-    return result;
+    // return result;
 });
