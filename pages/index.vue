@@ -15,11 +15,6 @@
         <h1 class="$ text-4xl my-2">Upcoming Online Tournaments</h1>
         <div class="$ mb-4">(All times in your local timezone)</div>
         <h3 class="$ text-2xl my-4">Today</h3>
-        <!-- doesnt work with spa routing... smh -->
-        <!-- class="$ grid mb-8"
-            :style="{
-                'grid-template-columns': `repeat(${today.length}, minmax(0, 1fr));`,
-            }" -->
         <div class="$ grid" :style="fixStyle(today)">
             <div
                 v-for="tournament in today"
@@ -61,15 +56,17 @@ const { isGreaterThan } = $(useViewport());
 
 const { data: onlineTournaments } = $(await useFetch("/api/onlineTournaments"));
 
-const today = onlineTournaments.filter((tournament) =>
-    fixTimestamp(tournament).isSame(dayjs(), "day")
+const today = onlineTournaments.filter(
+    (tournament) =>
+        fixTimestamp(tournament).isSame(dayjs(), "day") &&
+        fixTimestamp(tournament).isAfter(dayjs())
 );
 
 const thisWeek = onlineTournaments.filter(
     (tournament) =>
         // !fixTimestamp(tournament).isSame(dayjs(), "day")
         fixTimestamp(tournament).diff(dayjs(), "day") <= 7 &&
-        fixTimestamp(tournament).diff(dayjs(), "day") > 1
+        !today.includes(tournament)
 );
 
 const announced = onlineTournaments.filter(
