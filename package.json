@@ -6,7 +6,7 @@
         "generate": "prisma generate",
         "reset": "prisma migrate reset",
         "preview": "nuxt preview",
-        "postinstall": "prisma generate --data-proxy && nuxt prepare",
+        "postinstall": "prisma generate && nuxt prepare",
         "migrate": "prisma migrate dev",
         "studio": "prisma studio"
     },
