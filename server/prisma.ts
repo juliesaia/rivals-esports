@@ -26,12 +26,13 @@ import { PrismaClient } from "@prisma/client/edge";
 //         console.log("error", key);
 //     },
 // });
-console.log(process.env.DATABASE_URL);
+console.log(process.env);
+console.log(globalThis);
 
 export const prisma = new PrismaClient({
     datasources: {
         db: {
-            url: process.env.DATABASE_URL,
+            url: globalThis.DATABASE_URL,
         },
     },
 });
