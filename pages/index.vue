@@ -15,7 +15,7 @@
         <h1 class="$ text-4xl my-2">Upcoming Online Tournaments</h1>
         <div class="$ mb-4">(All times in your local timezone)</div>
         <h3 v-if="today.length" class="$ text-2xl my-4">Today</h3>
-        <div class="$ grid" :style="fixStyle(today)">
+        <div class="$ flex flex-wrap justify-center">
             <div
                 v-for="tournament in today"
                 :key="tournament.id"
@@ -25,7 +25,7 @@
             </div>
         </div>
         <h3 v-if="thisWeek.length" class="$ text-2xl my-4">This Week</h3>
-        <div class="$ grid" :style="fixStyle(thisWeek)">
+        <div class="$ flex flex-wrap justify-center">
             <div
                 v-for="tournament in thisWeek"
                 :key="tournament.id"
@@ -35,7 +35,7 @@
             </div>
         </div>
         <h3 v-if="announced.length" class="$ text-2xl my-4">Announced</h3>
-        <div class="$ grid" :style="fixStyle(announced)">
+        <div class="$ flex flex-wrap justify-center">
             <div
                 v-for="tournament in announced"
                 :key="tournament.id"
@@ -47,7 +47,6 @@
     </main>
 </template>
 <script setup lang="ts">
-import { OnlineTournament } from "@prisma/client";
 import dayjs from "dayjs";
 import { fixTimestamp } from "../server/utils";
 import OnlineTournamentCard from "./components/OnlineTournamentCard.vue";
@@ -79,31 +78,4 @@ const announced = onlineTournaments
             !today.includes(tournament) && !thisWeek.includes(tournament)
     )
     .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
-
-function fixStyle(tournaments: OnlineTournament[]) {
-    if (isGreaterThan("lg")) {
-        return {
-            "grid-template-columns": `repeat(${Math.min(
-                tournaments.length,
-                4
-            )}, minmax(0, 1fr))`,
-        };
-    }
-    if (isGreaterThan("md")) {
-        return {
-            "grid-template-columns": `repeat(${Math.min(
-                tournaments.length,
-                3
-            )}, minmax(0, 1fr))`,
-        };
-    }
-    if (isGreaterThan("sm")) {
-        return {
-            "grid-template-columns": `repeat(${Math.min(
-                tournaments.length,
-                2
-            )}, minmax(0, 1fr))`,
-        };
-    }
-}
 </script>

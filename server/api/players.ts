@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
                 },
             },
         });
+        console.timeEnd();
         return result.map((player) => player.name);
     }
 

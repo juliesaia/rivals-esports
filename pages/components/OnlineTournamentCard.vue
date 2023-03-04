@@ -1,6 +1,6 @@
 <template>
     <div
-        class="$ shadow-lg p-4 rounded-xl border-2 flex flex-col items-center h-full w-full"
+        class="$ shadow-lg p-4 rounded-xl border-2 flex flex-col items-center h-full w-60"
     >
         <div class="$ mb-2">{{ tournament.name }}</div>
         <div
