@@ -179,6 +179,7 @@ watchEffect(() => {
 const { data: player_data, error } = $(
     await useFetch("/api/player", {
         query: { name: route.params.player, id: route.query?.id },
+        headers: { "Cache-Control": "max-age=604800" },
     })
 );
 
