@@ -10,6 +10,7 @@
             type="submit"
             class="$ mb-4"
             :class="{ 'mr-4': horizontal }"
+            :disabled="disabled"
         >
             Submit
         </ABtn>
@@ -28,6 +29,7 @@
                     placeholder="Search..."
                     type="text"
                     class="$ mb-4"
+                    :disabled="disabled"
                     @keydown.down.prevent="
                         async () => {
                             selected >= autocomplete.length - 1
@@ -92,7 +94,14 @@
                 </template>
             </VDropdown>
         </div>
-        <ABtn v-if="!horizontal" type="submit" class="$ mb-4">Submit</ABtn>
+        <ABtn
+            v-if="!horizontal"
+            type="submit"
+            class="$ mb-4"
+            :disabled="disabled"
+        >
+            Submit</ABtn
+        >
     </form>
 </template>
 <script setup lang="ts">
@@ -101,10 +110,12 @@ const {
     data,
     horizontal = false,
     placement = "bottom",
+    disabled = false,
 } = defineProps<{
     data: Array<any>;
     horizontal?: boolean;
     placement?: string;
+    disabled: boolean;
 }>();
 
 const emit = defineEmits(["submit", "input"]);

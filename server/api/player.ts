@@ -18,6 +18,10 @@ export default defineEventHandler(async (event) => {
     }
 
     if (query.h2h) {
+        if (query.name === query.h2h) {
+            throw new Error("Can't h2h two of the same player.");
+        }
+
         const result = await prisma.player.findFirstOrThrow({
             where: {
                 name: {

@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     console.time();
 
     if (query.min) {
-        return await prisma.player.findMany({
+        const result = await prisma.player.findMany({
             select: {
                 name: true,
             },
@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
                 },
             },
         });
+        return result.map((player) => player.name);
     }
 
     const result = await prisma.player.findMany({

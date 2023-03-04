@@ -5,8 +5,10 @@
             placement="right-start"
             class="$ ml-auto"
             :data="data.map((el) => el.name)"
+            :disabled="loading"
             @submit="
                 (e) => {
+                    loading = true;
                     router.push(`/${type}/${e}/`);
                 }
             "
@@ -256,6 +258,8 @@ const { data, headers, type, defaultSort } = defineProps<{
 
 const router = useRouter();
 const { isGreaterOrEquals } = $(useViewport());
+
+const loading = $ref(false);
 
 const perPage = 8;
 const numPagesShown = $computed(() => (isGreaterOrEquals("md") ? 8 : 4));

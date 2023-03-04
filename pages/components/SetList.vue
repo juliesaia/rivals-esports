@@ -3,7 +3,7 @@
         <h1 class="$ mt-8 mb-4">{{ title }}</h1>
         <!-- <v-autocomplete /> -->
 
-        <Autocomplete :data="allPlayers" @submit="submit" />
+        <Autocomplete :data="allPlayers" :disabled="loading" @submit="submit" />
 
         <h2 v-if="type === 'h2h' && submitted" class="$ mb-2">
             Lifetime: {{ data._count.wins }} -
@@ -48,17 +48,25 @@ const setRef = $ref(null);
 
 let submitted = $ref(false);
 
+let loading = $ref(false);
+
 let data = $ref({ sets: [], _count: { wins: 0, losses: 0 }, path: "" });
 
 const allPlayers: string[] = inject("allPlayers");
-const filters: any = inject("filters");
+// const filters: any = inject("filters");
 
 async function submit(playername: string) {
-    const { data: newData } = $(
+    loading = true;
+    const { data: newData, error } = $(
         await useFetch(
             `/api/player?name=${route.params.player}&${type}=${playername}`
         )
     );
+    loading = false;
+
+    if (error) {
+        return;
+    }
 
     if (data.sets.length) {
         close(setRef);
