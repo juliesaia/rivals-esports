@@ -5,6 +5,9 @@ import { Edge, Node } from "../graphTheory/elements/AllElements";
 import { debugConsoleLogs } from "../constants";
 
 export default defineEventHandler(async (event) => {
+    console.log(process.env.DATABASE_URL);
+    console.log(globalThis.EdgeRuntime);
+
     console.timeEnd();
     console.time();
     const query = getQuery(event);
