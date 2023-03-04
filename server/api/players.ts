@@ -1,8 +1,6 @@
 // import { cache_promise } from "./cache";
 import path from "path";
-import fs from "fs";
-
-const test = path.join(process.cwd(), "cache.json");
+import { readFileSync } from "fs";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
@@ -18,14 +16,17 @@ export default defineEventHandler(async (event) => {
     // const cache = await cache_promise;
     // const result = cache.players;
 
-    const cache = JSON.parse(
-        await fs.promises.readFile(
-            path.join(process.cwd(), "cache.json"),
-            "utf8"
-        )
-    );
+    // const cache = JSON.parse(
+    //     await fs.promises.readFile(
+    //         path.join(process.cwd(), "cache.json"),
+    //         "utf8"
+    //     )
+    // );
 
-    const result = cache.players;
+    const file = path.join(process.cwd(), "cache.json");
+    const stringified = readFileSync(file, "utf8");
+
+    const result = JSON.parse(stringified).players;
 
     console.timeEnd();
 
