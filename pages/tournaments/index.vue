@@ -10,11 +10,7 @@ import Table from "../components/Table.vue";
 
 const { isGreaterOrEquals } = $(useViewport());
 
-const { data } = $(
-    await useFetch("/api/tournaments", {
-        headers: { "Cache-Control": "max-age=604800", Pragma: "" },
-    })
-);
+const { data } = $(await useFetch("/api/tournaments"));
 
 const headers = $computed(() =>
     isGreaterOrEquals("md")
