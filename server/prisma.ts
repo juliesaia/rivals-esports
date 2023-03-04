@@ -11,7 +11,7 @@
 //     // static override cacheFactory = () => new Memcached("127.0.0.1:11211", 10);
 // }
 
-import { PrismaClient } from "@prisma/client/edge";
+import { PrismaClient } from "@prisma/client";
 
 // import { rounds_from_victory } from "./utils";
 
