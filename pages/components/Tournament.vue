@@ -38,7 +38,9 @@
                                         <div class="$ flex flex-col">
                                             <NuxtLink
                                                 class="$ hover:underline"
-                                                :to="`/tournaments/${tournament.shortSlug}`"
+                                                :to="`/tournaments/${shortSlug(
+                                                    tournament
+                                                )}`"
                                             >
                                                 {{ tournament.name }}
                                             </NuxtLink>
@@ -122,7 +124,7 @@ import { DynamicScroller, DynamicScrollerItem } from "vue-virtual-scroller";
 import Accordion from "./Accordion.vue";
 import AccordionItem from "./AccordionItem.vue";
 import Set from "./Set.vue";
-import { int_to_ord, resizeSGG, spr } from "~~/server/utils";
+import { int_to_ord, resizeSGG, spr, shortSlug } from "~~/server/utils";
 
 defineEmits(["toggle"]);
 

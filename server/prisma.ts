@@ -4,7 +4,11 @@
 
 // import { PrismaClient } from "@prisma/client";
 
-import { Prisma } from "cached-prisma";
+import { LruCache, Prisma } from "cached-prisma";
+
+class CustomPrisma extends Prisma {
+    static override cacheFactory = () => new LruCache(10000);
+}
 // import { rounds_from_victory } from "./utils";
 
 // const cacheMiddleware: Prisma.Middleware = createPrismaRedisCache({
@@ -24,7 +28,7 @@ import { Prisma } from "cached-prisma";
 // _prisma.$use(cacheMiddleware);
 
 // TODO: when prisma adds relation support for computed values change uf to computed and remove from db
-export const prisma = new Prisma().client;
+export const prisma = new CustomPrisma().client;
 // .$extends({
 //     result: {
 //         standing: {
