@@ -100,8 +100,8 @@
             class="$ mb-4"
             :disabled="disabled"
         >
-            Submit</ABtn
-        >
+            Submit
+        </ABtn>
     </form>
 </template>
 <script setup lang="ts">

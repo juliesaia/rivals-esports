@@ -6,12 +6,7 @@
             class="$ ml-auto"
             :data="data.map((el) => el.name)"
             :disabled="loading"
-            @submit="
-                (e) => {
-                    loading = true;
-                    router.push(`/${type}/${e}/`);
-                }
-            "
+            @submit="submit"
             @input="(e) => (filterinput = e)"
         />
         <div class="$ overflow-hidden border border-gray-900 rounded-xl">
@@ -259,7 +254,7 @@ const { data, headers, type, defaultSort } = defineProps<{
 const router = useRouter();
 const { isGreaterOrEquals } = $(useViewport());
 
-const loading = $ref(false);
+let loading = $ref(false);
 
 const perPage = 8;
 const numPagesShown = $computed(() => (isGreaterOrEquals("md") ? 8 : 4));
@@ -436,4 +431,13 @@ const pages = $computed(() => {
     }
 });
 // Math.min(perPage, filtered.length)
+
+function submit(e) {
+    loading = true;
+    if (type === "tournaments") {
+        router.push(`/${type}/${shortSlug(filtered[0])}/`);
+    } else if (type === "players") {
+        router.push(`/${type}/${filtered[0].name}/?id=${filtered[0].id}`);
+    }
+}
 </script>
