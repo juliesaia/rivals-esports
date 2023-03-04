@@ -5,6 +5,7 @@
         "
     >
         <NuxtLayout>
+            <NuxtLoadingIndicator color="rgb(88,28,135)" />
             <Navbar />
             <NuxtPage />
             <Footer />
