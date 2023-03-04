@@ -161,6 +161,5 @@ datasource db {
   // provider = "sqlite"
   // url      = "file:/home/cheesypotato/rivals-esports/prisma/dev.db"
   provider = "postgresql"
-  // url      = env("DATABASE_URL")
-  url      = env("FOO")
+  url      = env("DATABASE_URL")
 }

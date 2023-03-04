@@ -26,16 +26,8 @@ import { PrismaClient } from "@prisma/client/edge";
 //         console.log("error", key);
 //     },
 // });
-console.log(process.env);
-console.log(globalThis);
 
-export const prisma = new PrismaClient({
-    datasources: {
-        db: {
-            url: globalThis.DATABASE_URL,
-        },
-    },
-});
+export const prisma = new PrismaClient();
 
 // _prisma.$use(cacheMiddleware);
 
