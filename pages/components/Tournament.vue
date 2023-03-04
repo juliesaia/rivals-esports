@@ -22,7 +22,7 @@
                             <AccordionItem>
                                 <!-- This slot will handle the title/header of the accordion and is the part you click on -->
                                 <template #accordion-header>
-                                    <h3 class="$ flex items-center p-3">
+                                    <div class="$ flex items-center p-3">
                                         <nuxt-img
                                             :src="
                                                 resizeSGG(
@@ -34,6 +34,7 @@
                                             height="40"
                                             width="40"
                                             class="$ mr-2"
+                                            :alt="`${tournament.name} Icon`"
                                         />
                                         <div class="$ flex flex-col">
                                             <NuxtLink
@@ -103,7 +104,7 @@
                                                 }}
                                             </div>
                                         </div>
-                                    </h3>
+                                    </div>
                                 </template>
                                 <!-- This slot will handle all the content that is passed to the accordion -->
                                 <template #accordion-content>

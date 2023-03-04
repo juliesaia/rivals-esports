@@ -83,6 +83,7 @@
                                 height="40"
                                 width="40"
                                 class="$ mr-2"
+                                :alt="`${item.name} Icon`"
                             />
                             <div v-else class="$ h-32px w-32px" />
                             <NuxtLink

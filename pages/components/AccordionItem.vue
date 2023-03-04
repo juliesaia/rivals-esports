@@ -1,6 +1,6 @@
 <template>
-    <div class="$ p-3 pb-1">
-        <li class="$ mb-0 shadow-lg rounded-lg border border-gray-900">
+    <li class="$ p-3 pb-1">
+        <div class="$ mb-0 shadow-lg rounded-lg border border-gray-900">
             <div class="$ flex">
                 <div class="$ flex-grow">
                     <!-- This slot will handle the title/header of the accordion-->
@@ -27,8 +27,8 @@
                     </ul>
                 </div>
             </transition>
-        </li>
-    </div>
+        </div>
+    </li>
 </template>
 
 <script setup>

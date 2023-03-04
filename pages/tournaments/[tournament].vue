@@ -5,6 +5,7 @@
             height="120"
             width="120"
             class="$ my-8"
+            :alt="`${tournament.name} Icon`"
         />
         <NuxtLink
             class="$ text-2xl hover:underline"

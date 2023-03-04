@@ -20,6 +20,7 @@
                     class="$ mx-2 i-bx-bxl-twitter"
                     :href="`https://twitter.com/${social.externalUsername}`"
                     target="__blank"
+                    aria-label="Twitter"
                 />
                 <div
                     v-if="social.type === 'DISCORD'"
@@ -32,6 +33,7 @@
                     class="$ mx-2 i-bx-bxl-twitch"
                     :href="`https://twitch.tv/${social.externalUsername}`"
                     target="__blank"
+                    aria-label="Discord"
                 />
             </div>
         </div>

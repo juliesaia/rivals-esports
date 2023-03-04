@@ -9,6 +9,7 @@
                 height="40"
                 width="40"
                 class="$ mr-2"
+                :alt="`${set.tournament.name} Icon`"
             />
             <h3>
                 {{ set.tournament.name }}

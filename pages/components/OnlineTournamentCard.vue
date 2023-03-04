@@ -35,6 +35,7 @@
             height="100"
             width="100"
             class="$ mb-4"
+            :alt="`${tournament.name} Icon`"
         />
     </div>
 </template>
