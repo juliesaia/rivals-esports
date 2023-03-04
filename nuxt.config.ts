@@ -75,4 +75,5 @@ export default defineNuxtConfig({
         componentIslands: true,
     },
     ignore: ["pages/dev/**"],
+    plugins: [{ src: "~/plugins/vercel.ts", mode: "client" }],
 });

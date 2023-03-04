@@ -28,6 +28,7 @@
         "@anu-vue/nuxt": "^0.12.0",
         "@nathanchase/nuxt-dayjs-module": "^1.0.11",
         "@prisma/client": "^4.11.0",
+        "@vercel/analytics": "^0.1.11",
         "anu-vue": "^0.12.0",
         "cached-prisma": "^1.2.1",
         "compress-json": "^2.1.2",

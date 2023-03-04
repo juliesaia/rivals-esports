@@ -10,6 +10,7 @@ specifiers:
   '@prisma/client': ^4.11.0
   '@types/node': ^18.14.4
   '@unocss/nuxt': ^0.50.3
+  '@vercel/analytics': ^0.1.11
   anu-vue: ^0.12.0
   cached-prisma: ^1.2.1
   compress-json: ^2.1.2
@@ -29,6 +30,7 @@ dependencies:
   '@anu-vue/nuxt': 0.12.0
   '@nathanchase/nuxt-dayjs-module': 1.0.11
   '@prisma/client': 4.11.0_prisma@4.11.0
+  '@vercel/analytics': 0.1.11
   anu-vue: 0.12.0
   cached-prisma: 1.2.1
   compress-json: 2.1.2
@@ -2229,6 +2231,12 @@ packages:
     transitivePeerDependencies:
       - rollup
     dev: true
+
+  /@vercel/analytics/0.1.11:
+    resolution: {integrity: sha512-mj5CPR02y0BRs1tN3oZcBNAX9a8NxsIUl9vElDPcqxnMfP0RbRc9fI9Ud7+QDg/1Izvt5uMumsr+6YsmVHcyuw==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dev: false
 
   /@vercel/nft/0.22.6:
     resolution: {integrity: sha512-gTsFnnT4mGxodr4AUlW3/urY+8JKKB452LwF3m477RFUJTAaDmcz2JqFuInzvdybYIeyIv1sSONEJxsxnbQ5JQ==}
