@@ -77,14 +77,18 @@
                             v-if="header.name === 'Tournament'"
                             class="$ flex items-center px-4 w-60 pl-0"
                         >
-                            <nuxt-img
+                            <NuxtLink
                                 v-if="item.profileImage"
-                                :src="resizeSGG(item.profileImage, 40, 40)"
-                                height="40"
-                                width="40"
-                                class="$ mr-2"
-                                :alt="`${item.name} Icon`"
-                            />
+                                :to="`/tournaments/${shortSlug(item)}/`"
+                            >
+                                <nuxt-img
+                                    :src="resizeSGG(item.profileImage, 40, 40)"
+                                    height="40"
+                                    width="40"
+                                    class="$ mr-2"
+                                    :alt="`${item.name} Icon`"
+                                />
+                            </NuxtLink>
                             <div v-else class="$ h-32px w-32px" />
                             <NuxtLink
                                 class="$ pl-2 hover:underline text-left"
