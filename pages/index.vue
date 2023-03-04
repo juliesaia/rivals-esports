@@ -56,23 +56,29 @@ const { isGreaterThan } = $(useViewport());
 
 const { data: onlineTournaments } = $(await useFetch("/api/onlineTournaments"));
 
-const today = onlineTournaments.filter(
-    (tournament) =>
-        fixTimestamp(tournament).isSame(dayjs(), "day") &&
-        fixTimestamp(tournament).isAfter(dayjs())
-);
+const today = onlineTournaments
+    .filter(
+        (tournament) =>
+            fixTimestamp(tournament).isSame(dayjs(), "day") &&
+            fixTimestamp(tournament).isAfter(dayjs())
+    )
+    .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
 
-const thisWeek = onlineTournaments.filter(
-    (tournament) =>
-        // !fixTimestamp(tournament).isSame(dayjs(), "day")
-        fixTimestamp(tournament).diff(dayjs(), "day") <= 7 &&
-        !today.includes(tournament)
-);
+const thisWeek = onlineTournaments
+    .filter(
+        (tournament) =>
+            // !fixTimestamp(tournament).isSame(dayjs(), "day")
+            fixTimestamp(tournament).diff(dayjs(), "day") <= 7 &&
+            !today.includes(tournament)
+    )
+    .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
 
-const announced = onlineTournaments.filter(
-    (tournament) =>
-        !today.includes(tournament) && !thisWeek.includes(tournament)
-);
+const announced = onlineTournaments
+    .filter(
+        (tournament) =>
+            !today.includes(tournament) && !thisWeek.includes(tournament)
+    )
+    .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
 
 function fixStyle(tournaments: OnlineTournament[]) {
     if (isGreaterThan("lg")) {

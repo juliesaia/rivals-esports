@@ -107,7 +107,7 @@ export function resizeSGG(raw_url, width, height) {
     )}&ehk=${encodeURIComponent(ehk)}&w=${width}&h=${height}`;
 }
 
-export function fixTimestamp(tournament: OnlineTournament) {
+export function fixTimestamp(tournament) {
     if (tournament.repeats === "weekly") {
         if (dayjs().day() === dayjs(tournament.startAtISO).day()) {
             return dayjs()

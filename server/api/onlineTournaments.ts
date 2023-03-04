@@ -1,6 +1,4 @@
-import { prisma } from "../prisma";
-
-export default defineEventHandler(async (_event) => {
+export default defineEventHandler((_event) => {
     // return await prisma.onlineTournament.findMany();
     return [
         {
