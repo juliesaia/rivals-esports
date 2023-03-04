@@ -26,6 +26,7 @@ import { PrismaClient } from "@prisma/client/edge";
 //         console.log("error", key);
 //     },
 // });
+console.log(process.env.DATABASE_URL);
 
 export const prisma = new PrismaClient({
     datasources: {
