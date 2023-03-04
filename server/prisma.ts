@@ -4,14 +4,14 @@
 
 // import { PrismaClient } from "@prisma/client";
 
-// import { LruCache, Prisma, Memcached } from "cached-prisma";
+import { LruCache, Prisma } from "cached-prisma";
 
-// class CustomPrisma extends Prisma {
-//     static override cacheFactory = () => new LruCache(10000);
-//     // static override cacheFactory = () => new Memcached("127.0.0.1:11211", 10);
-// }
+class CustomPrisma extends Prisma {
+    static override cacheFactory = () => new LruCache(10000);
+    // static override cacheFactory = () => new Memcached("127.0.0.1:11211", 10);
+}
 
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
 
 // import { rounds_from_victory } from "./utils";
 
@@ -27,7 +27,8 @@ import { PrismaClient } from "@prisma/client";
 //     },
 // });
 
-export const prisma = new PrismaClient();
+// export const prisma = new PrismaClient();
+export const prisma = new CustomPrisma().client;
 
 // _prisma.$use(cacheMiddleware);
 
