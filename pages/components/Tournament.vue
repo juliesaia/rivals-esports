@@ -55,15 +55,20 @@
                                             </div>
                                             <div
                                                 v-if="
-                                                    tournament.standings.at(-1)
-                                                        .placement != null
+                                                    tournament.standings.sort(
+                                                        (a, b) =>
+                                                            b.placement -
+                                                            a.placement
+                                                    )[0].placement != null
                                                 "
                                             >
                                                 {{
                                                     int_to_ord(
-                                                        tournament.standings.at(
-                                                            -1
-                                                        ).placement
+                                                        tournament.standings.sort(
+                                                            (a, b) =>
+                                                                b.placement -
+                                                                a.placement
+                                                        )[0].placement
                                                     )
                                                 }}
                                                 place
@@ -75,31 +80,41 @@
                                         >
                                             <div
                                                 v-if="
-                                                    tournament.standings.at(-1)
-                                                        .seed != null
+                                                    tournament.standings.sort(
+                                                        (a, b) =>
+                                                            b.placement -
+                                                            a.placement
+                                                    )[0].seed != null
                                                 "
                                             >
                                                 Seed:
                                                 {{
-                                                    tournament.standings.at(-1)
-                                                        .seed
+                                                    tournament.standings.sort(
+                                                        (a, b) =>
+                                                            b.placement -
+                                                            a.placement
+                                                    )[0].seed
                                                 }}
                                             </div>
                                             <div
                                                 v-if="
                                                     spr(
-                                                        tournament.standings.at(
-                                                            -1
-                                                        )
+                                                        tournament.standings.sort(
+                                                            (a, b) =>
+                                                                b.placement -
+                                                                a.placement
+                                                        )[0]
                                                     ) != null
                                                 "
                                             >
                                                 SPR:
                                                 {{
                                                     spr(
-                                                        tournament.standings.at(
-                                                            -1
-                                                        )
+                                                        tournament.standings.sort(
+                                                            (a, b) =>
+                                                                b.placement -
+                                                                a.placement
+                                                        )[0]
                                                     )
                                                 }}
                                             </div>

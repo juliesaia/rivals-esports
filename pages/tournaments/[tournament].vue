@@ -81,6 +81,8 @@ const { data: tournament, error } = $(
     })
 );
 
+console.log(tournament);
+
 if (error) {
     throw createError({ statusCode: 404, message: "Tournament not found." });
 }

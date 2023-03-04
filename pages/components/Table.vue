@@ -88,11 +88,7 @@
                             <div v-else class="$ h-32px w-32px" />
                             <NuxtLink
                                 class="$ pl-2 hover:underline text-left"
-                                :to="`/tournaments/${
-                                    shortSlug(item).includes('road-to-shine')
-                                        ? item.name
-                                        : shortSlug(item)
-                                }/`"
+                                :to="`/tournaments/${shortSlug(item)}/`"
                             >
                                 {{ item.name }}
                             </NuxtLink>

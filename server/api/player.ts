@@ -35,11 +35,13 @@ export default defineEventHandler(async (event) => {
                         winner: {
                             select: {
                                 name: true,
+                                id: true,
                             },
                         },
                         loser: {
                             select: {
                                 name: true,
+                                id: true,
                             },
                         },
                         tournament: {
@@ -94,6 +96,9 @@ export default defineEventHandler(async (event) => {
                                 },
                             },
                         },
+                        loserGameCount: {
+                            not: -1,
+                        },
                     },
                     orderBy: {
                         tournament: {
@@ -113,6 +118,9 @@ export default defineEventHandler(async (event) => {
                                         },
                                     },
                                 },
+                                loserGameCount: {
+                                    not: -1,
+                                },
                             },
                         },
                         losses: {
@@ -124,6 +132,9 @@ export default defineEventHandler(async (event) => {
                                             mode: "insensitive",
                                         },
                                     },
+                                },
+                                loserGameCount: {
+                                    not: -1,
                                 },
                             },
                         },

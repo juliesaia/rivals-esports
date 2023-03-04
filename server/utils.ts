@@ -148,5 +148,8 @@ export function spr(standing) {
 }
 
 export function shortSlug(tournament) {
+    if (tournament.slug.includes("road-to-shine")) {
+        return tournament.name;
+    }
     return tournament.slug.split("tournament/")[1];
 }
