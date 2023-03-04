@@ -2,6 +2,8 @@
 import path from "path";
 import fs from "fs";
 
+const test = path.join(process.cwd(), "cache.json");
+
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
 
@@ -18,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
     const cache = JSON.parse(
         await fs.promises.readFile(
-            path.join(process.cwd(), "pages/json") + "/cache.json",
+            path.join(process.cwd(), "cache.json"),
             "utf8"
         )
     );
