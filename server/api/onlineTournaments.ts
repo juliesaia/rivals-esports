@@ -47,6 +47,7 @@ export default defineEventHandler((_event) => {
                 "https://s3.amazonaws.com/challonge_app/organizations/images/000/159/307/hdpi/Eh4E9w4WkAcVj5Y.png?1676023775",
             startAtISO: "2023-03-20 20:00",
             discordUrl: "https://discord.gg/4F44ZPyCpX",
+            prize: "$50 per 25 entrants",
         },
     ];
 });

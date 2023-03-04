@@ -14,7 +14,7 @@
         </div>
         <h1 class="$ text-4xl my-2">Upcoming Online Tournaments</h1>
         <div class="$ mb-4">(All times in your local timezone)</div>
-        <h3 class="$ text-2xl my-4">Today</h3>
+        <h3 v-if="today.length" class="$ text-2xl my-4">Today</h3>
         <div class="$ grid" :style="fixStyle(today)">
             <div
                 v-for="tournament in today"
@@ -24,7 +24,7 @@
                 <OnlineTournamentCard v-bind="{ tournament }" />
             </div>
         </div>
-        <h3 class="$ text-2xl my-4">This Week</h3>
+        <h3 v-if="thisWeek.length" class="$ text-2xl my-4">This Week</h3>
         <div class="$ grid" :style="fixStyle(thisWeek)">
             <div
                 v-for="tournament in thisWeek"
@@ -34,7 +34,7 @@
                 <OnlineTournamentCard v-bind="{ tournament }" />
             </div>
         </div>
-        <h3 class="$ text-2xl my-4">Announced</h3>
+        <h3 v-if="announced.length" class="$ text-2xl my-4">Announced</h3>
         <div class="$ grid" :style="fixStyle(announced)">
             <div
                 v-for="tournament in announced"
