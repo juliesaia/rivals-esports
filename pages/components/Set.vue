@@ -27,7 +27,7 @@
                     </div>
                     <NuxtLink
                         class="$ hover:underline"
-                        :to="`/players/${set.winner.name}`"
+                        :to="`/players/${set.winner.name}?id=${set.winner.id}`"
                     >
                         {{ set.winner.name }}
                     </NuxtLink>
@@ -48,7 +48,7 @@
                     </div>
                     <NuxtLink
                         class="$ hover:underline"
-                        :to="`/players/${set.loser.name}`"
+                        :to="`/players/${set.loser.name}?id=${set.loser.id}`"
                     >
                         {{ set.loser.name }}
                     </NuxtLink>

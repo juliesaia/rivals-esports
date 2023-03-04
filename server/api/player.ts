@@ -374,11 +374,13 @@ export default defineEventHandler(async (event) => {
                             winner: {
                                 select: {
                                     name: true,
+                                    id: true,
                                 },
                             },
                             loser: {
                                 select: {
                                     name: true,
+                                    id: true,
                                 },
                             },
                             games: {

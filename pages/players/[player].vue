@@ -71,7 +71,7 @@
                 }"
             />
         </div>
-        <div class="$ flex">
+        <div class="flex flex-wrap">
             <div
                 v-for="character in characters.filter((el) => el[0] !== 'null')"
                 :key="character.name"
@@ -271,12 +271,19 @@ const characters = $computed(() => {
         }
     }
     for (const [character, count] of characters_list) {
-        if (count / total > 0.1) {
+        // if (count / total > 0.1) {
+        const num = Math.floor((count / total) * 100);
+
+        if (num < 1) {
+            output.push([character, "< 1%"]);
+        } else {
             output.push([
                 character,
                 Math.round((count / total) * 100).toString() + "%",
             ]);
         }
+
+        // }
     }
 
     return output;
