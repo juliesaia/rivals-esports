@@ -328,6 +328,7 @@ export default defineEventHandler(async (event) => {
         },
         select: {
             name: true,
+            id: true,
             smashggid: true,
             pronouns: true,
             favoriteCharacter: true,

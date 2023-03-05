@@ -26,6 +26,9 @@ export default defineNuxtConfig({
             },
         },
     },
+    routeRules: {
+        "*": { headers: { "cache-control": "s-maxage=86400" } },
+    },
     vite: {
         vue: {
             reactivityTransform: true,

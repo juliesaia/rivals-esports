@@ -149,6 +149,7 @@ import { winrate } from "~~/server/utils";
 import { seasons_dict } from "~~/server/dictionaries";
 
 const route = useRoute();
+const router = useRouter();
 const { isGreaterOrEquals } = $(useViewport());
 
 const data = $ref({
@@ -192,6 +193,8 @@ const { data: player_data, error } = $(
 if (error) {
     throw createError({ statusCode: 404, message: "Player not found." });
 }
+
+router.push({ query: { id: player_data.id } });
 
 data.player = player_data;
 
