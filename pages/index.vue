@@ -51,8 +51,6 @@ import dayjs from "dayjs";
 import { fixTimestamp } from "../server/utils";
 import OnlineTournamentCard from "./components/OnlineTournamentCard.vue";
 
-const { isGreaterThan } = $(useViewport());
-
 const { data: onlineTournaments } = $(await useFetch("/api/onlineTournaments"));
 
 const today = onlineTournaments

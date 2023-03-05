@@ -114,11 +114,14 @@ export function fixTimestamp(tournament) {
                 .hour(dayjs(tournament.startAtISO).hour())
                 .minute(dayjs(tournament.startAtISO).minute());
         } else {
-            return dayjs()
+            const temp = dayjs()
                 .hour(dayjs(tournament.startAtISO).hour())
                 .minute(dayjs(tournament.startAtISO).minute())
-                .day(dayjs(tournament.startAtISO).day())
-                .add(1, "week");
+                .day(dayjs(tournament.startAtISO).day());
+            if (temp.isBefore(dayjs())) {
+                return temp.add(1, "week");
+            }
+            return temp;
         }
     }
     return dayjs.tz(tournament.startAtISO, "America/New_York");
