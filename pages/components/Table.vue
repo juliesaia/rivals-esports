@@ -257,7 +257,6 @@ const { data, headers, type, defaultSort } = defineProps<{
     defaultSort: any;
 }>();
 
-const router = useRouter();
 const { isGreaterOrEquals } = $(useViewport());
 
 let loading = $ref(false);
@@ -279,7 +278,7 @@ const filtered = $computed(() => {
     page = 1;
 
     return data.filter((item) => {
-        return item.name.toLowerCase().includes(filterinput.toLowerCase());
+        return item.name.toLowerCase().startsWith(filterinput.toLowerCase());
     });
 });
 
@@ -438,12 +437,14 @@ const pages = $computed(() => {
 });
 // Math.min(perPage, filtered.length)
 
-function submit(e) {
+function submit(_e) {
     loading = true;
     if (type === "tournaments") {
-        router.push(`/${type}/${shortSlug(filtered[0])}/`);
+        // router.push(`/${type}/${shortSlug(filtered[0])}/`);
+        location.href = `/${type}/${shortSlug(filtered[0])}/`;
     } else if (type === "players") {
-        router.push(`/${type}/${filtered[0].name}`);
+        // router.push(`/${type}/${filtered[0].name}`);
+        location.href = `/${type}/${filtered[0].name}`;
     }
 }
 </script>

@@ -11,7 +11,6 @@ export default async () => {
         orderBy: {
             startAt: "desc",
         },
-        take: 10,
     });
 
     const tournament_routes = tournaments.map(
@@ -27,7 +26,7 @@ export default async () => {
                 _count: "desc",
             },
         },
-        take: 10,
+        take: 1000,
     });
 
     const player_routes = players.map((player) => `/players/${player.name}`);
@@ -35,26 +34,32 @@ export default async () => {
     return defineNuxtConfig({
         nitro: {
             compressPublicAssets: true,
-            prerender: {
-                routes: [...player_routes, ...tournament_routes],
-                crawlLinks: false,
-            },
+            prerender:
+                process.env.NODE_ENV === "development"
+                    ? {}
+                    : {
+                          routes: [...player_routes, ...tournament_routes],
+                          crawlLinks: false,
+                      },
             esbuild: {
                 options: {
                     target: "esnext",
                 },
             },
         },
-        routeRules: {
-            "/api/**": {
-                headers: { "cache-control": "s-maxage=2592000" },
-            },
-            "/": { prerender: true },
-            "/players": { prerender: true },
-            "/tournaments": { prerender: true },
-            "/players/**": { swr: 2592000 },
-            "/tournaments/**": { swr: 2592000 },
-        },
+        routeRules:
+            process.env.NODE_ENV === "development"
+                ? {}
+                : {
+                      "/api/**": {
+                          headers: { "cache-control": "s-maxage=2592000" },
+                      },
+                      "/": { prerender: true },
+                      "/players": { prerender: true },
+                      "/tournaments": { prerender: true },
+                      "/players/**": { swr: 2592000 },
+                      "/tournaments/**": { swr: 2592000 },
+                  },
         vite: {
             vue: {
                 reactivityTransform: true,
