@@ -105,7 +105,9 @@
     </form>
 </template>
 <script setup lang="ts">
+import { AInput, ABtn } from "anu-vue"
 import { sleep, isScrolledIntoView } from "~~/server/utils";
+
 const {
     data,
     horizontal = false,

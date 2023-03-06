@@ -144,13 +144,14 @@
 </template>
 
 <script setup>
+import { ACheckbox } from "anu-vue";
 import Tournament from "../components/Tournament.vue";
 import SetList from "../components/SetList.vue";
 import { winrate } from "~~/server/utils";
 import { seasons_dict } from "~~/server/dictionaries";
 
 const route = useRoute();
-const router = useRouter();
+
 const { isGreaterOrEquals } = $(useViewport());
 
 const data = $ref({

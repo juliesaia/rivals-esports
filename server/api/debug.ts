@@ -7,12 +7,16 @@ export default defineEventHandler(async (_event) => {
         return;
     }
 
-    const result = await prisma.player.count({
-        where: {
-            wins: {
-                some: {},
+    const result = await prisma.player.findMany({
+        select: {
+            name: true,
+        },
+        orderBy: {
+            sets: {
+                _count: "desc",
             },
         },
+        take: 1000,
     });
 
     return result;

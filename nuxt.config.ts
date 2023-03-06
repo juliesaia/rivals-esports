@@ -11,6 +11,7 @@ export default async () => {
         orderBy: {
             startAt: "desc",
         },
+        take: 5,
     });
 
     const tournament_routes = tournaments.map(
@@ -26,7 +27,8 @@ export default async () => {
                 _count: "desc",
             },
         },
-        take: 1000,
+        // take: 1000,
+        take: 5,
     });
 
     const player_routes = players.map((player) => `/players/${player.name}`);
@@ -67,7 +69,7 @@ export default async () => {
         },
         css: ["~~/styles.css"],
         modules: [
-            "@anu-vue/nuxt",
+            // "@anu-vue/nuxt",
             "@unocss/nuxt",
             "@nuxt/image-edge",
             "@nathanchase/nuxt-dayjs-module",

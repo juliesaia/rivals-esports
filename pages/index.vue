@@ -48,6 +48,7 @@
 </template>
 <script setup lang="ts">
 import dayjs from "dayjs";
+import { ABtn } from "anu-vue";
 import { fixTimestamp } from "../server/utils";
 import OnlineTournamentCard from "./components/OnlineTournamentCard.vue";
 
