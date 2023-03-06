@@ -194,7 +194,9 @@ if (error) {
     throw createError({ statusCode: 404, message: "Player not found." });
 }
 
-router.push({ query: { id: player_data.id } });
+if (!route.query.id) {
+    router.push({ query: { id: player_data.id } });
+}
 
 data.player = player_data;
 

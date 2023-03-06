@@ -12,12 +12,21 @@
             Players
         </NuxtLink>
         <NuxtLink
-            class="$ py-4 pl-2 transition-all hover:text-white border-transparent border-b-4 hover:border-white mb--1"
+            class="$ py-4 px-2 transition-all hover:text-white border-transparent border-b-4 hover:border-white mb--1"
             activeClass="text-white border-white"
             to="/tournaments"
         >
             Tournaments
         </NuxtLink>
+        <DevOnly>
+            <NuxtLink
+                class="$ py-4 px-2 transition-all hover:text-white border-transparent border-b-4 hover:border-white mb--1"
+                activeClass="text-white border-white"
+                to="/top50"
+            >
+                Top 50
+            </NuxtLink>
+        </DevOnly>
         <!-- <div class="$   py-4 px-2">Wiki</div> -->
     </nav>
 </template>

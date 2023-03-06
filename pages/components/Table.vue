@@ -68,7 +68,7 @@
                             <div v-else class="$ h-32px w-32px" />
                             <NuxtLink
                                 class="$ pl-2 whitespace-nowrap hover:underline"
-                                :to="`/players/${item.name}/?id=${item.id}`"
+                                :to="`/players/${item.name}?id=${item.id}`"
                             >
                                 {{ item.name }}
                             </NuxtLink>
@@ -79,7 +79,7 @@
                         >
                             <NuxtLink
                                 v-if="item.profileImage"
-                                :to="`/tournaments/${shortSlug(item)}/`"
+                                :to="`/tournaments/${shortSlug(item)}`"
                             >
                                 <nuxt-img
                                     :src="resizeSGG(item.profileImage, 40, 40)"
@@ -92,7 +92,7 @@
                             <div v-else class="$ h-32px w-32px" />
                             <NuxtLink
                                 class="$ pl-2 hover:underline text-left"
-                                :to="`/tournaments/${shortSlug(item)}/`"
+                                :to="`/tournaments/${shortSlug(item)}`"
                             >
                                 {{ item.name }}
                             </NuxtLink>
@@ -166,7 +166,7 @@
                                 <div v-else class="$ h-32px w-32px" />
                                 <NuxtLink
                                     class="$ pl-2 whitespace-nowrap hover:underline"
-                                    :to="`/players/${loss.winner.name}/?id=${loss.winner.id}`"
+                                    :to="`/players/${loss.winner.name}?id=${loss.winner.id}`"
                                 >
                                     {{ loss.winner.name }}
                                 </NuxtLink>
@@ -438,7 +438,7 @@ function submit(e) {
     if (type === "tournaments") {
         router.push(`/${type}/${shortSlug(filtered[0])}/`);
     } else if (type === "players") {
-        router.push(`/${type}/${filtered[0].name}/?id=${filtered[0].id}`);
+        router.push(`/${type}/${filtered[0].name}?id=${filtered[0].id}`);
     }
 }
 </script>

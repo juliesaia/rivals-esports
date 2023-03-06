@@ -18,7 +18,12 @@ export default defineNuxtConfig({
     nitro: {
         compressPublicAssets: true,
         prerender: {
-            routes: ["/", "/tournaments", "/players"],
+            routes: [
+                "/",
+                "/tournaments",
+                "/players",
+                "/players/CakeAssault?id=156",
+            ],
         },
         esbuild: {
             options: {
