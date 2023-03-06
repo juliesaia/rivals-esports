@@ -38,7 +38,7 @@
                     <NuxtLink
                         :external="true"
                         class="$ hover:underline"
-                        :to="`/players/${set.winner.name}?id=${set.winner.id}`"
+                        :to="`/players/${set.winner.name}`"
                     >
                         {{ set.winner.name }}
                     </NuxtLink>
@@ -60,7 +60,7 @@
                     <NuxtLink
                         :external="true"
                         class="$ hover:underline"
-                        :to="`/players/${set.loser.name}?id=${set.loser.id}`"
+                        :to="`/players/${set.loser.name}`"
                     >
                         {{ set.loser.name }}
                     </NuxtLink>

@@ -69,7 +69,7 @@
                             <NuxtLink
                                 :external="true"
                                 class="$ pl-2 whitespace-nowrap hover:underline"
-                                :to="`/players/${item.name}?id=${item.id}`"
+                                :to="`/players/${item.name}`"
                             >
                                 {{ item.name }}
                             </NuxtLink>
@@ -171,7 +171,7 @@
                                 <NuxtLink
                                     :external="true"
                                     class="$ pl-2 whitespace-nowrap hover:underline"
-                                    :to="`/players/${loss.winner.name}?id=${loss.winner.id}`"
+                                    :to="`/players/${loss.winner.name}`"
                                 >
                                     {{ loss.winner.name }}
                                 </NuxtLink>
@@ -443,7 +443,7 @@ function submit(e) {
     if (type === "tournaments") {
         router.push(`/${type}/${shortSlug(filtered[0])}/`);
     } else if (type === "players") {
-        router.push(`/${type}/${filtered[0].name}?id=${filtered[0].id}`);
+        router.push(`/${type}/${filtered[0].name}`);
     }
 }
 </script>
