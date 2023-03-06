@@ -34,9 +34,8 @@ export default defineNuxtConfig({
     routeRules: {
         "/api/**": {
             headers: { "cache-control": "s-maxage=86400" },
-            swr: 86400,
         },
-        "/**": { headers: { "cache-control": "s-maxage=86400" }, swr: 86400 },
+        "/**": { headers: { "cache-control": "s-maxage=86400" } },
     },
     vite: {
         vue: {
