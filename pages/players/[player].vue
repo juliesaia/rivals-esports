@@ -6,6 +6,7 @@
                 :class="data.player.favoriteCharacter"
             />
             <NuxtLink
+                :external="true"
                 class="$ ml-2 hover:underline"
                 target="_blank"
                 :to="`https://www.start.gg/user/${data.player.smashggid}`"

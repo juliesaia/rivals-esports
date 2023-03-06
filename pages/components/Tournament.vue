@@ -24,6 +24,7 @@
                                 <template #accordion-header>
                                     <div class="$ flex items-center p-3">
                                         <NuxtLink
+                                            :external="true"
                                             :to="`/tournaments/${shortSlug(
                                                 tournament
                                             )}`"
@@ -44,6 +45,7 @@
                                         </NuxtLink>
                                         <div class="$ flex flex-col">
                                             <NuxtLink
+                                                :external="true"
                                                 class="$ hover:underline"
                                                 :to="`/tournaments/${shortSlug(
                                                     tournament

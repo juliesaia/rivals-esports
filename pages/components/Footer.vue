@@ -5,11 +5,13 @@
     >
         <div class="$ py-4 w-full">
             <span>Made by</span>
-            <NuxtLink to="https://twitter.com/CheesiestPotato">
+            <NuxtLink :external="true" to="https://twitter.com/CheesiestPotato">
                 CheesyPotato
             </NuxtLink>
             <span>and</span>
-            <NuxtLink to="https://twitter.com/PenguinUpB"> Penguin </NuxtLink>
+            <NuxtLink :external="true" to="https://twitter.com/PenguinUpB">
+                Penguin
+            </NuxtLink>
         </div>
     </footer>
 </template>

@@ -4,7 +4,10 @@
             v-if="set?.tournament"
             class="$ flex justify-center items-center mb-4"
         >
-            <NuxtLink :to="`/tournaments/${shortSlug(set.tournament)}`">
+            <NuxtLink
+                :external="true"
+                :to="`/tournaments/${shortSlug(set.tournament)}`"
+            >
                 <nuxt-img
                     :src="resizeSGG(set.tournament.profileImage, 40, 40)"
                     height="40"
@@ -14,6 +17,7 @@
                 />
             </NuxtLink>
             <NuxtLink
+                :external="true"
                 class="$ hover:underline"
                 :to="`/tournaments/${shortSlug(set.tournament)}`"
             >
@@ -32,6 +36,7 @@
                         {{ set.winnerGameCount }}
                     </div>
                     <NuxtLink
+                        :external="true"
                         class="$ hover:underline"
                         :to="`/players/${set.winner.name}?id=${set.winner.id}`"
                     >
@@ -53,6 +58,7 @@
                         {{ set.loserGameCount }}
                     </div>
                     <NuxtLink
+                        :external="true"
                         class="$ hover:underline"
                         :to="`/players/${set.loser.name}?id=${set.loser.id}`"
                     >

@@ -1,90 +1,109 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 
-// import fs from "fs";
+import { prisma } from "./server/prisma";
+import { shortSlug } from "./server/utils";
 
-// const cache_promise = (async () =>
-//     JSON.parse(await fs.promises.readFile("server/cache.json", "utf8")))();
+export default async () => {
+    const tournaments = await prisma.tournament.findMany({
+        select: {
+            slug: true,
+        },
+        orderBy: {
+            startAt: "desc",
+        },
+        take: 10,
+    });
 
-// const cache = await cache_promise;
+    const tournament_routes = tournaments.map(
+        (tournament) => `/tournaments/${shortSlug(tournament)}`
+    );
 
-// for (const player in cache.player) {
-//     routes.push(`/players/${player}`);
-// }
-
-// for (const tournament of cache.tournaments) {
-//     routes.push(`/tournaments/${tournament.shortSlug}`);
-// }
-export default defineNuxtConfig({
-    nitro: {
-        compressPublicAssets: true,
-        // prerender: {
-        //     routes: ["/", "/tournaments", "/players", "/players/CakeAssault"],
-        //     crawlLinks: false,
-        // },
-        esbuild: {
-            options: {
-                target: "esnext",
+    const players = await prisma.player.findMany({
+        select: {
+            name: true,
+        },
+        orderBy: {
+            sets: {
+                _count: "desc",
             },
         },
-    },
-    routeRules: {
-        "/api/**": {
-            headers: { "cache-control": "s-maxage=2592000" },
-        },
-        // "/**": { headers: { "cache-control": "s-maxage=2592000" } },
-        "/": { prerender: true },
-        "/players": { prerender: true },
-        "/tournaments": { prerender: true },
-        "/players/**": { swr: 2592000 },
-    },
-    vite: {
-        vue: {
-            reactivityTransform: true,
-        },
-    },
-    css: ["~~/styles.css"],
-    modules: [
-        "@anu-vue/nuxt",
-        "@unocss/nuxt",
-        "@nuxt/image-edge",
-        "@nathanchase/nuxt-dayjs-module",
-        "nuxt-viewport",
-    ],
-    viewport: {
-        breakpoints: {
-            xs: 320,
-            sm: 640,
-            md: 768,
-            lg: 1024,
-            xl: 1280,
-            "2xl": 1536,
-        },
+        take: 10,
+    });
 
-        defaultBreakpoints: {
-            desktop: "lg",
-            mobile: "xs",
-            tablet: "md",
-        },
+    const player_routes = players.map((player) => `/players/${player.name}`);
 
-        fallbackBreakpoint: "lg",
-    },
-    app: {
-        head: {
-            title: "Rivals Esports",
-            htmlAttrs: {
-                lang: "en",
+    return defineNuxtConfig({
+        nitro: {
+            compressPublicAssets: true,
+            prerender: {
+                routes: [...player_routes, ...tournament_routes],
+                crawlLinks: false,
             },
-            meta: [
-                {
-                    name: "description",
-                    content: "Stats Database for Rivals of Aether",
+            esbuild: {
+                options: {
+                    target: "esnext",
                 },
-            ],
+            },
         },
-    },
-    experimental: {
-        componentIslands: true,
-    },
-    ignore: ["pages/dev/**"],
-    plugins: [{ src: "~/plugins/vercel.ts", mode: "client" }],
-});
+        routeRules: {
+            "/api/**": {
+                headers: { "cache-control": "s-maxage=2592000" },
+            },
+            "/": { prerender: true },
+            "/players": { prerender: true },
+            "/tournaments": { prerender: true },
+            "/players/**": { swr: 2592000 },
+            "/tournaments/**": { swr: 2592000 },
+        },
+        vite: {
+            vue: {
+                reactivityTransform: true,
+            },
+        },
+        css: ["~~/styles.css"],
+        modules: [
+            "@anu-vue/nuxt",
+            "@unocss/nuxt",
+            "@nuxt/image-edge",
+            "@nathanchase/nuxt-dayjs-module",
+            "nuxt-viewport",
+        ],
+        viewport: {
+            breakpoints: {
+                xs: 320,
+                sm: 640,
+                md: 768,
+                lg: 1024,
+                xl: 1280,
+                "2xl": 1536,
+            },
+
+            defaultBreakpoints: {
+                desktop: "lg",
+                mobile: "xs",
+                tablet: "md",
+            },
+
+            fallbackBreakpoint: "lg",
+        },
+        app: {
+            head: {
+                title: "Rivals Esports",
+                htmlAttrs: {
+                    lang: "en",
+                },
+                meta: [
+                    {
+                        name: "description",
+                        content: "Stats Database for Rivals of Aether",
+                    },
+                ],
+            },
+        },
+        experimental: {
+            componentIslands: true,
+        },
+        ignore: ["pages/dev/**"],
+        plugins: [{ src: "~/plugins/vercel.ts", mode: "client" }],
+    });
+};

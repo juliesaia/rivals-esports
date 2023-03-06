@@ -17,6 +17,7 @@
             {{ fixTimestamp(tournament).format("MMMM D, h:mm A") }}
         </div>
         <NuxtLink
+            :external="true"
             :to="tournament.discordUrl"
             target="_blank"
             class="$ text-blue-500 hover:underline mb-2 break-all"

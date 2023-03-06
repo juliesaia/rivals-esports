@@ -5,10 +5,10 @@
             Stats Database for Rivals of Aether
         </div>
         <div class="$ flex my-4 mb-12">
-            <NuxtLink to="/players">
+            <NuxtLink :external="true" to="/players">
                 <ABtn class="$ mx-4">Players</ABtn>
             </NuxtLink>
-            <NuxtLink to="/tournaments">
+            <NuxtLink :external="true" to="/tournaments">
                 <ABtn class="$ mx-4">Tournaments</ABtn>
             </NuxtLink>
         </div>

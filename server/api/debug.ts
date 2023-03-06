@@ -7,28 +7,38 @@ export default defineEventHandler(async (_event) => {
         return;
     }
 
-    const result = await prisma.player.findMany({
-        select: {
-            name: true,
-            _count: {
-                select: {
-                    wins: true,
-                    losses: true,
-                    sets: true,
-                },
-            },
-        },
-        orderBy: {
-            sets: {
-                _count: "desc",
+    const result = await prisma.player.count({
+        where: {
+            wins: {
+                some: {},
             },
         },
     });
 
-    return result.filter(
-        (player) =>
-            player._count.wins + player._count.losses !== player._count.sets
-    );
+    return result;
+
+    // const result = await prisma.player.findMany({
+    //     select: {
+    //         name: true,
+    //         _count: {
+    //             select: {
+    //                 wins: true,
+    //                 losses: true,
+    //                 sets: true,
+    //             },
+    //         },
+    //     },
+    //     orderBy: {
+    //         sets: {
+    //             _count: "desc",
+    //         },
+    //     },
+    // });
+
+    // return result.filter(
+    //     (player) =>
+    //         player._count.wins + player._count.losses !== player._count.sets
+    // );
 
     // const result = await prisma.player.findMany({
     //     select: {

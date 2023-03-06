@@ -67,6 +67,7 @@
                             />
                             <div v-else class="$ h-32px w-32px" />
                             <NuxtLink
+                                :external="true"
                                 class="$ pl-2 whitespace-nowrap hover:underline"
                                 :to="`/players/${item.name}?id=${item.id}`"
                             >
@@ -78,6 +79,7 @@
                             class="$ flex items-center px-4 w-60 pl-0"
                         >
                             <NuxtLink
+                                :external="true"
                                 v-if="item.profileImage"
                                 :to="`/tournaments/${shortSlug(item)}`"
                             >
@@ -91,6 +93,7 @@
                             </NuxtLink>
                             <div v-else class="$ h-32px w-32px" />
                             <NuxtLink
+                                :external="true"
                                 class="$ pl-2 hover:underline text-left"
                                 :to="`/tournaments/${shortSlug(item)}`"
                             >
@@ -130,6 +133,7 @@
                             <Location :tournament="item" />
                         </div>
                         <NuxtLink
+                            :external="true"
                             v-if="header.name === 'Last Tournament'"
                             class="$ hover:underline"
                             :to="`/tournaments/${shortSlug(
@@ -165,6 +169,7 @@
                                 />
                                 <div v-else class="$ h-32px w-32px" />
                                 <NuxtLink
+                                    :external="true"
                                     class="$ pl-2 whitespace-nowrap hover:underline"
                                     :to="`/players/${loss.winner.name}?id=${loss.winner.id}`"
                                 >

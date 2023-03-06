@@ -8,6 +8,7 @@
             :alt="`${tournament.name} Icon`"
         />
         <NuxtLink
+            :external="true"
             class="$ text-2xl hover:underline"
             target="_blank"
             :to="`https://start.gg/${tournament.slug}`"
@@ -81,8 +82,6 @@ const { data: tournament, error } = $(
         headers: { "Cache-Control": "s-max-age=604800", Pragma: "" },
     })
 );
-
-console.log(tournament);
 
 if (error) {
     throw createError({ statusCode: 404, message: "Tournament not found." });
