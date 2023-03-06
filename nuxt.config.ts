@@ -22,7 +22,7 @@ export default defineNuxtConfig({
                 "/",
                 "/tournaments",
                 "/players",
-                "/players/CakeAssault?id=156",
+                // "/players/CakeAssault?id=156",
             ],
         },
         esbuild: {
@@ -32,8 +32,11 @@ export default defineNuxtConfig({
         },
     },
     routeRules: {
-        "/api/**": { headers: { "cache-control": "s-maxage=86400" } },
-        "/**": { headers: { "cache-control": "s-maxage=86400" } },
+        "/api/**": {
+            headers: { "cache-control": "s-maxage=86400" },
+            swr: 86400,
+        },
+        "/**": { headers: { "cache-control": "s-maxage=86400" }, swr: 86400 },
     },
     vite: {
         vue: {
