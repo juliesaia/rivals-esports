@@ -17,14 +17,10 @@
 export default defineNuxtConfig({
     nitro: {
         compressPublicAssets: true,
-        prerender: {
-            routes: [
-                "/",
-                "/tournaments",
-                "/players",
-                // "/players/CakeAssault?id=156",
-            ],
-        },
+        // prerender: {
+        //     routes: ["/", "/tournaments", "/players", "/players/CakeAssault"],
+        //     crawlLinks: false,
+        // },
         esbuild: {
             options: {
                 target: "esnext",
@@ -33,9 +29,13 @@ export default defineNuxtConfig({
     },
     routeRules: {
         "/api/**": {
-            headers: { "cache-control": "s-maxage=86400" },
+            headers: { "cache-control": "s-maxage=2592000" },
         },
-        "/**": { headers: { "cache-control": "s-maxage=86400" } },
+        // "/**": { headers: { "cache-control": "s-maxage=2592000" } },
+        "/": { prerender: true },
+        "/players": { prerender: true },
+        "/tournaments": { prerender: true },
+        "/players/**": { swr: 2592000 },
     },
     vite: {
         vue: {

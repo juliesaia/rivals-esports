@@ -183,6 +183,22 @@ watchEffect(() => {
     }
 });
 
+const { data: allPlayers } = $(
+    await useFetch("/api/players", { query: { min: true } })
+);
+
+// if (
+//     !route.query.id &&
+//     allPlayers.findIndex((player) => player.name === route.params.player) > 300
+// ) {
+//     router.push({
+//         query: {
+//             id: allPlayers.find((player) => player.name === route.params.player)
+//                 .id,
+//         },
+//     });
+// }
+
 const { data: player_data, error } = $(
     await useFetch("/api/player", {
         query: { name: route.params.player, id: route.query?.id },
@@ -192,10 +208,6 @@ const { data: player_data, error } = $(
 
 if (error) {
     throw createError({ statusCode: 404, message: "Player not found." });
-}
-
-if (!route.query.id) {
-    router.push({ query: { id: player_data.id } });
 }
 
 data.player = player_data;
@@ -308,10 +320,6 @@ const characters = $computed(() => {
 
     return output;
 });
-
-const { data: allPlayers } = $(
-    await useFetch("/api/players", { query: { min: true } })
-);
 
 provide("allPlayers", allPlayers);
 provide("filters", filters);
