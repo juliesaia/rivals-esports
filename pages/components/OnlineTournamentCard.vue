@@ -3,10 +3,7 @@
         class="$ shadow-lg p-4 rounded-xl border-2 flex flex-col items-center h-full w-60"
     >
         <div class="$ mb-2">{{ tournament.name }}</div>
-        <div
-            v-if="fixTimestamp(tournament).isSame(dayjs(), 'day')"
-            class="$ mb-2"
-        >
+        <div v-if="today" class="$ mb-2">
             {{ fixTimestamp(tournament).format("MMMM D, h:mm A") }}
         </div>
         <div v-else-if="tournament.repeats === 'weekly'" class="$ mb-2">
@@ -42,12 +39,11 @@
     </div>
 </template>
 <script setup lang="ts">
-import { OnlineTournament } from "@prisma/client";
-import dayjs from "dayjs";
 import { fixTimestamp } from "~~/server/utils";
 
-const { tournament } = defineProps<{
-    tournament: OnlineTournament;
+const { tournament, today = false } = defineProps<{
+    tournament: any;
+    today?: boolean;
 }>();
 
 // let weekmonth = 0;

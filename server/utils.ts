@@ -1,5 +1,5 @@
 /* eslint-disable import/no-named-as-default-member */
-import { OnlineTournament } from "@prisma/client";
+// import { OnlineTournament } from "@prisma/client";
 import {
     compress as compressjson,
     decompress as decompressjson,
@@ -109,22 +109,60 @@ export function resizeSGG(raw_url, width, height) {
 
 export function fixTimestamp(tournament) {
     if (tournament.repeats === "weekly") {
-        if (dayjs().day() === dayjs(tournament.startAtISO).day()) {
-            return dayjs()
-                .hour(dayjs(tournament.startAtISO).hour())
-                .minute(dayjs(tournament.startAtISO).minute());
-        } else {
-            const temp = dayjs()
-                .hour(dayjs(tournament.startAtISO).hour())
-                .minute(dayjs(tournament.startAtISO).minute())
-                .day(dayjs(tournament.startAtISO).day());
-            if (temp.isBefore(dayjs())) {
-                return temp.add(1, "week");
-            }
-            return temp;
+        const temp = dayjs()
+            .hour(
+                dayjs
+                    .tz(tournament.startAtISO, "America/New_York")
+                    .local()
+                    .hour()
+            )
+            .minute(
+                dayjs
+                    .tz(tournament.startAtISO, "America/New_York")
+                    .local()
+                    .minute()
+            )
+            .day(
+                dayjs
+                    .tz(tournament.startAtISO, "America/New_York")
+                    .local()
+                    .day()
+            );
+        if (temp.isBefore(dayjs())) {
+            return temp.add(1, "week");
         }
+        return temp;
     }
-    return dayjs.tz(tournament.startAtISO, "America/New_York");
+    return dayjs.tz(tournament.startAtISO, "America/New_York").local();
+
+    // if (tournament.repeats === "weekly") {
+    //     if (
+    //         dayjs().day() ===
+    //         dayjs.tz(tournament.startAtISO, "America/New_York").day()
+    //     ) {
+    //         return dayjs()
+    //             .hour(
+    //                 dayjs.tz(tournament.startAtISO, "America/New_York").hour()
+    //             )
+    //             .minute(
+    //                 dayjs.tz(tournament.startAtISO, "America/New_York").minute()
+    //             );
+    //     } else {
+    //         const temp = dayjs()
+    //             .hour(
+    //                 dayjs.tz(tournament.startAtISO, "America/New_York").hour()
+    //             )
+    //             .minute(
+    //                 dayjs.tz(tournament.startAtISO, "America/New_York").minute()
+    //             )
+    //             .day(dayjs.tz(tournament.startAtISO, "America/New_York").day());
+    //         if (temp.isBefore(dayjs())) {
+    //             return temp.add(1, "week");
+    //         }
+    //         return temp;
+    //     }
+    // }
+    // return dayjs.tz(tournament.startAtISO, "America/New_York");
     // i give up ill just manually add it every month
     // we must abolish time
     //
