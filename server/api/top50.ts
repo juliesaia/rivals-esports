@@ -10,7 +10,7 @@ export default defineEventHandler(async (_event) => {
         // }
         for (const player of season) {
             // count++;
-            // if (count === 10) {
+            // if (count === 15) {
             //     return top50;
             // }
 
@@ -63,6 +63,13 @@ export default defineEventHandler(async (_event) => {
                                             },
                                         },
                                     ],
+                                },
+                                some: {
+                                    players: {
+                                        some: {
+                                            smashggid: player.smashggID,
+                                        },
+                                    },
                                 },
                             },
                         },
