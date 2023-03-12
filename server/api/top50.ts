@@ -5,6 +5,9 @@ import { prisma } from "../prisma";
 export default defineEventHandler(async (_event) => {
     // let count = 0;
     for (const [index, season] of top50.entries()) {
+        // if (index !== 5) {
+        //     continue;
+        // }
         for (const player of season) {
             // count++;
             // if (count === 10) {
@@ -45,12 +48,21 @@ export default defineEventHandler(async (_event) => {
                                 },
                             },
                             sets: {
-                                some: {
-                                    players: {
-                                        some: {
-                                            smashggid: player.smashggID,
+                                every: {
+                                    OR: [
+                                        {
+                                            loser: {
+                                                smashggid: {
+                                                    not: player.smashggID,
+                                                },
+                                            },
                                         },
-                                    },
+                                        {
+                                            loserGameCount: {
+                                                not: -1,
+                                            },
+                                        },
+                                    ],
                                 },
                             },
                         },
