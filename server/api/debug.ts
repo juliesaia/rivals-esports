@@ -7,19 +7,109 @@ export default defineEventHandler(async (_event) => {
         return;
     }
 
-    const result = await prisma.player.findMany({
+    const result = await prisma.player.findFirst({
         select: {
             name: true,
+            tournaments: {
+                select: {
+                    name: true,
+                    slug: true,
+                    profileImage: true,
+                    online: true,
+                    standings: {
+                        select: {
+                            placement: true,
+                            seed: true,
+                        },
+                        where: {
+                            player: {
+                                // name: player.name,
+                                smashggid: "6d84f1dc",
+                            },
+                        },
+                    },
+                },
+                where: {
+                    leagues: {
+                        some: {
+                            shortName: "RCS",
+                            season: 5 + 1,
+                        },
+                    },
+                    sets: {
+                        some: {
+                            players: {
+                                some: {
+                                    smashggid: "6d84f1dc",
+                                },
+                            },
+                        },
+                    },
+                },
+                orderBy: {
+                    entrants: {
+                        _count: "desc",
+                    },
+                },
+            },
+        },
+        where: {
+            // name: player.name,
+            smashggid: "6d84f1dc",
         },
         orderBy: {
             sets: {
                 _count: "desc",
             },
         },
-        take: 1000,
     });
 
-    return result;
+    // const result = await prisma.player.findFirst({
+    //     select: {
+    //         tournaments: {
+    //             select: {
+    //                 name: true,
+    //                 slug: true,
+    //                 profileImage: true,
+    //                 standings: {
+    //                     select: {
+    //                         placement: true,
+    //                         seed: true,
+    //                     },
+    //                     where: {
+    //                         player: {
+    //                             name: {
+    //                                 equals: "Fullstream",
+    //                             },
+    //                         },
+    //                     },
+    //                 },
+    //             },
+    //             // where: {
+    //             //     leagues: {
+    //             //         some: {
+    //             //             shortName: "RCS",
+    //             //             season: 0 + 1,
+    //             //         },
+    //             //     },
+    //             // },
+    //         },
+    //     },
+    // });
+
+    // const result = await prisma.player.findMany({
+    //     select: {
+    //         name: true,
+    //     },
+    //     orderBy: {
+    //         sets: {
+    //             _count: "desc",
+    //         },
+    //     },
+    //     take: 1000,
+    // });
+
+    // return result;
 
     // const result = await prisma.player.findMany({
     //     select: {

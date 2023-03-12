@@ -2,8 +2,8 @@ import { prisma } from "../prisma";
 
 const nameChanges = [
     {
-        id: "5fdb5d4a",
-        name: "CakeAssault",
+        id: "1703e007",
+        name: "ZoraTK",
     },
 ];
 

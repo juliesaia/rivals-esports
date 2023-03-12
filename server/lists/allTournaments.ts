@@ -1145,4 +1145,10 @@ export const allTournaments = [
         rankingPeriod: 7,
         createdAt: 1671310900,
     },
+    {
+        url: "tournament/hitfall-1/event/singles",
+        leagues: [],
+        rankingPeriod: null,
+        createdAt: 1671310900,
+    },
 ];

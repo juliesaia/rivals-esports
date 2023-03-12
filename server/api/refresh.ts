@@ -131,6 +131,7 @@ export default defineEventHandler(async (_event) => {
         return;
     }
     console.time();
+
     await prisma.league.deleteMany({});
     await prisma.social.deleteMany({});
     await prisma.game.deleteMany({});

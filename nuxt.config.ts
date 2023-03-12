@@ -11,7 +11,7 @@ export default async () => {
         orderBy: {
             startAt: "desc",
         },
-        // take: 5,
+        take: 5,
     });
 
     const tournament_routes = tournaments.map(
@@ -27,8 +27,8 @@ export default async () => {
                 _count: "desc",
             },
         },
-        take: 1000,
-        // take: 5,
+        // take: 1000,
+        take: 5,
     });
 
     const player_routes = players.map((player) => `/players/${player.name}`);
@@ -56,9 +56,10 @@ export default async () => {
                       "/api/**": {
                           headers: { "cache-control": "s-maxage=2592000" },
                       },
-                      //   "/": { prerender: true },
+                      "/": { prerender: true },
                       "/players": { prerender: true },
                       "/tournaments": { prerender: true },
+                      "/top50": { prerender: true },
                       "/players/**": { swr: 2592000 },
                       "/tournaments/**": { swr: 2592000 },
                   },

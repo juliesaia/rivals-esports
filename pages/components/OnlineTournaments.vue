@@ -34,11 +34,14 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js";
 import timezone from "dayjs/plugin/timezone.js";
+import isToday from "dayjs/plugin/isToday.js";
+
 import { fixTimestamp } from "../../server/utils";
 import OnlineTournamentCard from "./OnlineTournamentCard.vue";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(isToday);
 
 // const { onlineTournaments } = defineProps<{
 //     onlineTournaments: any;
@@ -49,8 +52,10 @@ const { data: onlineTournaments } = $(await useFetch("/api/onlineTournaments"));
 const today = onlineTournaments
     .filter(
         (tournament) =>
-            dayjs().tz("America/New_York").day() ===
-                dayjs.tz(tournament.startAtISO, "America/New_York").day() &&
+            (tournament.weekly
+                ? dayjs().tz("America/New_York").day() ===
+                  dayjs.tz(tournament.startAtISO, "America/New_York").day()
+                : fixTimestamp(tournament).isToday()) &&
             fixTimestamp(tournament).isAfter(dayjs())
     )
     .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
