@@ -36,3 +36,6 @@ sudo service postgresql start
 sudo -u postgres psql
 
 tanko and Tanko are two different smashgg accounts... wtf
+
+arrow key down and then enter in autocomplete doesnt work
+hitting back autocomplete is stuck loading

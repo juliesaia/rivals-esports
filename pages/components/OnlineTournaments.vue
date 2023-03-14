@@ -3,7 +3,7 @@
     <div class="$ flex flex-wrap justify-center">
         <div
             v-for="tournament in today"
-            :key="tournament.id"
+            :key="tournament.name"
             class="$ mx-4 mb-4"
         >
             <OnlineTournamentCard :today="true" v-bind="{ tournament }" />
@@ -13,7 +13,7 @@
     <div class="$ flex flex-wrap justify-center">
         <div
             v-for="tournament in thisWeek"
-            :key="tournament.id"
+            :key="tournament.name"
             class="$ mx-4 mb-4"
         >
             <OnlineTournamentCard v-bind="{ tournament }" />
@@ -23,7 +23,7 @@
     <div class="$ flex flex-wrap justify-center">
         <div
             v-for="tournament in announced"
-            :key="tournament.id"
+            :key="tournament.name"
             class="$ mx-4"
         >
             <OnlineTournamentCard v-bind="{ tournament }" />

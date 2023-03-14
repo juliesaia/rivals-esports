@@ -442,9 +442,11 @@ function submit(_e) {
     if (type === "tournaments") {
         // router.push(`/${type}/${shortSlug(filtered[0])}/`);
         location.href = `/${type}/${shortSlug(filtered[0])}/`;
+        loading = false;
     } else if (type === "players") {
         // router.push(`/${type}/${filtered[0].name}`);
         location.href = `/${type}/${filtered[0].name}`;
+        loading = false;
     }
 }
 </script>
