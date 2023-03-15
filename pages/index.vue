@@ -18,11 +18,11 @@
     </main>
     <NuxtLink :external="true" to="/replayorganizer">
         <div
-            class="absolute top-35% left-70% rounded-xl bg-purple-300 border-2 border-black p-6 pointer"
+            class="hidden md:block absolute top-35% left-70% rounded-xl bg-purple-300 border-2 border-black p-6 pointer"
         >
             New! Check out the Rivals Replay Organizer here!
-        </div></NuxtLink
-    >
+        </div>
+    </NuxtLink>
 </template>
 <script setup lang="ts">
 import { ABtn } from "anu-vue";
