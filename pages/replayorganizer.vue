@@ -7,12 +7,12 @@
         </div>
         <div class="flex gap-10 items-center text-center">
             <div>
-                <img src="rroscreenshot1.png" width="444" height="327" />
+                <img src="/rroscreenshot1.webp" width="444" height="327" />
                 <div class="my-8">Load your sets from saved replays,</div>
             </div>
             <div>
                 <img
-                    src="rroscreenshot2.png"
+                    src="/rroscreenshot2.webp"
                     width="397"
                     height="219"
                     class="py-54px"
