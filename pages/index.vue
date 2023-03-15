@@ -16,6 +16,13 @@
         <div class="$ mb-4">(All times in your local timezone)</div>
         <OnlineTournaments />
     </main>
+    <NuxtLink :external="true" to="/replayorganizer">
+        <div
+            class="absolute top-35% left-70% rounded-xl bg-purple-300 border-2 border-black p-6 pointer"
+        >
+            New! Check out the Rivals Replay Organizer here!
+        </div></NuxtLink
+    >
 </template>
 <script setup lang="ts">
 import { ABtn } from "anu-vue";

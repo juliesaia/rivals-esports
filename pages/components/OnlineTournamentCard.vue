@@ -13,14 +13,13 @@
         <div v-else class="$ mb-2">
             {{ fixTimestamp(tournament).format("MMMM D, h:mm A") }}
         </div>
-        <NuxtLink
-            :external="true"
-            :to="tournament.discordUrl"
+        <a
+            :href="tournament.discordUrl"
             target="_blank"
             class="$ text-blue-500 hover:underline mb-2 break-all"
         >
             {{ tournament.discordUrl }}
-        </NuxtLink>
+        </a>
         <div v-if="tournament.prize" class="$ mb-2">
             {{ tournament.prize }}
         </div>
@@ -29,7 +28,7 @@
             {{ fixTimestamp(tournament).format("dddd") }} at
             {{ fixTimestamp(tournament).format("h:mm A") }}
         </div> -->
-        <nuxt-img
+        <img
             :src="tournament.imageUrl"
             height="100"
             width="100"
