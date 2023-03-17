@@ -1,3 +1,4 @@
+import { byCountry } from "country-code-lookup";
 import { rounds_from_victory, sleep } from "../utils";
 import { debugConsoleLogs } from "../constants";
 import { character_dict } from "../dictionaries";
@@ -8,7 +9,7 @@ import { playerMerges as accountMerges } from "../lists/playerMerges";
 import { prisma } from "../prisma";
 import { disallowedPhaseWords } from "../lists/disallowedPhaseWords";
 
-async function get_startgg_basic(query: string) {
+export async function get_startgg_basic(query: string) {
     let fetchRequest;
     try {
         fetchRequest = await $fetch("https://api.start.gg/gql/alpha", {
@@ -271,6 +272,9 @@ export default defineEventHandler(async (_event) => {
                                         user {
                                             discriminator
                                             genderPronoun
+                                            location {
+                                                country
+                                            }
                                             authorizations {
                                                 externalUsername
                                                 type
@@ -394,6 +398,14 @@ export default defineEventHandler(async (_event) => {
             if (entrant.standing) {
                 placement = entrant.standing.placement;
             }
+
+            let country;
+            if (user.location) {
+                if (byCountry(user.location.country) != null) {
+                    country = byCountry(user.location.country).iso2;
+                }
+            }
+
             queries.push(
                 prisma.player.upsert({
                     where: {
@@ -425,6 +437,7 @@ export default defineEventHandler(async (_event) => {
                         name: player.gamerTag,
                         smashggid: user.discriminator,
                         pronouns: user.genderPronoun,
+                        country,
                         socials: {
                             create: user.authorizations,
                         },

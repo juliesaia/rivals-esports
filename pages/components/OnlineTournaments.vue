@@ -49,30 +49,36 @@ dayjs.extend(isToday);
 
 const { data: onlineTournaments } = $(await useFetch("/api/onlineTournaments"));
 
-const today = onlineTournaments
-    .filter(
-        (tournament) =>
-            (tournament.weekly
-                ? dayjs().tz("America/New_York").day() ===
-                  dayjs.tz(tournament.startAtISO, "America/New_York").day()
-                : fixTimestamp(tournament).isToday()) &&
-            fixTimestamp(tournament).isAfter(dayjs())
-    )
-    .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
+const today = $computed(() =>
+    onlineTournaments
+        .filter(
+            (tournament) =>
+                (tournament.weekly
+                    ? dayjs().tz("America/New_York").day() ===
+                      dayjs.tz(tournament.startAtISO, "America/New_York").day()
+                    : fixTimestamp(tournament).isToday()) &&
+                fixTimestamp(tournament).isAfter(dayjs())
+        )
+        .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1))
+);
 
-const thisWeek = onlineTournaments
-    .filter(
-        (tournament) =>
-            // !fixTimestamp(tournament).isSame(dayjs(), "day")
-            fixTimestamp(tournament).diff(dayjs(), "day") <= 7 &&
-            !today.includes(tournament)
-    )
-    .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
+const thisWeek = $computed(() =>
+    onlineTournaments
+        .filter(
+            (tournament) =>
+                // !fixTimestamp(tournament).isSame(dayjs(), "day")
+                fixTimestamp(tournament).diff(dayjs(), "day") <= 7 &&
+                !today.includes(tournament)
+        )
+        .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1))
+);
 
-const announced = onlineTournaments
-    .filter(
-        (tournament) =>
-            !today.includes(tournament) && !thisWeek.includes(tournament)
-    )
-    .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
+const announced = $computed(() =>
+    onlineTournaments
+        .filter(
+            (tournament) =>
+                !today.includes(tournament) && !thisWeek.includes(tournament)
+        )
+        .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1))
+);
 </script>

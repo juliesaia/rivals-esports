@@ -1,20 +1,21 @@
 <template>
     <main class="$ flex flex-col items-center w-50vw mx-auto">
-        <div class="$ text-2xl mt-8 flex">
+        <div class="text-2xl mt-8 flex items-center gap-2">
             <div
-                v-if="data.player.favoriteCharacter"
-                :class="data.player.favoriteCharacter"
+                v-if="player.favoriteCharacter"
+                :class="player.favoriteCharacter"
             />
             <NuxtLink
                 :external="true"
-                class="$ ml-2 hover:underline"
+                class="$ hover:underline"
                 target="_blank"
-                :to="`https://www.start.gg/user/${data.player.smashggid}`"
+                :to="`https://www.start.gg/user/${player.smashggid}`"
             >
-                {{ data.player.name }}
+                {{ player.name }}
             </NuxtLink>
+            <div :class="`i-flag-${player.country.toLowerCase()}-4x3`" />
             <div
-                v-for="social in data.player.socials.sort((a, b) =>
+                v-for="social in player.socials.sort((a, b) =>
                     (a.type ?? Infinity) > (b.type ?? Infinity) ? 1 : -1
                 )"
                 :key="social.id"
@@ -22,7 +23,7 @@
                 <a
                     v-if="social.type === 'TWITTER'"
                     v-tooltip="`@${social.externalUsername}`"
-                    class="$ mx-2 i-bx-bxl-twitter"
+                    class="$ i-bx-bxl-twitter"
                     :href="`https://twitter.com/${social.externalUsername}`"
                     target="__blank"
                     aria-label="Twitter"
@@ -30,19 +31,19 @@
                 <div
                     v-if="social.type === 'DISCORD'"
                     v-tooltip="social.externalUsername"
-                    class="$ mx-2 i-bx-bxl-discord"
+                    class="$ i-bx-bxl-discord"
                 />
                 <a
                     v-if="social.type === 'TWITCH'"
                     v-tooltip="`twitch.tv/${social.externalUsername}`"
-                    class="$ mx-2 i-bx-bxl-twitch"
+                    class="$ i-bx-bxl-twitch"
                     :href="`https://twitch.tv/${social.externalUsername}`"
                     target="__blank"
                     aria-label="Discord"
                 />
             </div>
         </div>
-        <h3 class="$ my-2">{{ data.player.pronouns }}</h3>
+        <h3 class="$ my-2">{{ player.pronouns }}</h3>
         <h3>Set Wins: {{ wins }}</h3>
         <h3>Set Losses: {{ losses }}</h3>
         <h3 class="$ mb-4">
@@ -154,11 +155,11 @@ const route = useRoute();
 
 const { isGreaterOrEquals } = $(useViewport());
 
-const data = $ref({
-    player: null,
-    h2h: { sets: [] },
-    armadaNumber: { sets: [] },
-});
+// const data = $ref({
+//     player: null,
+//     h2h: { sets: [] },
+//     armadaNumber: { sets: [] },
+// });
 
 const filters = $ref({
     offline: true,
@@ -201,7 +202,7 @@ const { data: allPlayers } = $(
 //     });
 // }
 
-const { data: player_data, error } = $(
+const { data: player, error } = $(
     await useFetch("/api/player", {
         query: { name: route.params.player, id: route.query?.id },
         headers: { "Cache-Control": "max-age=604800" },
@@ -212,17 +213,14 @@ if (error) {
     throw createError({ statusCode: 404, message: "Player not found." });
 }
 
-data.player = player_data;
-
 const hidden_tournaments = $computed(() => {
     const output = [];
-    // data.player.tournaments.map(
-    for (const el of data.player.tournaments) {
+    // player.tournaments.map(
+    for (const el of player.tournaments) {
         if (
             el.sets.filter(
                 (el2) =>
-                    el2.loserGameCount < 0 &&
-                    el2.loser.name === data.player.name
+                    el2.loserGameCount < 0 && el2.loser.name === player.name
             ).length < 2 &&
             (filters.offline || el.online === true) &&
             (filters.online || el.online === false) &&
@@ -239,7 +237,7 @@ const hidden_tournaments = $computed(() => {
         //     el.size = 0;
         // }
     }
-    // return data.player.tournaments;
+    // return player.tournaments;
     return output;
 });
 
@@ -254,8 +252,7 @@ const wins = $computed(
             .flat()
             .filter(
                 (el) =>
-                    el.winner.name === data.player.name &&
-                    el.loserGameCount !== -1
+                    el.winner.name === player.name && el.loserGameCount !== -1
             ).length
 );
 
@@ -266,8 +263,7 @@ const losses = $computed(
             .flat()
             .filter(
                 (el) =>
-                    el.loser.name === data.player.name &&
-                    el.loserGameCount !== -1
+                    el.loser.name === player.name && el.loserGameCount !== -1
             ).length
 );
 
@@ -277,7 +273,7 @@ const characters = $computed(() => {
         for (const set of tournament.sets) {
             for (const game of set.games) {
                 const character =
-                    game.winner.name === data.player.name
+                    game.winner.name === player.name
                         ? game.winnerChar
                         : game.loserChar;
 
@@ -328,7 +324,7 @@ provide("filters", filters);
 
 const grouped_accolades = $computed(() => {
     let accolades = {};
-    for (const accolade of data.player.accolades) {
+    for (const accolade of player.accolades) {
         if (
             (accolade.online == null && accolade.leagues == null) ||
             ((filters.offline || accolade.online[0] === true) &&

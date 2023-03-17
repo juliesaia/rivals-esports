@@ -6,6 +6,7 @@ model Player {
   name              String
   smashggid         String       @unique
   pronouns          String?
+  country           String?
   socials           Social[]
   rankings          Ranking[]
   tournaments       Tournament[]

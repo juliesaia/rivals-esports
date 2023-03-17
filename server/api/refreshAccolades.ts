@@ -174,7 +174,7 @@ export default defineEventHandler(async (_event) => {
             }
 
             // Trophy checks
-            if (standing.placement <= 32 && rcsInfo) {
+            if (standing.placement && standing.placement <= 32 && rcsInfo) {
                 if (standing.placement === 1) {
                     if (seasonFinales.includes(standing.tournament.slug)) {
                         queries.push(
@@ -184,6 +184,8 @@ export default defineEventHandler(async (_event) => {
                             })
                         );
                     } else {
+                        console.log(player.name);
+
                         queries.push(
                             getQuery(accolades.majorChampion, playerID, {
                                 tournamentid: standing.tournament.id,
