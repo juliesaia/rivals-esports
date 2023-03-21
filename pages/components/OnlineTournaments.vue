@@ -49,8 +49,12 @@ dayjs.extend(isToday);
 
 const { data: onlineTournaments } = $(await useFetch("/api/onlineTournaments"));
 
-const today = $computed(() =>
-    onlineTournaments
+let today = $ref([]);
+let thisWeek = $ref([]);
+let announced = $ref([]);
+
+onMounted(() => {
+    today = onlineTournaments
         .filter(
             (tournament) =>
                 (tournament.weekly
@@ -59,26 +63,25 @@ const today = $computed(() =>
                     : fixTimestamp(tournament).isToday()) &&
                 fixTimestamp(tournament).isAfter(dayjs())
         )
-        .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1))
-);
+        .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
 
-const thisWeek = $computed(() =>
-    onlineTournaments
+    thisWeek = onlineTournaments
         .filter(
             (tournament) =>
                 // !fixTimestamp(tournament).isSame(dayjs(), "day")
                 fixTimestamp(tournament).diff(dayjs(), "day") <= 7 &&
-                !today.includes(tournament)
+                !today.includes(tournament) &&
+                fixTimestamp(tournament).isAfter(dayjs())
         )
-        .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1))
-);
+        .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
 
-const announced = $computed(() =>
-    onlineTournaments
+    announced = onlineTournaments
         .filter(
             (tournament) =>
-                !today.includes(tournament) && !thisWeek.includes(tournament)
+                !today.includes(tournament) &&
+                !thisWeek.includes(tournament) &&
+                fixTimestamp(tournament).isAfter(dayjs())
         )
-        .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1))
-);
+        .sort((a, b) => (fixTimestamp(a).isAfter(fixTimestamp(b)) ? 1 : -1));
+});
 </script>

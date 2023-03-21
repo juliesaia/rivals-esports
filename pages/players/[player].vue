@@ -13,7 +13,12 @@
             >
                 {{ player.name }}
             </NuxtLink>
-            <div :class="`i-flag-${player.country.toLowerCase()}-4x3`" />
+
+            <div
+                v-if="player.country"
+                :class="`i-flag-${player.country.toLowerCase()}-4x3`"
+            />
+
             <div
                 v-for="social in player.socials.sort((a, b) =>
                     (a.type ?? Infinity) > (b.type ?? Infinity) ? 1 : -1
