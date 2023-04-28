@@ -55,7 +55,7 @@ export default defineEventHandler((_event) => {
             name: "Super SLASH Brothers #5 [Workshop]",
             imageUrl:
                 "https://s3.amazonaws.com/challonge_app/events/logos/000/102/514/large/SLASHBROS_LOGO2.png?1677305999",
-            startAtISO: "2023-03-30 19:30",
+            startAtISO: "2023-04-30 19:30",
             discordUrl: "https://challonge.com/SSB5ROAW",
         },
     ];
