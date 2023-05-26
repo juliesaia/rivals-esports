@@ -52,11 +52,11 @@ export default defineEventHandler((_event) => {
             prize: "$50 per 25 entrants",
         },
         {
-            name: "Super SLASH Brothers #5 [Workshop]",
+            name: "Super SLASH Brothers #6",
             imageUrl:
                 "https://s3.amazonaws.com/challonge_app/events/logos/000/102/514/large/SLASHBROS_LOGO2.png?1677305999",
-            startAtISO: "2023-04-30 19:30",
-            discordUrl: "https://challonge.com/SSB5ROAW",
+            startAtISO: "2023-05-28 19:30",
+            discordUrl: "https://challonge.com/SSBVIROA",
         },
     ];
 });
