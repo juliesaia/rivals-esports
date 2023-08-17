@@ -52,11 +52,10 @@ export default defineEventHandler((_event) => {
             prize: "$50 per 25 entrants",
         },
         {
-            name: "Super SLASH Brothers #8",
-            imageUrl:
-                "https://s3.amazonaws.com/challonge_app/events/logos/000/102/514/large/SLASHBROS_LOGO2.png?1677305999",
-            startAtISO: "2023-07-30 19:30",
-            discordUrl: "https://challonge.com/SSB8ROA",
+            name: "FFTF3",
+            imageUrl: "",
+            startAtISO: "2023-08-18 19:30",
+            discordUrl: "https://challonge.com/FFTF3ROA",
         },
     ];
 });
