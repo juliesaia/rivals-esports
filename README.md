@@ -1,6 +1,6 @@
-# Nuxt 3 Minimal Starter
+# Rivals Esports
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+Full source for https://rivalsesports.com, the Rivals of Aether esports stats database
 
 ## Setup
 
